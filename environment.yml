@@ -1,0 +1,9 @@
+name: ##
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - ##
+  - ##
