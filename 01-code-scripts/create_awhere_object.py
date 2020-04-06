@@ -19,7 +19,7 @@ def create_awhere(api_key, api_secret):
 
     Example
     -------
-        >>> # import os module and AWhereAPI class
+        >>> # Import os module and AWhereAPI class
         >>> import os
         >>> from awhere import AWhereAPI
         >>> # Get API key and secret from local environment variable
@@ -51,7 +51,7 @@ def create_awhere(api_key, api_secret):
 
 
 if __name__ == '__main__':
-    # Imports
+    # Import os module and AWhereAPI class
     import os
     from awhere import AWhereAPI
 
