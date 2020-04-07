@@ -177,7 +177,7 @@ class AWhereAPI():
         # Return forecast
         return response.json()
 
-    def get_weather_norms(self, field_id, day):
+    def get_weather_norms(self, field_id, start_day, end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 10-year historical norms.
 
@@ -197,20 +197,37 @@ class AWhereAPI():
         Example
         -------
         """
-        # Setup the HTTP request headers
+        """# Setup the HTTP request headers
         auth_headers = {
             "Authorization": f"Bearer {self.auth_token}"
         }
 
         # Perform the HTTP request to obtain the norms for the Field
         response = requests.get(
-            f"{self._weather_url}/{field_id}/norms/{day}",
+            f"{self._weather_url}/{field_id}/norms/{start_day}",
             headers=auth_headers)
+
+        # Return the norms
+        return response.json()"""
+
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Perform the HTTP request to obtain the norms for the Field
+        # Define URL variants
+        url_single_day = f"{self._weather_url}/{field_id}/norms/{start_day}?limit=10&offset={offset}"
+        url_multiple_days = f"{self._weather_url}/{field_id}/norms/{start_day},{end_day}?limit=10&offset={offset}"
+
+        # Get single day norms or date range
+        response = requests.get(url_multiple_days, headers=auth_headers) if end_day else requests.get(
+            url_single_day, headers=auth_headers)
 
         # Return the norms
         return response.json()
 
-    def get_weather_observed(self, field_id):
+    def get_weather_observed(self, field_id, start_day=None, end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 7-day observed weather.
 
@@ -235,10 +252,32 @@ class AWhereAPI():
             "Authorization": f"Bearer {self.auth_token}"
         }
 
+        # Define URL variants
+        url_no_date = f"{self._weather_url}/{field_id}/observations?limit=10&offset={offset}"
+        url_start_date = f"{self._weather_url}/{field_id}/observations/{start_day}"
+        url_end_date = f"{self._weather_url}/{field_id}/observations/{end_day}"
+        url_both_dates = f"{self._weather_url}/{field_id}/observations/{start_day},{end_day}?limit=10&offset={offset}"
+
         # Perform the HTTP request to obtain the norms for the Field
-        response = requests.get(
-            f"{self._weather_url}/{field_id}/observations",
-            headers=auth_headers)
+        # Default - 7-day
+        if not (start_day or end_day):
+            response = requests.get(url_no_date, headers=auth_headers)
+
+        # Single date - specify start day
+        elif start_day and not end_day:
+            response = requests.get(url_start_date, headers=auth_headers)
+
+        # Single date - specify end day
+        elif end_day and not start_day:
+            response = requests.get(url_end_date, headers=auth_headers)
+
+        # Date range
+        elif start_day and end_day:
+            response = requests.get(url_both_dates, headers=auth_headers)
+
+        # All other cases
+        else:
+            raise ValueError('Invalid parameters.')
 
         # Return the norms
         return response.json()
