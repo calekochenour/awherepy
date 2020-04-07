@@ -144,39 +144,25 @@ class AWhereAPI():
             count += 1
             print(f"{count}. {field['name']} \t {field['id']}\r")
 
-    def get_weather_by_id(self, field_id, day):
+    def get_weather_forecast(self, field_id):
         """
-        Performs a HTTP GET request to obtain Forecast, Historical Norms and Forecasts
+        Performs a HTTP GET request to obtain the 7-day forecast.
 
         Docs:
-            1. Forecast: http://developer.awhere.com/api/forecast-weather-api
-            2. Historical Norms: http://developer.awhere.com/api/reference/weather/norms
-            3. Observations: http://developer.awhere.com/api/reference/weather/observations
+            http://developer.awhere.com/api/forecast-weather-api
 
         Parameters
         ----------
         field_id : str
             ID of the field.
 
-        day : str
-            Day to obtain historic norms for (MM-DD format).
-
         Returns
         -------
-        Tuple
-
-            response_forecast : dict
-                Dictionary containing the forecast.
-
-            response_historic_norms : dict
-                Dictionary containing the historic norms.
-
-            response_observed_7_day : dict
-                Dictionary containing the 7-day observed weather.
+        response: dict
+            Dictionary containing the forecast.
 
         Example
         -------
-
         """
         # Setup the HTTP request headers
         auth_headers = {
@@ -184,26 +170,78 @@ class AWhereAPI():
         }
 
         # Perform the HTTP request to obtain the Forecast for the Field
-        response_forecast = requests.get(
+        response = requests.get(
             f"{self._weather_url}/{field_id}/forecasts?blockSize=24",
             headers=auth_headers)
 
-        # Historic norms for range of days - returns 10-year average
-        # /v2/weather/fields/{fieldId}/norms/{startDay},{endDay}
-        # /v2/weather/fields/{fieldId}/norms/{month-day}/years/{startYear},{endYear}
-        # /v2/weather/fields/{fieldId}/norms/{startDay},{endDay}/years/{startYear},{endYear}
+        # Return forecast
+        return response.json()
 
-        response_historic_norms = requests.get(
+    def get_weather_norms(self, field_id, day):
+        """
+        Performs a HTTP GET request to obtain 10-year historical norms.
+
+        Docs:
+            http://developer.awhere.com/api/reference/weather/norms
+
+        Parameters
+        ----------
+        field_id : str
+            ID of the field.
+
+        Returns
+        -------
+        response : dict
+            Dictionary containing the norms.
+
+        Example
+        -------
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Perform the HTTP request to obtain the norms for the Field
+        response = requests.get(
             f"{self._weather_url}/{field_id}/norms/{day}",
             headers=auth_headers)
 
-        # Perform the HTTP request to obtain the observed weather for the Field
-        response_observed_7_day = requests.get(
+        # Return the norms
+        return response.json()
+
+    def get_weather_observed(self, field_id):
+        """
+        Performs a HTTP GET request to obtain 7-day observed weather.
+
+        Docs:
+            http://developer.awhere.com/api/reference/weather/observations
+
+        Parameters
+        ----------
+        field_id : str
+            ID of the field.
+
+        Returns
+        -------
+        response : dict
+            Dictionary containing the observed weather.
+
+        Example
+        -------
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Perform the HTTP request to obtain the norms for the Field
+        response = requests.get(
             f"{self._weather_url}/{field_id}/observations",
             headers=auth_headers)
 
-        # Return forecast, historic norms, previous 7 days
-        return response_forecast.json(), response_historic_norms.json(), response_observed_7_day.json()
+        # Return the norms
+        return response.json()
 
     def get_oauth_token(self, encoded_key_secret):
         """
