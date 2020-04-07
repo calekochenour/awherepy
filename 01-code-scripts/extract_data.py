@@ -170,8 +170,15 @@ def extract_observed_weather(observed_weather):
     observed_weather_df : pandas dataframe
         Flattened dataframe version of historic norms.
     """
-    # Flatten to dataframe
-    observed_weather_df = json_normalize(observed_weather.get('observations'))
+    # Check if multiple entries (days) are in observed
+    if observed_weather.get('observations'):
+        # Flatten to dataframe
+        observed_weather_df = json_normalize(observed_weather.get('observations'))
+
+    # Single-day observed
+    else:
+        # Flatten to dataframe
+        observed_weather_df = json_normalize(observed_weather)
 
     # Set date as index
     observed_weather_df.set_index('date', inplace=True)
