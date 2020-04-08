@@ -144,7 +144,7 @@ class AWhereAPI():
             count += 1
             print(f"{count}. {field['name']} \t {field['id']}\r")
 
-    def get_weather_forecast(self, field_id):
+    def get_weather_forecast(self, field_id, start_day=None, end_day=None, offset=0, block_size=24):
         """
         Performs a HTTP GET request to obtain the 7-day forecast.
 
@@ -169,10 +169,28 @@ class AWhereAPI():
             "Authorization": f"Bearer {self.auth_token}"
         }
 
+        # Define URL variants
+        url_no_date = f"{self._weather_url}/{field_id}/forecasts?limit=10&offset={offset}&blockSize={block_size}"
+        url_start_date = f"{self._weather_url}/{field_id}/forecasts/{start_day}?limit=10&offset={offset}&blockSize={block_size}"
+        url_end_date = f"{self._weather_url}/{field_id}/forecasts/{end_day}?limit=10&offset={offset}&blockSize={block_size}"
+        url_both_dates = f"{self._weather_url}/{field_id}/forecasts/{start_day},{end_day}?limit=10&offset={offset}&blockSize={block_size}"
+
         # Perform the HTTP request to obtain the Forecast for the Field
-        response = requests.get(
-            f"{self._weather_url}/{field_id}/forecasts?blockSize=24",
-            headers=auth_headers)
+        # Default - 7-day
+        if not (start_day or end_day):
+            response = requests.get(url_no_date, headers=auth_headers)
+
+        # Single date - specify start day
+        elif start_day and not end_day:
+            response = requests.get(url_start_date, headers=auth_headers)
+
+        # Single date - specify end day
+        elif end_day and not start_day:
+            response = requests.get(url_end_date, headers=auth_headers)
+
+        # Date range
+        elif start_day and end_day:
+            response = requests.get(url_both_dates, headers=auth_headers)
 
         # Return forecast
         return response.json()
@@ -275,11 +293,7 @@ class AWhereAPI():
         elif start_day and end_day:
             response = requests.get(url_both_dates, headers=auth_headers)
 
-        # All other cases
-        else:
-            raise ValueError('Invalid parameters.')
-
-        # Return the norms
+        # Return the observed
         return response.json()
 
     def get_oauth_token(self, encoded_key_secret):

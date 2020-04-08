@@ -1,3 +1,7 @@
+import pandas as pd
+from pandas.io.json import json_normalize
+
+
 def extract_forecast_main_data(forecast):
     """Extract aWhere forecast data and returns
     it in a pandas dataframe.
@@ -5,8 +9,16 @@ def extract_forecast_main_data(forecast):
     # Initialize lists to store forecast
     forecast_main_list = []
 
+    # Check if more than one day
+    if forecast.get('forecasts'):
+        forecast_iterator = json_normalize(forecast.get('forecasts'))
+
+    # Single day
+    else:
+        forecast_iterator = json_normalize(forecast)
+
     # Loop through each row in the top-level flattened dataframe
-    for index, row in json_normalize(forecast.get('forecasts')).iterrows():
+    for index, row in forecast_iterator.iterrows():
 
         # Extract date, lat, lon for insertion into lower-level dataframe outputs
         date = row['date']
@@ -48,8 +60,16 @@ def extract_forecast_soil_temp(forecast):
     # Initialize lists to store soil temp dataframes
     forecast_soil_temp_list = []
 
+    # Check if more than one day
+    if forecast.get('forecasts'):
+        forecast_iterator = json_normalize(forecast.get('forecasts'))
+
+    # Single day
+    else:
+        forecast_iterator = json_normalize(forecast)
+
     # Loop through each row in the top-level flattened dataframe
-    for index, row in json_normalize(forecast.get('forecasts')).iterrows():
+    for index, row in forecast_iterator.iterrows():
 
         # Extract date, lat, lon for insertion into lower-level dataframe outputs
         date = row['date']
@@ -85,8 +105,16 @@ def extract_forecast_soil_moisture(forecast):
     # Initialize lists to store soil moisture dataframes
     forecast_soil_moisture_list = []
 
+    # Check if more than one day
+    if forecast.get('forecasts'):
+        forecast_iterator = json_normalize(forecast.get('forecasts'))
+
+    # Single day
+    else:
+        forecast_iterator = json_normalize(forecast)
+
     # Loop through each row in the top-level flattened dataframe
-    for index, row in json_normalize(forecast.get('forecasts')).iterrows():
+    for index, row in forecast_iterator.iterrows():
 
         # Extract date, lat, lon for insertion into lower-level dataframe outputs
         date = row['date']
