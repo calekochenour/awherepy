@@ -80,16 +80,22 @@ def extract_forecast_soil_temp(forecast):
         forecast_soil_temp = row['forecast'][0].get('soilTemperatures')
 
         # Flatten data into dataframe
-        forecast_soil_temp_norm = json_normalize(forecast_soil_temp)
+        forecast_soil_temp_df = json_normalize(forecast_soil_temp)
 
         # Assign date, lat/lon to dataframe
-        forecast_soil_temp_norm['date'] = date
-        forecast_soil_temp_norm['latitude'] = lat
-        forecast_soil_temp_norm['longitude'] = lon
+        forecast_soil_temp_df['date'] = date
+        forecast_soil_temp_df['latitude'] = lat
+        forecast_soil_temp_df['longitude'] = lon
+
+        # Shorten depth values to numerics (will be used in MultiIndex)
+        forecast_soil_temp_df['depth'] = forecast_soil_temp_df['depth'].apply(lambda x: x[0:-15])
+
+        # Rename depth prior to indexing
+        forecast_soil_temp_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
 
         # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
-        soil_temp_multi_index = forecast_soil_temp_norm.set_index(
-            ['date', 'depth'])
+        soil_temp_multi_index = forecast_soil_temp_df.set_index(
+            ['date', 'ground_depth_m'])
 
         # Add dataframe to list of dataframes
         forecast_soil_temp_list.append(soil_temp_multi_index)
@@ -125,16 +131,23 @@ def extract_forecast_soil_moisture(forecast):
         forecast_soil_moisture = row['forecast'][0].get('soilMoisture')
 
         # Flatten data into dataframe
-        forecast_soil_moisture_norm = json_normalize(forecast_soil_moisture)
+        forecast_soil_moisture_df = json_normalize(forecast_soil_moisture)
 
         # Assign date, lat/lon to dataframe
-        forecast_soil_moisture_norm['date'] = date
-        forecast_soil_moisture_norm['latitude'] = lat
-        forecast_soil_moisture_norm['longitude'] = lon
+        forecast_soil_moisture_df['date'] = date
+        forecast_soil_moisture_df['latitude'] = lat
+        forecast_soil_moisture_df['longitude'] = lon
+
+        # Shorten depth values to numerics (will be used in MultiIndex)
+        forecast_soil_moisture_df['depth'] = forecast_soil_moisture_df['depth'].apply(
+            lambda x: x[0:-15])
+
+        # Rename depth prior to indexing
+        forecast_soil_moisture_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
 
         # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
-        soil_moisture_multi_index = forecast_soil_moisture_norm.set_index([
-            'date', 'depth'])
+        soil_moisture_multi_index = forecast_soil_moisture_df.set_index([
+            'date', 'ground_depth_m'])
 
         # Add dataframe to list of dataframes
         forecast_soil_moisture_list.append(soil_moisture_multi_index)
