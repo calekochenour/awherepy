@@ -56,7 +56,7 @@ def clean_dataframe(df, lon_lat_cols, drop_cols, name_map):
     return gdf
 
 
-# Global variables
+# Global variables - main forecast
 forecast_lon_lat_cols = ['longitude', 'latitude']
 
 forecast_main_drop_cols = [
@@ -85,4 +85,54 @@ forecast_main_mapping = {
     'wind.bearing': 'wind_bearing_deg',
     'wind.direction': 'wind_direction_compass',
     'dewPoint.amount': 'dew_point_cels'
+}
+
+# Global variables - observed weather
+observed_lon_lat_cols = ['location.longitude', 'location.latitude']
+
+observed_drop_cols = [
+    'location.fieldId', 'temperatures.units', 'precipitation.units',
+    'solar.units', 'wind.units'
+]
+
+observed_mapping = {
+    'temperatures.max': 'temp_max_cels',
+    'temperatures.min': 'temp_min_cels',
+    'precipitation.amount': 'precip_amount_mm',
+    'solar.amount': 'solar_energy_w_h_per_m2',
+    'relativeHumidity.average': 'rel_humidity_avg_%',
+    'relativeHumidity.max': 'rel_humidity_max_%',
+    'relativeHumidity.min': 'rel_humidity_min_%',
+    'wind.morningMax': 'wind_morning_max_m_per_sec',
+    'wind.dayMax': 'wind_day_max_m_per_sec',
+    'wind.average': 'wind_avg_m_per_sec',
+}
+
+# Global variables - hisorical norms
+norms_lon_lat_cols = ['location.longitude', 'location.latitude']
+
+norms_drop_cols = [
+    'location.fieldId', 'meanTemp.units', 'maxTemp.units',
+    'minTemp.units', 'precipitation.units', 'solar.units',
+    'dailyMaxWind.units', 'averageWind.units'
+]
+
+norms_mapping = {
+    'meanTemp.average': 'mean_temp_avg_cels',
+    'meanTemp.stdDev': 'mean_temp_std_dev_cels',
+    'maxTemp.average': 'max_temp_avg_cels',
+    'maxTemp.stdDev': 'max_temp_std_dev_cels',
+    'minTemp.average': 'min_temp_avg_cels',
+    'minTemp.stdDev': 'min_temp_std_dev_cels',
+    'precipitation.average': 'precip_avg_mm',
+    'precipitation.stdDev': 'precip_std_dev_mm',
+    'solar.average': 'solar_avg_w_h_per_m2',
+    'minHumidity.average': 'min_humiduty_avg_%',
+    'minHumidity.stdDev': 'min_humidity_std_dev_%',
+    'maxHumidity.average': 'max_humiduty_avg_%',
+    'maxHumidity.stdDev': 'max_humidity_std_dev_%',
+    'dailyMaxWind.average': 'daily_max_wind_avg_m_per_sec',
+    'dailyMaxWind.stdDev': 'daily_max_wind_std_dev_m_per_sec',
+    'averageWind.average': 'average_wind_m_per_sec',
+    'averageWind.stdDev': 'average_wind_std_dev_m_per_sec'
 }
