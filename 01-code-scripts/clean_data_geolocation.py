@@ -36,9 +36,12 @@ def clean_dataframe(df, lon_lat_cols, drop_cols, name_map):
     # Rename index - possibly as option, or take care of index prior?
     #df.index.rename('date_rename', inplace=True)
 
+    # Create copy of input dataframe; prevents altering the original
+    df_copy = df.copy()
+
     # Convert to geodataframe
     gdf = gpd.GeoDataFrame(
-        df, crs=crs, geometry=gpd.points_from_xy(
+        df_copy, crs=crs, geometry=gpd.points_from_xy(
             df[lon_lat_cols[0]],
             df[lon_lat_cols[1]])
     )
