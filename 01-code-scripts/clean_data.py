@@ -57,7 +57,7 @@ def clean_dataframe(df, lon_lat_cols, drop_cols, name_map):
 
 
 # Global variables - main forecast
-forecast_lon_lat_cols = ['longitude', 'latitude']
+forecast_main_lon_lat_cols = ['longitude', 'latitude']
 
 forecast_main_drop_cols = [
     'temperatures.units', 'precipitation.units',
