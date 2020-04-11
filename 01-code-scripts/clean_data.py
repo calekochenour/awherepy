@@ -87,26 +87,18 @@ forecast_main_mapping = {
     'dewPoint.amount': 'dew_point_cels'
 }
 
-# Global variables - soil temperature forecast
-forecast_soil_temp_lon_lat_cols = ['longitude', 'latitude']
+# Global variables - soil forecast
+forecast_soil_lon_lat_cols = ['longitude', 'latitude']
 
-forecast_soil_temp_drop_cols = ['units']
+forecast_soil_drop_cols = ['units']
 
-forecast_soil_temp_mapping = {
-    'average': 'soil_temp_avg_cels',
-    'max': 'soil_temp_max_cels',
-    'min': 'soil_temp_min_cels',
-}
-
-# Global variables - soil moisture forecast
-forecast_soil_moisture_lon_lat_cols = ['longitude', 'latitude']
-
-forecast_soil_moisture_drop_cols = []
-
-forecast_soil_moisture_mapping = {
-    'average': 'soil_moisture_avg_%',
-    'max': 'soil_moisture_max_%',
-    'min': 'soil_moisture_min_%',
+forecast_soil_mapping = {
+    'average_temp': 'soil_temp_avg_cels',
+    'max_temp': 'soil_temp_max_cels',
+    'min_temp': 'soil_temp_min_cels',
+    'average_moisture': 'soil_moisture_avg_%',
+    'max_moisture': 'soil_moisture_max_%',
+    'min_moisture': 'soil_moisture_min_%',
 }
 
 # Global variables - observed weather

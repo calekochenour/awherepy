@@ -53,12 +53,12 @@ def extract_forecast_main_data(forecast):
     return pd.concat(forecast_main_list)
 
 
-def extract_forecast_soil_temp(forecast):
-    """Extract aWhere forecast soil temperature
+def extract_forecast_soil(forecast):
+    """Extract aWhere forecast soil
     data and returns it in a pandas dataframe.
     """
-    # Initialize lists to store soil temp dataframes
-    forecast_soil_temp_list = []
+    # Initialize lists to store soil dataframes
+    forecast_soil_list = []
 
     # Check if more than one day
     if forecast.get('forecasts'):
@@ -78,82 +78,36 @@ def extract_forecast_soil_temp(forecast):
 
         # Get soil temperature data
         forecast_soil_temp = row['forecast'][0].get('soilTemperatures')
-
-        # Flatten data into dataframe
-        forecast_soil_temp_df = json_normalize(forecast_soil_temp)
-
-        # Assign date, lat/lon to dataframe
-        forecast_soil_temp_df['date'] = date
-        forecast_soil_temp_df['latitude'] = lat
-        forecast_soil_temp_df['longitude'] = lon
-
-        # Shorten depth values to numerics (will be used in MultiIndex)
-        forecast_soil_temp_df['depth'] = forecast_soil_temp_df['depth'].apply(lambda x: x[0:-15])
-
-        # Rename depth prior to indexing
-        forecast_soil_temp_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
-
-        # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
-        soil_temp_multi_index = forecast_soil_temp_df.set_index(
-            ['date', 'ground_depth_m'])
-
-        # Add dataframe to list of dataframes
-        forecast_soil_temp_list.append(soil_temp_multi_index)
-
-    # Return merged lists of dataframes into a single dataframe
-    return pd.concat(forecast_soil_temp_list)
-
-
-def extract_forecast_soil_moisture(forecast):
-    """Extract aWhere forecast soil moisture
-    data and returns it in a pandas dataframe.
-    """
-    # Initialize lists to store soil moisture dataframes
-    forecast_soil_moisture_list = []
-
-    # Check if more than one day
-    if forecast.get('forecasts'):
-        forecast_iterator = json_normalize(forecast.get('forecasts'))
-
-    # Single day
-    else:
-        forecast_iterator = json_normalize(forecast)
-
-    # Loop through each row in the top-level flattened dataframe
-    for index, row in forecast_iterator.iterrows():
-
-        # Extract date, lat, lon for insertion into lower-level dataframe outputs
-        date = row['date']
-        lat = row['location.latitude']
-        lon = row['location.longitude']
-
-        # Get soil moisture data
         forecast_soil_moisture = row['forecast'][0].get('soilMoisture')
 
         # Flatten data into dataframe
+        forecast_soil_temp_df = json_normalize(forecast_soil_temp)
         forecast_soil_moisture_df = json_normalize(forecast_soil_moisture)
 
+        # Combine temperature and moisture
+        forecast_soil_df = forecast_soil_temp_df.merge(
+            forecast_soil_moisture_df, on='depth', suffixes=('_temp', '_moisture'))
+
         # Assign date, lat/lon to dataframe
-        forecast_soil_moisture_df['date'] = date
-        forecast_soil_moisture_df['latitude'] = lat
-        forecast_soil_moisture_df['longitude'] = lon
+        forecast_soil_df['date'] = date
+        forecast_soil_df['latitude'] = lat
+        forecast_soil_df['longitude'] = lon
 
         # Shorten depth values to numerics (will be used in MultiIndex)
-        forecast_soil_moisture_df['depth'] = forecast_soil_moisture_df['depth'].apply(
-            lambda x: x[0:-15])
+        forecast_soil_df['depth'] = forecast_soil_df['depth'].apply(lambda x: x[0:-15])
 
         # Rename depth prior to indexing
-        forecast_soil_moisture_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
+        forecast_soil_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
 
         # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
-        soil_moisture_multi_index = forecast_soil_moisture_df.set_index([
-            'date', 'ground_depth_m'])
+        soil_multi_index = forecast_soil_df.set_index(
+            ['date', 'ground_depth_m'])
 
         # Add dataframe to list of dataframes
-        forecast_soil_moisture_list.append(soil_moisture_multi_index)
+        forecast_soil_list.append(soil_multi_index)
 
     # Return merged lists of dataframes into a single dataframe
-    return pd.concat(forecast_soil_moisture_list)
+    return pd.concat(forecast_soil_list)
 
 
 def extract_historic_norms(historic_norms):
