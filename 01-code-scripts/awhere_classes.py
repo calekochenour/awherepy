@@ -131,6 +131,10 @@ class Weather(AWhereAPI):
         # Return cleaned up geodataframe
         return gdf
 
+    @classmethod
+    def api_to_gdf():  # (cls, api_object, kwargs=None)
+        pass
+
 
 class WeatherLocation(Weather):
     def __init__(self, api_key, api_secret,
@@ -172,6 +176,8 @@ class WeatherLocationNorms(WeatherLocation):
         'averageWind.stdDev': 'average_wind_std_dev_m_per_sec'
     }
 
+    # Define lat/lon when intitializing class; no need to repeat for lat/lon
+    #  in get_data() because it is already programmed into api_url
     def __init__(self, api_key, api_secret, latitude, longitude, base_64_encoded_secret_key=None,
                  auth_token=None, api_url=None):
 
@@ -182,7 +188,7 @@ class WeatherLocationNorms(WeatherLocation):
         self.longitude = longitude
         self.api_url = f"{self.api_url}/{self.latitude},{self.longitude}/norms"
 
-    def get_data(self, latitude, longitude, start_day, end_day=None, offset=0):
+    def get_data(self, start_day='01-01', end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 10-year historical norms.
 
@@ -270,6 +276,29 @@ class WeatherLocationNorms(WeatherLocation):
         # Return dataframe
         return historic_norms_df
 
+    @classmethod
+    def api_to_gdf(cls, api_object, kwargs=None):
+        """kwargs is a dictionary that provides values beyond the default;
+        unpack dictionary if it exists
+
+        kwargs are the parameters to get_data() method
+
+        kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+        """
+        api_data_json = api_object.get_data(
+            **kwargs) if kwargs else api_object.get_data()
+
+        api_data_df = cls.extract_data(api_data_json)
+
+        api_data_gdf = cls.clean_data(
+            api_data_df,
+            cls.coord_cols,
+            cls.drop_cols,
+            cls.rename_map
+        )
+
+        return api_data_gdf
+
 
 class WeatherLocationObserved(WeatherLocation):
     # Class variables for clean_data() function
@@ -303,7 +332,7 @@ class WeatherLocationObserved(WeatherLocation):
         self.longitude = longitude
         self.api_url = f"{self.api_url}/{self.latitude},{self.longitude}/observations"
 
-    def get_data(self, latitude, longitude, start_day=None, end_day=None, offset=0):
+    def get_data(self, start_day=None, end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 7-day observed weather.
 
@@ -391,9 +420,31 @@ class WeatherLocationObserved(WeatherLocation):
         # Return dataframe
         return observed_weather_df
 
+    @classmethod
+    def api_to_gdf(cls, api_object, kwargs=None):
+        """kwargs is a dictionary that provides values beyond the default;
+        unpack dictionary if it exists
+
+        kwargs are the parameters to get_data() method
+
+        kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+        """
+        api_data_json = api_object.get_data(
+            **kwargs) if kwargs else api_object.get_data()
+
+        api_data_df = cls.extract_data(api_data_json)
+
+        api_data_gdf = cls.clean_data(
+            api_data_df,
+            cls.coord_cols,
+            cls.drop_cols,
+            cls.rename_map
+        )
+
+        return api_data_gdf
+
 
 class WeatherLocationForecast(WeatherLocation):
-
     # Class variables for clean_data() function
     # Main forecast
     coord_cols = ['longitude', 'latitude']
@@ -450,7 +501,7 @@ class WeatherLocationForecast(WeatherLocation):
         self.longitude = longitude
         self.api_url = f"{self.api_url}/{self.latitude},{self.longitude}/forecasts"
 
-    def get_data(self, latitude, longitude, start_day=None, end_day=None, offset=0, block_size=24):
+    def get_data(self, start_day=None, end_day=None, offset=0, block_size=24):
         """
         Performs a HTTP GET request to obtain the 7-day forecast.
 
@@ -594,10 +645,12 @@ class WeatherLocationForecast(WeatherLocation):
             forecast_soil_df['longitude'] = lon
 
             # Shorten depth values to numerics (will be used in MultiIndex)
-            forecast_soil_df['depth'] = forecast_soil_df['depth'].apply(lambda x: x[0:-15])
+            forecast_soil_df['depth'] = forecast_soil_df['depth'].apply(
+                lambda x: x[0:-15])
 
             # Rename depth prior to indexing
-            forecast_soil_df.rename(columns={'depth': 'ground_depth_m'}, inplace=True)
+            forecast_soil_df.rename(
+                columns={'depth': 'ground_depth_m'}, inplace=True)
 
             # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
             soil_multi_index = forecast_soil_df.set_index(
@@ -608,3 +661,43 @@ class WeatherLocationForecast(WeatherLocation):
 
         # Return merged lists of dataframes into a single dataframe
         return pd.concat(forecast_soil_list)
+
+    @classmethod
+    def api_to_gdf(cls, api_object, forecast_type='main', kwargs=None):
+        """
+        forecast_type can either be 'main' or 'soil'.
+
+        kwargs is a dictionary that provides values beyond the default;
+        unpack dictionary if it exists
+
+        kwargs are the parameters to get_data() method
+
+        kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+        """
+        api_data_json = api_object.get_data(
+            **kwargs) if kwargs else api_object.get_data()
+
+        if forecast_type.lower() == 'main':
+            api_data_df = cls.extract_data(api_data_json)
+
+            api_data_gdf = cls.clean_data(
+                api_data_df,
+                cls.coord_cols,
+                cls.drop_cols,
+                cls.rename_map
+            )
+
+        elif forecast_type.lower() == 'soil':
+            api_data_df = cls.extract_soil(api_data_json)
+
+            api_data_gdf = cls.clean_data(
+                api_data_df,
+                cls.soil_coord_cols,
+                cls.soil_drop_cols,
+                cls.soil_rename_map
+            )
+
+        else:
+            raise ValueError("Invalid forecast type. Please choose 'main' or 'soil'.")
+
+        return api_data_gdf
