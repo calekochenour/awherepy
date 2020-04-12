@@ -1,4 +1,5 @@
 # Imports
+# import os
 import base64
 import requests
 import pandas as pd
@@ -701,3 +702,35 @@ class WeatherLocationForecast(WeatherLocation):
             raise ValueError("Invalid forecast type. Please choose 'main' or 'soil'.")
 
         return api_data_gdf
+
+
+if __name__ == '__main__':
+    # Imports
+    import os
+
+    # Show all pandas columns
+    pd.set_option('max_columns', None)
+
+    # Define aWhere API key and secret
+    api_key = os.environ.get('AWHERE_API_KEY')
+    api_secret = os.environ.get('AWHERE_API_SECRET')
+
+    # Define aWhere weather objects, Bear Lake, RMNP, Colorado
+    norms_object = WeatherLocationNorms(
+        api_key, api_secret, latitude=40.313250, longitude=-105.648222)
+    observed_object = WeatherLocationObserved(
+        api_key, api_secret, latitude=40.313250, longitude=-105.648222)
+    forecast_object = WeatherLocationForecast(
+        api_key, api_secret, latitude=40.313250, longitude=-105.648222)
+
+    # Create geodataframes
+    norms_gdf = WeatherLocationNorms.api_to_gdf(norms_object)
+    observed_gdf = WeatherLocationObserved.api_to_gdf(observed_object)
+    forecast_main_gdf = WeatherLocationForecast.api_to_gdf(forecast_object, forecast_type='main')
+    forecast_soil_gdf = WeatherLocationForecast.api_to_gdf(forecast_object, forecast_type='soil')
+
+    # Display geodataframes
+    print(norms_gdf.head())
+    print(observed_gdf.head())
+    print(forecast_main_gdf.head())
+    print(forecast_soil_gdf.head())
