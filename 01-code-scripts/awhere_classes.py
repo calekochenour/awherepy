@@ -156,6 +156,158 @@ class Weather(AWhereAPI):
         return api_data_gdf
 
 
+class Fields(AWhereAPI):
+    def __init__(self, api_key, api_secret, base_64_encoded_secret_key=None, auth_token=None, api_url=None):
+        super(Fields, self).__init__(api_key, api_secret,
+                                     base_64_encoded_secret_key, auth_token)
+
+        self.api_url = 'https://api.awhere.com/v2/fields'
+
+    # Modify this to return all fields into a dataframe?
+    def get(self, field_id=None, limit=10, offset=0):
+        """
+        Performs a HTTP GET request to obtain all Fields you've created on your aWhere App.
+
+        Docs:
+            http://developer.awhere.com/api/reference/fields/get-fields
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        if field_id:
+            # Perform the HTTP request to obtain a specific field
+            fields_response = requests.get(f"{self.api_url}/{field_id}", headers=auth_headers)
+
+            message = fields_response.json()
+
+        else:
+            # Perform the HTTP request to obtain a list of all fields
+            fields_response = requests.get(
+                f"{self.api_url}?limit={limit}&offset={offset}", headers=auth_headers)
+
+            responseJSON = fields_response.json()
+
+            # Display the count of Fields for the user account
+            print(
+                f"You have {len(responseJSON['fields'])} fields shown on this page.")
+
+            # Iterate over the fields and display their name and ID
+            print('#  Field Name \t\t Field ID')
+            print('-------------------------------------------')
+            count = 0
+            for field in responseJSON["fields"]:
+                count += 1
+                print(f"{count}. {field['name']} \t {field['id']}\r")
+
+            message = print("\nFields listed above.")
+
+        return message
+
+    def create(self, field_id, field_name, farm_id, center_latitude, center_longitude, acres):
+        """
+        Performs a HTTP POST request to create and add a Field to your aWhere App.AWhereAPI, based on user input
+
+        Docs:
+            http://developer.awhere.com/api/reference/fields/create-field
+        """
+        field_body = {
+            'id': field_id,
+            'name': field_name,
+            'farmId': farm_id,
+            'centerPoint': {
+                'latitude': center_latitude,
+                'longitude': center_longitude
+            },
+            'acres': acres
+        }
+
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {str(self.auth_token)}",
+            "Content-Type": 'application/json'
+        }
+
+        # Perform the POST request to create Field
+        print('Attempting to create new field....\n')
+        response = requests.post(
+            self.api_url, headers=auth_headers, json=field_body)
+
+        return response.json()
+
+    def update(self, field_id, name=None, farm_id=None):
+        """Update the name and/or farm id for a field.
+        """
+        if not (name or farm_id):
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }, {
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        elif name and not farm_id:
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }]
+
+        elif farm_id and not name:
+            field_body = [{
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        elif name and farm_id:
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }, {
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {str(self.auth_token)}",
+        }
+
+        # Perform the HTTP request to update field information
+        response = requests.patch(
+            f"{self.api_url}/{field_id}", headers=auth_headers, json=field_body)
+
+        return response.json()
+
+    def delete(self, field_id):
+        """
+        Performs a HTTP DELETE request to delete a Field from your aWhere App.
+        Docs: http://developer.awhere.com/api/reference/fields/delete-field
+        Args:
+            field_id: The field to be deleted
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}",
+            "Content-Type": 'application/json'
+        }
+
+        # Perform the POST request to Delete the Field
+        response = requests.delete(
+            f"{self.api_url}/{field_id}", headers=auth_headers)
+
+        message = f"Deleted field: {field_id}" if response.status_code == 204 else f"Could not delete field."
+
+        return print(message)
+
+
 class WeatherLocation(Weather):
     def __init__(self, api_key, api_secret,
                  base_64_encoded_secret_key=None, auth_token=None, api_url=None):
@@ -174,6 +326,108 @@ class WeatherField(Weather):
             api_key, api_secret, base_64_encoded_secret_key, auth_token, api_url)
 
         self.api_url = f"{self.api_url}/fields"
+
+
+class Field(Fields):
+    def __init__(self, api_key, api_secret, field_id, base_64_encoded_secret_key=None, auth_token=None, api_url=None):
+        super(Field, self).__init__(api_key, api_secret,
+                                    base_64_encoded_secret_key, auth_token)
+
+        self.field_id = field_id
+        self.api_url = f'https://api.awhere.com/v2/fields/{self.field_id}'
+
+    def get(self):
+        """
+        Performs a HTTP GET request to obtain all Fields you've created on your aWhere App.
+
+        Docs:
+            http://developer.awhere.com/api/reference/fields/get-fields
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Perform the HTTP request to obtain the field information
+        field_response = requests.get(f"{self.api_url}",
+                                      headers=auth_headers)
+
+        #responseJSON = fields_response.json()
+
+        return field_response.json()
+
+    def create(self):
+        pass
+
+    def update(self, name=None, farm_id=None):
+        """Update the name and/or farm id for a field.
+        """
+        if not (name or farm_id):
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }, {
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        elif name and not farm_id:
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }]
+
+        elif farm_id and not name:
+            field_body = [{
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        elif name and farm_id:
+            field_body = [{
+                "op": "replace",
+                "path": "/name",
+                "value": name
+            }, {
+                "op": "replace",
+                "path": "/farmId",
+                "value": farm_id
+            }]
+
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {str(self.auth_token)}",
+        }
+
+        # Perform the HTTP request to update field information
+        response = requests.patch(
+            f"{self.api_url}", headers=auth_headers, json=field_body)
+
+        return response.json()
+
+    def delete(self):
+        """
+        Performs a HTTP DELETE request to delete a Field from your aWhere App.
+        Docs: http://developer.awhere.com/api/reference/fields/delete-field
+        Args:
+            field_id: The field to be deleted
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}",
+            "Content-Type": 'application/json'
+        }
+
+        # Perform the POST request to Delete the Field
+        response = requests.delete(f"{self.api_url}", headers=auth_headers)
+
+        message = f"Deleted field: {self.field_id}" if response.status_code == 204 else f"Could not delete field."
+
+        return print(message)
 
 
 class WeatherLocationNorms(WeatherLocation):
