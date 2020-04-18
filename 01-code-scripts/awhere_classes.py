@@ -2901,6 +2901,179 @@ class AgronomicsModels(Agronomics):
         return base_df_all, stage_df_all
 
 
+""" PLANTINGS """
+
+
+class AgronomicsPlantings(Agronomics):
+
+    def __init__(self, api_key, api_secret, base_64_encoded_secret_key=None,
+                 auth_token=None, api_url=None):
+
+        super(AgronomicsPlantings, self).__init__(api_key, api_secret,
+                                                  base_64_encoded_secret_key, auth_token)
+
+        self.api_url = f'{self.api_url}/plantings'
+
+    def get(self, planting_id=None, limit=10, offset=0):
+        """Returns aWhere plantings associated with your account.
+
+        planting_id can either be an actual id or 'current' for the most
+        current planting. 'None' will result in all planting.
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+            # "Content-Type": 'application/json'
+        }
+
+        # Get API response
+        response = requests.get(f"{self.api_url}/{planting_id}", headers=auth_headers) if planting_id else requests.get(
+            f"{self.api_url}?limit={limit}&offset={offset}", headers=auth_headers)
+
+        # Convert API response to JSON format
+        response_json = response.json()
+
+        # Convert to dataframe
+        response_df = json_normalize(response_json.get('plantings')) if response_json.get(
+            'plantings') else json_normalize(response_json)
+
+        drop_cols = [
+            '_links.self.href', '_links.curies',
+            '_links.awhere:crop.href', '_links.awhere:field.href'
+        ]
+
+        # Drop unnecessary columns
+        response_df.drop(
+            columns=drop_cols, inplace=True)
+
+        # Define new column names
+        planting_rename = {
+            'id': 'planting_id',
+            'crop': 'crop_id',
+            'field': 'field_id',
+            'plantingDate': 'planting_date',
+            'harvestDate': 'harvest_date_actual',
+            # What is 'recommendation' field? What output goes here, and where does it come from?
+            # {response_json.get("yield").get("units").lower()}',
+            'yield.amount': 'yield_amount_actual',
+            'yield.units': 'yield_amount_actual_units',
+            # {response_json.get("projections").get("yield").get("units").lower()}',
+            'projections.yield.amount': 'yield_amount_projected',
+            'projections.yield.units': 'yield_amount_projected_units',
+            'projections.harvestDate': 'harvest_date_projected'
+        }
+
+        # Rename
+        response_df.rename(columns=planting_rename, inplace=True)
+
+        # Set index
+        response_df.set_index('planting_id', inplace=True)
+
+        return response_df
+
+    def get_full(self):
+        """Retrieves the full list of plantings associated
+        with an aWhere account.
+        """
+        pass
+
+
+""" MODELS """
+
+
+class AgronomicsFieldModels(AgronomicsField):
+
+    # Define field_id intitializing class
+    def __init__(self, api_key, api_secret, field_id, model_id, base_64_encoded_secret_key=None,
+                 auth_token=None, api_url=None):
+
+        super(AgronomicsFieldModels, self).__init__(
+            api_key, api_secret, base_64_encoded_secret_key, auth_token, api_url)
+
+        self.field_id = field_id
+        self.api_url = f"{self.api_url}/{self.field_id}/models/{model_id}/results"
+
+    def get(self):
+        """Returns aWhere model associated with a field.
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+            # "Content-Type": 'application/json'
+        }
+
+        # Get API response
+        response = requests.get(
+            f"{self.api_url}", headers=auth_headers)
+
+        # Convert API response to JSON format
+        response_json = response.json()
+
+        # Get stage info
+        previous_stage_df = json_normalize(response_json.get('previousStages'))
+        current_stage_df = json_normalize(response_json.get('currentStage'))
+        next_stage_df = json_normalize(response_json.get('nextStage'))
+
+        # Add columns
+        previous_stage_df['stage_status'] = 'Previous'
+        current_stage_df['stage_status'] = 'Current'
+        next_stage_df['stage_status'] = 'Next'
+
+        # Merge into one dataframe
+        stages_df = pd.concat([
+            previous_stage_df, current_stage_df, next_stage_df],
+            sort=False, axis=0)
+
+        # Change column names
+        stages_df.rename(columns={
+            'date': 'stage_start_date',
+            'id': 'stage_id',
+            'stage': 'stage_name',
+            'description': 'stage_description',
+            'gddThreshold': 'gdd_threshold_cels',
+            'accumulatedGdds': 'gdd_accumulation_current_cels',
+            'gddRemaining': 'gdd_remaining_next_cels'
+        }, inplace=True)
+
+        # Add base data
+        stages_df['biofix_date'] = response_json.get('biofixDate')
+        stages_df['planting_date'] = response_json.get('plantingDate')
+        stages_df['model_id'] = response_json.get('modelId')
+        stages_df['field_id'] = response_json.get('location').get('fieldId')
+        stages_df['longitude'] = response_json.get('location').get('longitude')
+        stages_df['latitude'] = response_json.get('location').get('latitude')
+
+        # Set index
+        stages_df.set_index(['field_id', 'stage_status'], inplace=True)
+
+        # Prep for geodataframe conversion
+        df_copy = stages_df.copy()
+
+        # Define CRS (EPSG 4326)
+        crs = {'init': 'epsg:4326'}
+
+        # Convert to geodataframe
+        stages_gdf = gpd.GeoDataFrame(
+            df_copy, crs=crs, geometry=gpd.points_from_xy(
+                stages_df.longitude,
+                stages_df.latitude)
+        )
+
+        # Drop lat/lon
+        stages_gdf.drop(columns=['longitude', 'latitude'], inplace=True)
+
+        # Reorder columns
+        stages_gdf = stages_gdf.reindex(columns=[
+            'model_id', 'biofix_date', 'planting_date',
+            'stage_start_date', 'stage_id', 'stage_name',
+            'stage_description', 'gdd_threshold_cels',
+            'gdd_accumulation_current_cels', 'gdd_remaining_next_cels',
+            'geometry'
+        ])
+
+        return stages_gdf
+
+
 if __name__ == '__main__':
     # Imports
     import os
