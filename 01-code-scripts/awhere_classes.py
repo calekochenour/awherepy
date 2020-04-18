@@ -2355,6 +2355,9 @@ class AgronomicsFieldNorms(AgronomicsField):
         return api_data_gdf
 
 
+""" CROPS """
+
+
 class AgronomicsCrops(Agronomics):
 
     def __init__(self, api_key, api_secret, base_64_encoded_secret_key=None,
@@ -2504,6 +2507,9 @@ class AgronomicsCrop(AgronomicsCrops):
         response_df.rename(columns=crop_rename, inplace=True)
 
         return response_df
+
+
+""" PLANTINGS """
 
 
 class AgronomicsFieldPlantings(AgronomicsField):
@@ -2700,6 +2706,199 @@ class AgronomicsFieldPlantings(AgronomicsField):
         message = f"Deleted planting: {planting_id}" if response.status_code == 204 else f"Could not delete planting."
 
         return print(message)
+
+
+""" MODELS """
+
+
+class AgronomicsModels(Agronomics):
+
+    def __init__(self, api_key, api_secret, base_64_encoded_secret_key=None,
+                 auth_token=None, api_url=None):
+
+        super(AgronomicsModels, self).__init__(
+            api_key, api_secret, base_64_encoded_secret_key, auth_token, api_url)
+
+        self.api_url = f"{self.api_url}/models"
+
+    def get(self, model_id=None, limit=10, offset=0):
+        """Retrieve a list of available models.
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Get API response, single crop or page of crops
+        response = requests.get(f"{self.api_url}/{model_id}", headers=auth_headers) if model_id else requests.get(
+            f"{self.api_url}?limit={limit}&offset={offset}", headers=auth_headers)
+
+        # Convert API response to JSON format
+        response_json = response.json()
+
+        # Convert to dataframe
+        response_df = json_normalize(response_json) if model_id else json_normalize(
+            response_json.get('models'))
+
+        # Drop unnecessary columns
+        response_df.drop(columns=[
+            '_links.self.href', '_links.curies',
+            '_links.awhere:crop', '_links.awhere:modelDetails.href'
+        ], inplace=True)
+
+        # Define new column names
+        model_rename = {
+            'id': 'model_id',
+            'name': 'model_name',
+            'description': 'model_description',
+            'type': 'model_type',
+            'source.name': 'model_source',
+            'source.link': 'model_link'
+        }
+
+        # Rename columns
+        response_df.rename(columns=model_rename, inplace=True)
+
+        # Set index
+        response_df.set_index('model_id', inplace=True)
+
+        return response_df
+
+    def get_full(self, limit=10, offset=0, max_pages=3):
+        """Retrieves the full list of available models,
+        based on limit, offset, and max pages.
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Define list to store page dataframes
+        response_df_list = []
+
+        # Loop through all pages
+        while offset < limit * max_pages:
+
+            # Get API response; convert response to dataframe; append to dataframe list
+            response = requests.get(
+                f"{self.api_url}?limit={limit}&offset={offset}", headers=auth_headers)
+            response_json = response.json()
+            response_df_loop = json_normalize(response_json.get('models'))
+            response_df_list.append(response_df_loop)
+            offset += 10
+
+        # Merge all dataframes into a single dataframe
+        response_df = pd.concat(response_df_list, axis=0)
+
+        # Drop unnecessary columns
+        response_df.drop(columns=[
+            '_links.self.href', '_links.curies',
+            '_links.awhere:crop', '_links.awhere:modelDetails.href'
+        ], inplace=True)
+
+        # Define new column names
+        model_rename = {
+            'id': 'model_id',
+            'name': 'model_name',
+            'description': 'model_description',
+            'type': 'model_type',
+            'source.name': 'model_source',
+            'source.link': 'model_link'
+        }
+
+        # Rename columns
+        response_df.rename(columns=model_rename, inplace=True)
+
+        # Set index
+        response_df.set_index('model_id', inplace=True)
+
+        return response_df
+
+    def get_details(self, model_id='BarleyGenericMSU'):
+        """Retrieve model details
+        """
+        # Setup the HTTP request headers
+        auth_headers = {
+            "Authorization": f"Bearer {self.auth_token}"
+        }
+
+        # Get API response, single crop or page of crops
+        response = requests.get(f"{self.api_url}/{model_id}/details", headers=auth_headers)
+
+        # Convert API response to JSON format
+        response_json = response.json()
+
+        # Model base information
+        base_info_df = json_normalize(response_json)
+        base_info_df.drop(
+            columns=[
+                'gddUnits', 'stages', '_links.self.href',
+                '_links.curies', '_links.awhere:model.href'
+            ], inplace=True)
+        base_info_df['model_id'] = model_id
+        base_info_df.set_index('model_id', inplace=True)
+        base_info_df.rename(columns={
+            'biofix': 'biofix_days',
+            'gddMethod': 'gdd_method',
+            'gddBaseTemp': 'gdd_base_temp_cels',
+            'gddMaxBoundary': 'gdd_max_boundary_cels',
+            'gddMinBoundary': 'gdd_min_boundary_cels'
+        }, inplace=True)
+
+        # Model stage information
+        stage_info_df = json_normalize(response_json.get('stages'))
+        stage_info_df.drop(columns=['gddUnits'], inplace=True)
+        stage_info_df['model_id'] = model_id
+        stage_info_df.rename(columns={
+            'id': 'stage_id',
+            'stage': 'stage_name',
+            'description': 'stage_description',
+            'gddThreshold': 'gdd_threshold_cels',
+        }, inplace=True)
+        stage_info_df.set_index(['model_id', 'stage_id'], inplace=True)
+
+        # Return base info and stage info dataframes
+        return base_info_df, stage_info_df
+
+#     def get_all_details(self):
+#         """Get dataframes with details on all
+#         available models.
+#         """
+#         # Lists to store dataframes
+#         base_list = []
+#         stage_list = []
+
+#         for model in list(self.get_full().index):
+#             base, stage = self.get_details(model_id=model)
+#             base_list.append(base)
+#             stage_list.append(stage)
+
+#         base_df_all = pd.concat(base_list, axis=0)
+#         stage_df_all = pd.concat(stage_list, axis=0)
+
+#         return base_df_all, stage_df_all
+
+    @classmethod
+    def get_all_details(cls, api_object):
+        """Get dataframes with details on all
+        available models.
+        """
+        # Lists to store dataframes
+        base_list = []
+        stage_list = []
+
+        # Get all model base info and stage info
+        for model in list(api_object.get_full().index):
+            base, stage = api_object.get_details(model_id=model)
+            base_list.append(base)
+            stage_list.append(stage)
+
+        # Merge dataframes
+        base_df_all = pd.concat(base_list, axis=0)
+        stage_df_all = pd.concat(stage_list, axis=0)
+
+        # Return both dataframes
+        return base_df_all, stage_df_all
 
 
 if __name__ == '__main__':
