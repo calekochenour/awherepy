@@ -2,5 +2,5 @@
 __pycache__/
 
 # Jupyter Notebook
-*.ipynb
+.ipynb
 .ipynb_checkpoints/
