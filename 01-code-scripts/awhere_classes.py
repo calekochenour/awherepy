@@ -459,6 +459,7 @@ class WeatherLocationNorms(WeatherLocation):
         'precipitation.average': 'precip_avg_mm',
         'precipitation.stdDev': 'precip_std_dev_mm',
         'solar.average': 'solar_avg_w_h_per_m2',
+        'solar.stdDev': 'solar_avg_std_dev_w_h_per_m2',
         'minHumidity.average': 'min_humiduty_avg_%',
         'minHumidity.stdDev': 'min_humidity_std_dev_%',
         'maxHumidity.average': 'max_humiduty_avg_%',
@@ -1578,7 +1579,7 @@ class AgronomicsLocationValues(AgronomicsLocation):
 
     # Class variables for clean_data() function
     # Single day
-    day_coord_cols = ['location.latitude', 'location.longitude']
+    day_coord_cols = ['location.longitude', 'location.latitude']
 
     day_drop_cols = ['pet.units', '_links.self.href']
 
@@ -1601,7 +1602,7 @@ class AgronomicsLocationValues(AgronomicsLocation):
     }
 
     # Multi-day, daily accumulation
-    daily_coord_cols = ['latitude', 'longitude']
+    daily_coord_cols = ['longitude', 'latitude']
 
     daily_drop_cols = ['pet.units', 'accumulatedPrecipitation.units',
                        'accumulatedPet.units', '_links.self.href']
@@ -1767,7 +1768,7 @@ class AgronomicsLocationNorms(AgronomicsLocation):
     range of days, as it is for this property, than for individual days."""
 
     # Single day
-    day_coord_cols = ['location.latitude', 'location.longitude']
+    day_coord_cols = ['location.longitude', 'location.latitude']
 
     day_drop_cols = ['pet.units', '_links.self.href']
 
@@ -1781,7 +1782,7 @@ class AgronomicsLocationNorms(AgronomicsLocation):
     }
 
     # Multi-day, total accumulation
-    total_coord_cols = ['latitude', 'longitude']
+    total_coord_cols = ['longitude', 'latitude']
 
     total_drop_cols = ['precipitation.units', 'pet.units']
 
@@ -1812,7 +1813,7 @@ class AgronomicsLocationNorms(AgronomicsLocation):
     }
 
     # Multi-day, daily accumulation
-    daily_coord_cols = ['latitude', 'longitude']
+    daily_coord_cols = ['longitude', 'latitude']
 
     daily_drop_cols = ['pet.units', 'accumulatedPrecipitation.units',
                        'accumulatedPet.units', '_links.self.href']
@@ -1973,7 +1974,7 @@ class AgronomicsFieldValues(AgronomicsField):
 
     # Class variables for clean_data() function
     # Single day
-    day_coord_cols = ['location.latitude', 'location.longitude']
+    day_coord_cols = ['location.longitude', 'location.latitude']
 
     day_drop_cols = ['location.fieldId', 'pet.units', '_links.self.href',
                      '_links.curies', '_links.awhere:field.href']
@@ -1985,7 +1986,7 @@ class AgronomicsFieldValues(AgronomicsField):
     }
 
     # Multi-day, total accumulation
-    total_coord_cols = ['latitude', 'longitude']
+    total_coord_cols = ['longitude', 'latitude']
 
     total_drop_cols = ['precipitation.units', 'pet.units']
 
@@ -1997,7 +1998,7 @@ class AgronomicsFieldValues(AgronomicsField):
     }
 
     # Multi-day, daily accumulation
-    daily_coord_cols = ['latitude', 'longitude']
+    daily_coord_cols = ['longitude', 'latitude']
 
     daily_drop_cols = ['pet.units', 'accumulatedPrecipitation.units',
                        'accumulatedPet.units', '_links.self.href',
@@ -2163,7 +2164,7 @@ class AgronomicsFieldNorms(AgronomicsField):
     range of days, as it is for this property, than for individual days."""
 
     # Single day
-    day_coord_cols = ['location.latitude', 'location.longitude']
+    day_coord_cols = ['location.longitude', 'location.latitude']
 
     day_drop_cols = ['location.fieldId', 'pet.units', '_links.self.href',
                      '_links.curies', '_links.awhere:field.href']
@@ -2178,7 +2179,7 @@ class AgronomicsFieldNorms(AgronomicsField):
     }
 
     # Multi-day, total accumulation
-    total_coord_cols = ['latitude', 'longitude']
+    total_coord_cols = ['longitude', 'latitude']
 
     total_drop_cols = ['precipitation.units', 'pet.units']
 
@@ -2198,7 +2199,7 @@ class AgronomicsFieldNorms(AgronomicsField):
     }
 
     # Multi-day, daily accumulation
-    daily_coord_cols = ['latitude', 'longitude']
+    daily_coord_cols = ['longitude', 'latitude']
 
     daily_drop_cols = ['pet.units', 'accumulatedPrecipitation.units',
                        'accumulatedPet.units', '_links.self.href',
