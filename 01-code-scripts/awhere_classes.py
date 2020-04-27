@@ -1590,7 +1590,7 @@ class AgronomicsLocationValues(AgronomicsLocation):
     }
 
     # Multi-day, total accumulation
-    total_coord_cols = ['latitude', 'longitude']
+    total_coord_cols = ['longitude', 'latitude']
 
     total_drop_cols = ['precipitation.units', 'pet.units']
 
