@@ -7,15 +7,82 @@
 
 # aWherePy
 
-This directory contains the code and files that produce INSERT PROJECT DESCRPTION HERE.
+## Why aWherePy?
 
-The project INSERT WORKFLOW HERE.
+aWhere's agronomic and weather data API is currently accessible through the R programming language. aWherePy creates a Python solution for the aWhere API and provides Python code to:
 
+* Connect to the aWhere API;
+* Get data from the aWhere API;
+* Extract data from the aWhere API returns;
+* Clean georeference extraced data;
+* Create an aWhere-sized (9 km x 9 km) grid from a shapefile; and,
+* Rasterize existing remote sensing and GIS data to the aWhere grid.
+
+aWherPy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks.  
+
+## View Example aWherePy Applications
+
+## Install aWherePy
+<!--
+aWherePy can be installed using `pip`, but we **strongly** recommend that you install it using conda and the `conda-forge` channel.
+
+### Install Using Conda / conda-forge Channel (Preferred)
+
+If you are working within an Anaconda environment, we suggest that you install EarthPy using
+`conda-forge`
+
+```bash
+$ conda install -c conda-forge awherepy
+```
+
+Note: if you want to set conda-forge as your default conda channel, you can use the following install workflow.
+
+We recommmend this approach. Once you have run conda config, you can install awherepy without specifying a channel.
+
+```bash
+$ conda config --add channels conda-forge
+$ conda install awherepy
+```
+
+### Install via Pip
+
+We strongly suggest that you install aWherePy using conda-forge given pip can be more prone to  spatial library dependency conflicts. However, you can install earthpy using pip.
+
+To install aWherePy via `pip` use:
+
+```bash
+$ pip install --upgrade awherepy
+```
+
+Once you have successfully installed awherepy, you can import it into Python.
+
+```python
+>>> import awherepy as ap
+```
+-->
+
+## Active Maintainers
+
+Contributions to aWherePy are welcome. Below are the current active package maintainers. Please see the
+[contributors file](https://awherepy.readthedocs.io/en/latest/contributors.html) for a complete list of all of maintainers.
+
+<a title="Cale Kochenour" href="https://www.github.com/calekochenour"><img width="60" height="60" alt="Cale Kochenour" class="pull-left" src="https://avatars.githubusercontent.com/u/7649194?size=120" /></a>
+
+## How to Contribute
+
+Contributions to aWherePy are welcome. Please see the
+[contributing guidelines](https://awherepy.readthedocs.io/en/latest/contributing.html) for more information about submitting pull requests or changes to aWherePy.
+
+## License
+
+[BSD-3](https://github.com/calekochenour/awherepy/blob/master/LICENSE)
+
+<!--
 ## 1. Prerequisites
 
 To run this analysis locally or online with Binder, you will need:
 
- * INSERT REQUIREMENTS HERE
+ * [aWhere Developer Account](https://developer.awhere.com/)
 
 If running this locally, you will also need:
 
@@ -103,3 +170,4 @@ Contains instructions to execute the code.
 ### `environment.yml`
 
 Contains the information required to create the Conda environment.
+-->
