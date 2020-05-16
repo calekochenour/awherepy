@@ -66,7 +66,7 @@ Once you have successfully installed awherepy, you can import it into Python.
 Contributions to aWherePy are welcome. Below are the current active package maintainers. Please see the
 [contributors file](https://awherepy.readthedocs.io/en/latest/contributors.html) for a complete list of all of maintainers.
 
-<!-- <a title="Cale Kochenour" href="https://www.github.com/calekochenour"><img width="60" height="60" alt="Cale Kochenour" class="pull-left" src="https://user-images.githubusercontent.com/54423680/82125272-10a41780-9762-11ea-9026-f705caa25e8e.PNG?size=120" /></a>
+<!-- <a title="Cale Kochenour" href="https://www.github.com/calekochenour"><img width="60" height="60" alt="Cale Kochenour" class="pull-left" src="https://user-images.githubusercontent.com/54423680/82125272-10a41780-9762-11ea-9026-f705caa25e8e.PNG" /></a>
 -->
 
 ## How to Contribute
