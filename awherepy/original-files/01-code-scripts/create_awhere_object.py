@@ -45,19 +45,21 @@ def create_awhere(api_key, api_secret):
 
     # Run if no exceptions
     else:
-        print("SUCCESS: Valid authentication credentials. aWhere object created.")
+        print(
+            "SUCCESS: Valid authentication credentials. aWhere object created."
+        )
 
     return aWhere
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Import os module and AWhereAPI class
     import os
     from awhere import AWhereAPI
 
     # Get API key and secret
-    api_key = os.environ.get('AWHERE_API_KEY')
-    api_secret = os.environ.get('AWHERE_API_SECRET')
+    api_key = os.environ.get("AWHERE_API_KEY")
+    api_secret = os.environ.get("AWHERE_API_SECRET")
 
     # Create aWhere object
     awhere = create_awhere(api_key, api_secret)

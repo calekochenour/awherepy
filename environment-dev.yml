@@ -1,10 +1,11 @@
 channels:
     - conda-forge
     - defaults
-    
+
 dependencies:
     - pip
     - bumpversion
+    - pre-commit
     - wheel
     - watchdog
     - flake8

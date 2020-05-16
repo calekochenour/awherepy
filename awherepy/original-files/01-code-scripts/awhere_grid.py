@@ -56,10 +56,11 @@ def create_awhere_grid(study_area_path, buffer_distance, cell_size=0.08):
 
     # Convert buffer from geoseries to geodataframe
     study_area_4326_buffer_gdf = gpd.GeoDataFrame(
-        study_area_4326_buffer, crs=4326)
+        study_area_4326_buffer, crs=4326
+    )
 
     # Rename geometry column in buffer
-    study_area_4326_buffer_gdf.rename(columns={0: 'geometry'}, inplace=True)
+    study_area_4326_buffer_gdf.rename(columns={0: "geometry"}, inplace=True)
 
     # Get extent of buffered boundary
     longitude_min = study_area_4326_buffer_gdf.bounds.minx[0]
@@ -72,26 +73,34 @@ def create_awhere_grid(study_area_path, buffer_distance, cell_size=0.08):
     latitude_vals = np.arange(latitude_min, latitude_max, cell_size)
 
     # Create grid of polygons based on longitude and latitude ranges
-    grid_polys_list = [Polygon([
-        (longitude, latitude),
-        (longitude + cell_size, latitude),
-        (longitude + cell_size, latitude + cell_size),
-        (longitude, latitude + cell_size)])
-        for longitude in longitude_vals for latitude in latitude_vals]
+    grid_polys_list = [
+        Polygon(
+            [
+                (longitude, latitude),
+                (longitude + cell_size, latitude),
+                (longitude + cell_size, latitude + cell_size),
+                (longitude, latitude + cell_size),
+            ]
+        )
+        for longitude in longitude_vals
+        for latitude in latitude_vals
+    ]
 
     # Create geodataframe from grid polygons
     grid_polys_gdf = gpd.GeoDataFrame(crs=4326, geometry=grid_polys_list)
 
     # Add centroid to each grid cell
-    grid_polys_gdf['centroid'] = grid_polys_gdf.geometry.apply(
-        lambda poly: poly.centroid)
+    grid_polys_gdf["centroid"] = grid_polys_gdf.geometry.apply(
+        lambda poly: poly.centroid
+    )
 
     # Narrow grid cells to those within the buffered boundary
     study_area_grid_4326 = gpd.sjoin(
-        grid_polys_gdf, study_area_4326_buffer_gdf, op='within')
+        grid_polys_gdf, study_area_4326_buffer_gdf, op="within"
+    )
 
     # Drop unnecessary colum
-    study_area_grid_4326.drop(columns='index_right', inplace=True)
+    study_area_grid_4326.drop(columns="index_right", inplace=True)
 
     # Return gridded geodataframe
     return study_area_grid_4326
@@ -126,11 +135,17 @@ def extract_centroids(grid):
     grid_extract = grid.copy()
 
     # Extract latitude and longitude to new columns
-    grid_extract['longitude'] = grid_extract.centroid.apply(lambda point: point.x)
-    grid_extract['latitude'] = grid_extract.centroid.apply(lambda point: point.y)
+    grid_extract["longitude"] = grid_extract.centroid.apply(
+        lambda point: point.x
+    )
+    grid_extract["latitude"] = grid_extract.centroid.apply(
+        lambda point: point.y
+    )
 
     # Extract centroid (as tuples) from grid
-    centroid_list = [(row.longitude, row.latitude) for row in grid_extract.itertuples()]
+    centroid_list = [
+        (row.longitude, row.latitude) for row in grid_extract.itertuples()
+    ]
 
     # Return centroids
     return centroid_list
