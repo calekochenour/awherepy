@@ -11,13 +11,14 @@ dependencies:
   - pip
 
   # Core scientific python
-  - numpy
   - matplotlib
+  - numpy
   - seaborn
 
   # Spatial packages
   - geopandas
   - earthpy
+  - shapely
 
   # Jupyter Environment
   - autopep8
@@ -25,7 +26,3 @@ dependencies:
   - notebook
   - jupyter_contrib_nbextensions
   - nbclean
-
-  # Other
-  #- virtualenv
-  #- cookiecutter
