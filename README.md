@@ -1,4 +1,10 @@
-# Fire Risk Index
+[![Build Status](https://travis-ci.org/calekochenour/awherepy.svg?branch=master)](https://travis-ci.org/calekochenour/awherepy)
+[![codecov](https://codecov.io/gh/calekochenour/awherepy/branch/master/graph/badge.svg)](https://codecov.io/gh/calekochenour/awherepy)
+[![Updates](https://pyup.io/repos/github/calekochenour/awherepy/shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/)
+[![Documentation Status](https://readthedocs.org/projects/awherepy/badge/?version=latest)](https://awherepy.readthedocs.io/en/latest/?badge=latest)
+<!-- [![Python 3](https://pyup.io/repos/github/calekochenour/awherepy/python-3-shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/) -->
+
+# aWherePy
 
 This directory contains the code and files that produce INSERT PROJECT DESCRPTION HERE.
 
