@@ -31,7 +31,8 @@ class AWhereAPI:
         Docs:
             http://developer.awhere.com/api/authentication
         Returns:
-            Returns the base64-encoded {key}:{secret} combination, seperated by a colon.
+            Returns the base64-encoded {key}:{secret} combination,
+            seperated by a colon.
         """
         # Base64 Encode the Secret and Key
         key_secret = f"{key}:{secret}"
@@ -90,7 +91,8 @@ class Fields(AWhereAPI):
     # Modify this to return all fields into a dataframe?
     def get(self, field_id=None, limit=10, offset=0):
         """
-        Performs a HTTP GET request to obtain all Fields you've created on your aWhere App.
+        Performs a HTTP GET request to obtain all Fields you've
+        created on your aWhere App.
 
         Docs:
             http://developer.awhere.com/api/reference/fields/get-fields
@@ -117,7 +119,8 @@ class Fields(AWhereAPI):
 
             # Display the count of Fields for the user account
             print(
-                f"You have {len(responseJSON['fields'])} fields shown on this page."
+                f"You have {len(responseJSON['fields'])} fields shown"
+                " on this page."
             )
 
             # Iterate over the fields and display their name and ID
@@ -142,7 +145,8 @@ class Fields(AWhereAPI):
         acres,
     ):
         """
-        Performs a HTTP POST request to create and add a Field to your aWhere App.AWhereAPI, based on user input
+        Performs a HTTP POST request to create and add a Field to
+        your aWhere App.AWhereAPI, based on user input
 
         Docs:
             http://developer.awhere.com/api/reference/fields/create-field
@@ -228,7 +232,7 @@ class Fields(AWhereAPI):
         message = (
             f"Deleted field: {field_id}"
             if response.status_code == 204
-            else f"Could not delete field."
+            else "Could not delete field."
         )
 
         return print(message)
@@ -253,7 +257,8 @@ class Field(Fields):
 
     def get(self):
         """
-        Performs a HTTP GET request to obtain all Fields you've created on your aWhere App.
+        Performs a HTTP GET request to obtain all Fields you've
+        created on your aWhere App.
 
         Docs:
             http://developer.awhere.com/api/reference/fields/get-fields
@@ -325,7 +330,7 @@ class Field(Fields):
         message = (
             f"Deleted field: {self.field_id}"
             if response.status_code == 204
-            else f"Could not delete field."
+            else "Could not delete field."
         )
 
         return print(message)
@@ -874,9 +879,12 @@ class WeatherLocationForecast(WeatherLocation):
         url_no_date = (
             f"{self.api_url}?limit=10&offset={offset}&blockSize={block_size}"
         )
-        url_start_date = f"{self.api_url}/{start_day}?limit=10&offset={offset}&blockSize={block_size}"
-        url_end_date = f"{self.api_url}/{end_day}?limit=10&offset={offset}&blockSize={block_size}"
-        url_both_dates = f"{self.api_url}/{start_day},{end_day}?limit=10&offset={offset}&blockSize={block_size}"
+        url_start_date = f"{self.api_url}/{start_day}?limit=10&offset="
+        f"{offset}&blockSize={block_size}"
+        url_end_date = f"{self.api_url}/{end_day}?limit=10&offset="
+        f"{offset}&blockSize={block_size}"
+        url_both_dates = f"{self.api_url}/{start_day},{end_day}?limit=10&"
+        f"offset={offset}&blockSize={block_size}"
 
         # Perform the HTTP request to obtain the Forecast for the Field
         # Default - 7-day
@@ -917,7 +925,8 @@ class WeatherLocationForecast(WeatherLocation):
         # Loop through each row in the top-level flattened dataframe
         for index, row in forecast_iterator.iterrows():
 
-            # Extract date, lat, lon for insertion into lower-level dataframe outputs
+            # Extract date, lat, lon for insertion into lower-level
+            #  dataframe outputs
             date = row["date"]
             lat = row["location.latitude"]
             lon = row["location.longitude"]
@@ -931,7 +940,7 @@ class WeatherLocationForecast(WeatherLocation):
             # Drop soil moisture and soil temperature columns
             #  (will be extracted as indivdiual dataframes)
             forecast_norm.drop(
-                columns=["soilTemperatures", "soilMoisture",],
+                columns=["soilTemperatures", "soilMoisture"],
                 axis=1,
                 inplace=True,
             )
@@ -968,7 +977,8 @@ class WeatherLocationForecast(WeatherLocation):
         # Loop through each row in the top-level flattened dataframe
         for index, row in forecast_iterator.iterrows():
 
-            # Extract date, lat, lon for insertion into lower-level dataframe outputs
+            # Extract date, lat, lon for insertion into lower-level
+            #  dataframe outputs
             date = row["date"]
             lat = row["location.latitude"]
             lon = row["location.longitude"]
@@ -1003,7 +1013,8 @@ class WeatherLocationForecast(WeatherLocation):
                 columns={"depth": "ground_depth_m"}, inplace=True
             )
 
-            # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
+            # Create multi-index dataframe for date and soil
+            #  depth (rename depth columns? rather long)
             soil_multi_index = forecast_soil_df.set_index(
                 ["date", "ground_depth_m"]
             )
@@ -1442,9 +1453,12 @@ class WeatherFieldForecast(WeatherField):
         url_no_date = (
             f"{self.api_url}?limit=10&offset={offset}&blockSize={block_size}"
         )
-        url_start_date = f"{self.api_url}/{start_day}?limit=10&offset={offset}&blockSize={block_size}"
-        url_end_date = f"{self.api_url}/{end_day}?limit=10&offset={offset}&blockSize={block_size}"
-        url_both_dates = f"{self.api_url}/{start_day},{end_day}?limit=10&offset={offset}&blockSize={block_size}"
+        url_start_date = f"{self.api_url}/{start_day}?limit=10&offset={offset}"
+        f"&blockSize={block_size}"
+        url_end_date = f"{self.api_url}/{end_day}?limit=10&offset={offset}"
+        f"&blockSize={block_size}"
+        url_both_dates = f"{self.api_url}/{start_day},{end_day}?limit=10&"
+        f"offset={offset}&blockSize={block_size}"
 
         # Perform the HTTP request to obtain the Forecast for the Field
         # Default - 7-day
@@ -1485,7 +1499,8 @@ class WeatherFieldForecast(WeatherField):
         # Loop through each row in the top-level flattened dataframe
         for index, row in forecast_iterator.iterrows():
 
-            # Extract date, lat, lon for insertion into lower-level dataframe outputs
+            # Extract date, lat, lon for insertion into lower-level
+            #  dataframe outputs
             date = row["date"]
             lat = row["location.latitude"]
             lon = row["location.longitude"]
@@ -1499,7 +1514,7 @@ class WeatherFieldForecast(WeatherField):
             # Drop soil moisture and soil temperature columns
             #  (will be extracted as indivdiual dataframes)
             forecast_norm.drop(
-                columns=["soilTemperatures", "soilMoisture",],
+                columns=["soilTemperatures", "soilMoisture"],
                 axis=1,
                 inplace=True,
             )
@@ -1537,7 +1552,8 @@ class WeatherFieldForecast(WeatherField):
         # Loop through each row in the top-level flattened dataframe
         for index, row in forecast_iterator.iterrows():
 
-            # Extract date, lat, lon for insertion into lower-level dataframe outputs
+            # Extract date, lat, lon for insertion into lower-level
+            #  dataframe outputs
             date = row["date"]
             lat = row["location.latitude"]
             lon = row["location.longitude"]
@@ -1572,7 +1588,8 @@ class WeatherFieldForecast(WeatherField):
                 columns={"depth": "ground_depth_m"}, inplace=True
             )
 
-            # Create multi-index dataframe for date and soil depth (rename depth columns? rather long)
+            # Create multi-index dataframe for date and soil depth
+            #  (rename depth columns? rather long)
             soil_multi_index = forecast_soil_df.set_index(
                 ["date", "ground_depth_m"]
             )
@@ -1876,7 +1893,8 @@ class AgronomicsLocationValues(AgronomicsLocation):
         # Check if more than one day
         if agronomic_values.get("dailyValues"):
 
-            # Do these with a separate call, just like in Soil accumulation='daily'
+            # Do these with a separate call, just like in
+            #  Soil accumulation='daily'
             #  accumulation='total'
 
             # DAILY ACCUMULATIONS
@@ -1971,7 +1989,8 @@ class AgronomicsLocationValues(AgronomicsLocation):
 
         else:
             raise ValueError(
-                "Invalid value type. Please choose 'single_day' or 'multi_day'."
+                "Invalid value type. Please choose 'single_day' or"
+                " 'multi_day'."
             )
 
         return api_data_gdf
@@ -2054,7 +2073,8 @@ class AgronomicsLocationNorms(AgronomicsLocation):
         "accumulatedGdd.average": "gdd_rolling_total_average",
         "accumulatedGdd.stdDev": "gdd_rolling_total_average_std_dev",
         "accumulatedPrecipitation.average": "precip_rolling_total_average_mm",
-        "accumulatedPrecipitation.stdDev": "precip_rolling_total_average_std_dev_mm",
+        "accumulatedPrecipitation.stdDev": "precip_rolling_total_average_std_"
+        "dev_mm",
         "accumulatedPet.average": "pet_rolling_total_average_mm",
         "accumulatedPet.stdDev": "pet_rolling_total_average_std_dev_mm",
         "accumulatedPpet.average": "ppet_rolling_total_average",
@@ -2213,7 +2233,8 @@ class AgronomicsLocationNorms(AgronomicsLocation):
 
         else:
             raise ValueError(
-                "Invalid value type. Please choose 'single_day' or 'multi_day'."
+                "Invalid value type. Please choose 'single_day' or"
+                " 'multi_day'."
             )
 
         return api_data_gdf
@@ -2334,7 +2355,8 @@ class AgronomicsFieldValues(AgronomicsField):
         # Check if more than one day
         if agronomic_values.get("dailyValues"):
 
-            # Do these with a separate call, just like in Soil accumulation='daily'
+            # Do these with a separate call, just like in
+            #  Soil accumulation='daily'
             #  accumulation='total'
 
             # DAILY ACCUMULATIONS
@@ -2429,7 +2451,8 @@ class AgronomicsFieldValues(AgronomicsField):
 
         else:
             raise ValueError(
-                "Invalid value type. Please choose 'single_day' or 'multi_day'."
+                "Invalid value type. Please choose 'single_day' or"
+                " 'multi_day'."
             )
 
         return api_data_gdf
@@ -2509,7 +2532,8 @@ class AgronomicsFieldNorms(AgronomicsField):
         "accumulatedGdd.average": "gdd_rolling_total_average",
         "accumulatedGdd.stdDev": "gdd_rolling_total_average_std_dev",
         "accumulatedPrecipitation.average": "precip_rolling_total_average_mm",
-        "accumulatedPrecipitation.stdDev": "precip_rolling_total_average_std_dev_mm",
+        "accumulatedPrecipitation.stdDev": "precip_rolling_total_average_std_"
+        "dev_mm",
         "accumulatedPet.average": "pet_rolling_total_average_mm",
         "accumulatedPet.stdDev": "pet_rolling_total_average_std_dev_mm",
         "accumulatedPpet.average": "ppet_rolling_total_average",
@@ -2664,7 +2688,8 @@ class AgronomicsFieldNorms(AgronomicsField):
 
         else:
             raise ValueError(
-                "Invalid value type. Please choose 'single_day' or 'multi_day'."
+                "Invalid value type. Please choose 'single_day' or"
+                " 'multi_day'."
             )
 
         return api_data_gdf
@@ -2760,7 +2785,8 @@ class AgronomicsCrops(Agronomics):
         # Loop through all pages
         while offset < limit * max_pages:
 
-            # Get API response; convert response to dataframe; append to dataframe list
+            # Get API response; convert response to dataframe; append
+            #  to dataframe list
             response = requests.get(
                 f"{self.api_url}?limit={limit}&offset={offset}",
                 headers=auth_headers,
@@ -2946,7 +2972,8 @@ class AgronomicsFieldPlantings(AgronomicsField):
             "field": "field_id",
             "plantingDate": "planting_date",
             "harvestDate": "harvest_date_actual",
-            # What is 'recommendation' field? What output goes here, and where does it come from?
+            # What is 'recommendation' field? What output goes here,
+            #  and where does it come from?
             # {response_json.get("yield").get("units").lower()}',
             "yield.amount": "yield_amount_actual",
             "yield.units": "yield_amount_actual_units",
@@ -2994,7 +3021,7 @@ class AgronomicsFieldPlantings(AgronomicsField):
                 },
                 "harvestDate": projected_harvest_date,
             },
-            "yield": {"amount": yield_amount, "units": yield_units,},
+            "yield": {"amount": yield_amount, "units": yield_units},
             "harvestDate": harvest_date,
         }
 
@@ -3104,7 +3131,7 @@ class AgronomicsFieldPlantings(AgronomicsField):
         message = (
             f"Deleted planting: {planting_id}"
             if response.status_code == 204
-            else f"Could not delete planting."
+            else "Could not delete planting."
         )
 
         return print(message)
@@ -3201,7 +3228,8 @@ class AgronomicsModels(Agronomics):
         # Loop through all pages
         while offset < limit * max_pages:
 
-            # Get API response; convert response to dataframe; append to dataframe list
+            # Get API response; convert response to dataframe; append
+            #  to dataframe list
             response = requests.get(
                 f"{self.api_url}?limit={limit}&offset={offset}",
                 headers=auth_headers,
@@ -3409,7 +3437,8 @@ class AgronomicsPlantings(Agronomics):
             "field": "field_id",
             "plantingDate": "planting_date",
             "harvestDate": "harvest_date_actual",
-            # What is 'recommendation' field? What output goes here, and where does it come from?
+            # What is 'recommendation' field? What output goes here,
+            # and where does it come from?
             # {response_json.get("yield").get("units").lower()}',
             "yield.amount": "yield_amount_actual",
             "yield.units": "yield_amount_actual_units",
