@@ -1,4 +1,4 @@
-Welcome to aWhere API Python's documentation!
+Welcome to aWherePy's documentation!
 ======================================
 
 .. toctree::

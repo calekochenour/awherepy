@@ -2,6 +2,6 @@
 Usage
 =====
 
-To use aWhere API Python in a project::
+To use aWherePy in a project::
 
     import awherepy

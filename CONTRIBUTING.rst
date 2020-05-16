@@ -38,8 +38,8 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-aWhere API Python could always use more documentation, whether as part of the
-official aWhere API Python docs, in docstrings, or even on the web in blog posts,
+aWherePy could always use more documentation, whether as part of the
+official aWherePy docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
@@ -128,4 +128,4 @@ Travis will then deploy to PyPI if tests pass.
 
 Code of Conduct
 ---------------
-Please note that the aWhere API Python project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
+Please note that the aWherePy project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
