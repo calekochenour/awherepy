@@ -3,7 +3,7 @@
 [![Updates](https://pyup.io/repos/github/calekochenour/awherepy/shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Documentation Status](https://readthedocs.org/projects/awherepy/badge/?version=latest)](https://awherepy.readthedocs.io/en/latest/?badge=latest)
-<!-- [![Python 3](https://pyup.io/repos/github/calekochenour/awherepy/python-3-shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/) -->
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # aWherePy
 
