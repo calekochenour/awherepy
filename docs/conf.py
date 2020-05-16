@@ -18,11 +18,11 @@
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
+import awherepy
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import awherepy
 
 # -- General configuration ---------------------------------------------
 
@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'aWhere API Python'
+project = u'aWherePy'
 copyright = u"2020, Cale Kochenour"
 author = u"Cale Kochenour"
 
@@ -129,7 +129,7 @@ latex_elements = {
 # [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'awherepy.tex',
-     u'aWhere API Python Documentation',
+     u'aWherePy Documentation',
      u'Cale Kochenour', 'manual'),
 ]
 
@@ -140,7 +140,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     (master_doc, 'awherepy',
-     u'aWhere API Python Documentation',
+     u'aWherePy Documentation',
      [author], 1)
 ]
 
@@ -152,12 +152,9 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'awherepy',
-     u'aWhere API Python Documentation',
+     u'aWherePy Documentation',
      author,
      'awherepy',
      'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

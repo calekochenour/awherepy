@@ -23,13 +23,13 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'License :: OSI Approved :: BSD 3-Clause License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'
     ],
-    description="aWhere API adapted to Python.",
+    description="Get data from the aWhere API with Python.",
     install_requires=requirements,
     license="BSD 3-Clause License",
     long_description=readme + '\n\n' + history,
