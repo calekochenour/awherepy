@@ -1,9 +1,31 @@
-name: ##
+name: awhere-python
 
 channels:
   - conda-forge
+  #- pypi
   - defaults
 
 dependencies:
-  - ##
-  - ##
+  # Base dependencies
+  - python=3.8
+  - pip
+
+  # Core scientific python
+  - numpy
+  - matplotlib
+  - seaborn
+
+  # Spatial packages
+  - geopandas
+  - earthpy
+
+  # Jupyter Environment
+  - autopep8
+  - jupyterlab
+  - notebook
+  - jupyter_contrib_nbextensions
+  - nbclean
+
+  # Other
+  #- virtualenv
+  #- cookiecutter
