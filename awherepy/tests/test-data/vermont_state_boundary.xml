@@ -1,0 +1,1273 @@
+<?xml version="1.0" encoding="UTF-8"?><MD_Metadata xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:xalan="http://xml.apache.org/xalan" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.isotc211.org/2005/gmd">
+    <fileIdentifier>
+        <gco:CharacterString>1551981510789r5659749005957169</gco:CharacterString>
+    </fileIdentifier>
+    <language>
+        <LanguageCode codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="eng" codeSpace="ISO639-2">eng</LanguageCode>
+    </language>
+    <characterSet>
+        <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+    </characterSet>
+    <hierarchyLevel>
+        <MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset" codeSpace="ISOTC211/19115">dataset</MD_ScopeCode>
+    </hierarchyLevel>
+    <contact>
+        <CI_ResponsibleParty>
+            <individualName>
+                <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+            </individualName>
+            <organisationName>
+                <gco:CharacterString>VT Center for Geographic Information</gco:CharacterString>
+            </organisationName>
+            <contactInfo>
+                <CI_Contact>
+                    <phone>
+                        <CI_Telephone>
+                            <voice>
+                                <gco:CharacterString>802/882-3002</gco:CharacterString>
+                            </voice>
+                            <voice>
+                                <gco:CharacterString>None</gco:CharacterString>
+                            </voice>
+                            <facsimile>
+                                <gco:CharacterString>802/828-3383</gco:CharacterString>
+                            </facsimile>
+                        </CI_Telephone>
+                    </phone>
+                    <address>
+                        <CI_Address>
+                            <deliveryPoint>
+                                <gco:CharacterString>1 National Life Dr., Davis Building, 6th Floor</gco:CharacterString>
+                            </deliveryPoint>
+                            <city>
+                                <gco:CharacterString>Montpelier</gco:CharacterString>
+                            </city>
+                            <administrativeArea>
+                                <gco:CharacterString>VT</gco:CharacterString>
+                            </administrativeArea>
+                            <postalCode>
+                                <gco:CharacterString>05620-0501</gco:CharacterString>
+                            </postalCode>
+                            <country>
+                                <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="US" codeSpace="ISO3166-1">US</Country>
+                            </country>
+                        </CI_Address>
+                    </address>
+                </CI_Contact>
+            </contactInfo>
+            <role>
+                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact" codeSpace="ISOTC211/19115">pointOfContact</CI_RoleCode>
+            </role>
+        </CI_ResponsibleParty>
+    </contact>
+    <dateStamp>
+        <gco:Date>2019-03-07</gco:Date>
+    </dateStamp>
+    <metadataStandardName>
+        <gco:CharacterString>NAP - Metadata</gco:CharacterString>
+    </metadataStandardName>
+    <metadataStandardVersion>
+        <gco:CharacterString>1.2</gco:CharacterString>
+    </metadataStandardVersion>
+    <spatialRepresentationInfo>
+        <MD_VectorSpatialRepresentation>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>37</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType gco:nilReason="missing"/>
+                    <geometricObjectCount>
+                        <gco:Integer>254</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>298</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>4</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType gco:nilReason="missing"/>
+                    <geometricObjectCount>
+                        <gco:Integer>1</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="composite" codeSpace="ISOTC211/19115">composite</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>908</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType gco:nilReason="missing"/>
+                    <geometricObjectCount>
+                        <gco:Integer>11</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType gco:nilReason="missing"/>
+                    <geometricObjectCount>
+                        <gco:Integer>41</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>14</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="complex" codeSpace="ISOTC211/19115">complex</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>298</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>271</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType>
+                        <MD_GeometricObjectTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_GeometricObjectTypeCode" codeListValue="point" codeSpace="ISOTC211/19115">point</MD_GeometricObjectTypeCode>
+                    </geometricObjectType>
+                    <geometricObjectCount>
+                        <gco:Integer>261</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+            <geometricObjects>
+                <MD_GeometricObjects>
+                    <geometricObjectType gco:nilReason="missing"/>
+                    <geometricObjectCount>
+                        <gco:Integer>14</gco:Integer>
+                    </geometricObjectCount>
+                </MD_GeometricObjects>
+            </geometricObjects>
+        </MD_VectorSpatialRepresentation>
+    </spatialRepresentationInfo>
+    <referenceSystemInfo>
+        <MD_ReferenceSystem>
+            <referenceSystemIdentifier>
+                <RS_Identifier>
+                    <code>
+                        <gco:CharacterString>32145</gco:CharacterString>
+                    </code>
+                    <codeSpace>
+                        <gco:CharacterString>EPSG</gco:CharacterString>
+                    </codeSpace>
+                </RS_Identifier>
+            </referenceSystemIdentifier>
+        </MD_ReferenceSystem>
+    </referenceSystemInfo>
+    <identificationInfo>
+        <MD_DataIdentification>
+            <citation>
+                <CI_Citation>
+                    <title>
+                        <gco:CharacterString>BoundaryOther_BNDHASH</gco:CharacterString>
+                    </title>
+                    <date>
+                        <CI_Date>
+                            <date>
+                                <gco:Date>2019-03-06</gco:Date>
+                            </date>
+                            <dateType>
+                                <CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication" codeSpace="ISOTC211/19115">publication</CI_DateTypeCode>
+                            </dateType>
+                        </CI_Date>
+                    </date>
+                    <edition>
+                        <gco:CharacterString>2018B</gco:CharacterString>
+                    </edition>
+                    <citedResponsibleParty>
+                        <CI_ResponsibleParty>
+                            <organisationName>
+                                <gco:CharacterString>VT Center for Geographic Information</gco:CharacterString>
+                            </organisationName>
+                            <contactInfo>
+                                <CI_Contact>
+                                    <address>
+                                        <CI_Address>
+                                            <deliveryPoint>
+                                                <gco:CharacterString>Montpelier VT 05620-0501</gco:CharacterString>
+                                            </deliveryPoint>
+                                        </CI_Address>
+                                    </address>
+                                </CI_Contact>
+                            </contactInfo>
+                            <role>
+                                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="publisher" codeSpace="ISOTC211/19115">publisher</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </citedResponsibleParty>
+                    <citedResponsibleParty>
+                        <CI_ResponsibleParty>
+                            <organisationName>
+                                <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                            </organisationName>
+                            <contactInfo gco:nilReason="missing"/>
+                            <role>
+                                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="originator" codeSpace="ISOTC211/19115">originator</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </citedResponsibleParty>
+                    <presentationForm>
+                        <CI_PresentationFormCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_PresentationFormCode" codeListValue="mapDigital" codeSpace="ISOTC211/19115">mapDigital</CI_PresentationFormCode>
+                    </presentationForm>
+                    <series>
+                        <CI_Series>
+                            <name>
+                                <gco:CharacterString>Vermont village, town, county, state and RPC boundaries, from best available sources</gco:CharacterString>
+                            </name>
+                            <issueIdentification>
+                                <gco:CharacterString>2018B</gco:CharacterString>
+                            </issueIdentification>
+                        </CI_Series>
+                    </series>
+                    <otherCitationDetails>
+                        <gco:CharacterString>Tile Structure - STATE</gco:CharacterString>
+                    </otherCitationDetails>
+                </CI_Citation>
+            </citation>
+            <abstract>
+                <gco:CharacterString>(Link to Metadata) The BNDHASH dataset depicts Vermont villages, towns, counties, Regional Planning Commissions (RPC), and LEPC (Local Emergency Planning Committee) boundaries. It is a composite of generally 'best available' boundaries from various data sources (refer to ARC_SRC and SRC_NOTES attributes). However, this dataset DOES NOT attempt to provide a legally definitive boundary. The layer was originally developed from TBHASH, which was the master VGIS town boundary layer prior to the development and release of BNDHASH. By integrating village, town, county, RPC, and state boundaries into a single layer, VCGI has assured vertical integration of these boundaries and simplified maintenance. BNDHASH also includes annotation text for town, county, and RPC names. BNDHASH includes the following feature classes: 1) VILLAGES = Vermont villages 2) TOWNS = Vermont towns 3) COUNTIES = Vermont counties 4) RPCS = Vermont's Regional Planning Commissions 5) LEPC = Local Emergency Planning Committee boundaries 6) VTBND = Vermont's state boundary The master BNDHASH layer is managed as ESRI geodatabase feature dataset by VCGI. The dataset stores villages, towns, counties, and RPC boundaries as seperate feature classes with a set of topology rules which binds the features. This arrangement assures vertical integration of the various boundaries. VCGI will update this layer on an annual basis by reviewing records housed in the VT State Archives - Secretary of State's Office. VCGI also welcomes documented information from VGIS users which identify boundary errors. NOTE - VCGI has NOT attempted to create a legally definitive boundary layer. Instead the idea is to maintain an integrated village/town/county/rpc boundary layer which provides for a reasonably accurate representation of these boundaries (refer to ARC_SRC and SRC_NOTES). BNDHASH includes all counties, towns, and villages listed in &amp;quot;Population and Local Government - State of Vermont - 2000&amp;quot; published by the Secretary of State. BNDHASH may include changes endorsed by the Legislature since the publication of this document in 2000 (eg: villages merged with towns). Utlimately the Vermont Secratary of State's Office and the VT Legislature are responsible for maintaining information which accurately describes the location of these boundaries. BNDHASH should be used for general mapping purposes only. * Users who wish to determine which boundaries are different from the original TBHASH boundaries should refer to the ORIG_ARC field in the BOUNDARY_BNDHASH_LINE (line featue with attributes). Also, updates to BNDHASH are tracked by version number (ex: 2003A). The UPDACT field is used to track changes between versions. The UPDACT field is flushed between versions.</gco:CharacterString>
+            </abstract>
+            <purpose>
+                <gco:CharacterString>Depict Vermont's village, town, county, RPC, administrative, LEPC, and state boundary lines.</gco:CharacterString>
+            </purpose>
+            <credit>
+                <gco:CharacterString>VCGI</gco:CharacterString>
+            </credit>
+            <status>
+                <MD_ProgressCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ProgressCode" codeListValue="completed" codeSpace="ISOTC211/19115">completed</MD_ProgressCode>
+            </status>
+            <pointOfContact>
+                <CI_ResponsibleParty>
+                    <organisationName>
+                        <gco:CharacterString>VT Center for Geographic Information</gco:CharacterString>
+                    </organisationName>
+                    <contactInfo>
+                        <CI_Contact>
+                            <phone>
+                                <CI_Telephone>
+                                    <voice>
+                                        <gco:CharacterString>802/882-3002</gco:CharacterString>
+                                    </voice>
+                                    <voice>
+                                        <gco:CharacterString>None</gco:CharacterString>
+                                    </voice>
+                                    <facsimile>
+                                        <gco:CharacterString>802/828-3383</gco:CharacterString>
+                                    </facsimile>
+                                </CI_Telephone>
+                            </phone>
+                            <address>
+                                <CI_Address>
+                                    <deliveryPoint>
+                                        <gco:CharacterString>1 National Life Dr., Davis Building, 6th Floor</gco:CharacterString>
+                                    </deliveryPoint>
+                                    <city>
+                                        <gco:CharacterString>Montpelier</gco:CharacterString>
+                                    </city>
+                                    <administrativeArea>
+                                        <gco:CharacterString>VT</gco:CharacterString>
+                                    </administrativeArea>
+                                    <postalCode>
+                                        <gco:CharacterString>05620-0501</gco:CharacterString>
+                                    </postalCode>
+                                    <country>
+                                        <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="US" codeSpace="ISO3166-1">US</Country>
+                                    </country>
+                                    <electronicMailAddress>
+                                        <gco:CharacterString>accd.vcgiinfo@vermont.gov</gco:CharacterString>
+                                    </electronicMailAddress>
+                                </CI_Address>
+                            </address>
+                            <hoursOfService>
+                                <gco:CharacterString>9am - 5pm, M-F</gco:CharacterString>
+                            </hoursOfService>
+                        </CI_Contact>
+                    </contactInfo>
+                    <role>
+                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact" codeSpace="ISOTC211/19115">pointOfContact</CI_RoleCode>
+                    </role>
+                </CI_ResponsibleParty>
+            </pointOfContact>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place" codeSpace="ISOTC211/19115">place</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                    <thesaurusName>
+                        <CI_Citation>
+                            <title>
+                                <gco:CharacterString>ISO 19115 Topic Category</gco:CharacterString>
+                            </title>
+                            <date gco:nilReason="missing"/>
+                            <citedResponsibleParty gco:nilReason="missing"/>
+                        </CI_Citation>
+                    </thesaurusName>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <descriptiveKeywords>
+                <MD_Keywords>
+                    <keyword>
+                        <gco:CharacterString>boundaries</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>RPC</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>villages</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>county</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>Vermont</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>towns</gco:CharacterString>
+                    </keyword>
+                    <keyword>
+                        <gco:CharacterString>LEPC</gco:CharacterString>
+                    </keyword>
+                    <type>
+                        <MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme" codeSpace="ISOTC211/19115">theme</MD_KeywordTypeCode>
+                    </type>
+                </MD_Keywords>
+            </descriptiveKeywords>
+            <resourceConstraints>
+                <MD_Constraints>
+                    <useLimitation>
+                        <gco:CharacterString>VCGI and the State of VT make no representations of any kind, including but not limited to the warranties of merchantability or fitness for a particular use, nor are any such warranties to be implied with respect to the data.</gco:CharacterString>
+                    </useLimitation>
+                </MD_Constraints>
+            </resourceConstraints>
+            <resourceConstraints>
+                <MD_LegalConstraints>
+                    <useLimitation>
+                        <gco:CharacterString>VCGI and the State of Vermont make no representations of any kind, including but not limited to the warranties of merchantability or fitness for a particular use, nor are any such warranties to be implied with respect to the data.</gco:CharacterString>
+                    </useLimitation>
+                    <otherConstraints>
+                        <gco:CharacterString>VCGI and the State of Vermont make no representations of any kind, including but not limited to the warranties of merchantability or fitness for a particular use, nor are any such warranties to be implied with respect to the data.</gco:CharacterString>
+                    </otherConstraints>
+                </MD_LegalConstraints>
+            </resourceConstraints>
+            <resourceConstraints>
+                <MD_SecurityConstraints>
+                    <classification>
+                        <MD_ClassificationCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ClassificationCode" codeListValue="unclassified" codeSpace="ISOTC211/19115">unclassified</MD_ClassificationCode>
+                    </classification>
+                    <classificationSystem>
+                        <gco:CharacterString>N/A</gco:CharacterString>
+                    </classificationSystem>
+                    <handlingDescription>
+                        <gco:CharacterString>No restrictions</gco:CharacterString>
+                    </handlingDescription>
+                </MD_SecurityConstraints>
+            </resourceConstraints>
+            <spatialRepresentationType>
+                <MD_SpatialRepresentationTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="vector" codeSpace="ISOTC211/19115">vector</MD_SpatialRepresentationTypeCode>
+            </spatialRepresentationType>
+            <language>
+                <LanguageCode codeList="http://www.loc.gov/standards/iso639-2/php/code_list.php" codeListValue="eng" codeSpace="ISO639-2">eng</LanguageCode>
+            </language>
+            <characterSet>
+                <MD_CharacterSetCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8" codeSpace="ISOTC211/19115">utf8</MD_CharacterSetCode>
+            </characterSet>
+            <topicCategory>
+                <MD_TopicCategoryCode>boundaries</MD_TopicCategoryCode>
+            </topicCategory>
+            <environmentDescription>
+                <gco:CharacterString>ESRI ArcGIS software</gco:CharacterString>
+            </environmentDescription>
+            <extent>
+                <EX_Extent>
+                    <geographicElement>
+                        <EX_GeographicBoundingBox>
+                            <westBoundLongitude>
+                                <gco:Decimal>-73.454162</gco:Decimal>
+                            </westBoundLongitude>
+                            <eastBoundLongitude>
+                                <gco:Decimal>-71.465281</gco:Decimal>
+                            </eastBoundLongitude>
+                            <southBoundLatitude>
+                                <gco:Decimal>42.722789</gco:Decimal>
+                            </southBoundLatitude>
+                            <northBoundLatitude>
+                                <gco:Decimal>45.018361</gco:Decimal>
+                            </northBoundLatitude>
+                        </EX_GeographicBoundingBox>
+                    </geographicElement>
+                </EX_Extent>
+            </extent>
+            <extent>
+                <EX_Extent>
+                    <description>
+                        <gco:CharacterString>Publication Date</gco:CharacterString>
+                    </description>
+                    <temporalElement>
+                        <EX_TemporalExtent>
+                            <extent>
+                                <gml:TimeInstant gml:id="N65752">
+                                    <gml:timePosition>2018-11-05</gml:timePosition>
+                                </gml:TimeInstant>
+                            </extent>
+                        </EX_TemporalExtent>
+                    </temporalElement>
+                </EX_Extent>
+            </extent>
+        </MD_DataIdentification>
+    </identificationInfo>
+    <distributionInfo>
+        <MD_Distribution>
+            <distributionFormat>
+                <MD_Format>
+                    <name>
+                        <gco:CharacterString>SHP</gco:CharacterString>
+                    </name>
+                    <version gco:nilReason="missing"/>
+                    <specification>
+                        <gco:CharacterString>ESRI Shapefile format (compressed to ZIP format)</gco:CharacterString>
+                    </specification>
+                    <fileDecompressionTechnique>
+                        <gco:CharacterString>ZIP decompression software</gco:CharacterString>
+                    </fileDecompressionTechnique>
+                </MD_Format>
+            </distributionFormat>
+            <distributor>
+                <MD_Distributor>
+                    <distributorContact>
+                        <CI_ResponsibleParty>
+                            <organisationName>
+                                <gco:CharacterString>VT Center for Geographic Information</gco:CharacterString>
+                            </organisationName>
+                            <contactInfo>
+                                <CI_Contact>
+                                    <phone>
+                                        <CI_Telephone>
+                                            <voice>
+                                                <gco:CharacterString>802/882-3002</gco:CharacterString>
+                                            </voice>
+                                            <voice>
+                                                <gco:CharacterString>None</gco:CharacterString>
+                                            </voice>
+                                            <facsimile>
+                                                <gco:CharacterString>802/828-3383</gco:CharacterString>
+                                            </facsimile>
+                                        </CI_Telephone>
+                                    </phone>
+                                    <address>
+                                        <CI_Address>
+                                            <deliveryPoint>
+                                                <gco:CharacterString>1 National Life Dr., Davis Building, 6th Floor</gco:CharacterString>
+                                            </deliveryPoint>
+                                            <city>
+                                                <gco:CharacterString>Montpelier</gco:CharacterString>
+                                            </city>
+                                            <administrativeArea>
+                                                <gco:CharacterString>VT</gco:CharacterString>
+                                            </administrativeArea>
+                                            <postalCode>
+                                                <gco:CharacterString>05620-0501</gco:CharacterString>
+                                            </postalCode>
+                                            <country>
+                                                <Country codeList="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" codeListValue="US" codeSpace="ISO3166-1">US</Country>
+                                            </country>
+                                            <electronicMailAddress>
+                                                <gco:CharacterString>accd.vcgiinfo@vermont.gov</gco:CharacterString>
+                                            </electronicMailAddress>
+                                        </CI_Address>
+                                    </address>
+                                    <hoursOfService>
+                                        <gco:CharacterString>9am - 5pm, M-F</gco:CharacterString>
+                                    </hoursOfService>
+                                </CI_Contact>
+                            </contactInfo>
+                            <role>
+                                <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="distributor" codeSpace="ISOTC211/19115">distributor</CI_RoleCode>
+                            </role>
+                        </CI_ResponsibleParty>
+                    </distributorContact>
+                    <distributionOrderProcess>
+                        <MD_StandardOrderProcess>
+                            <fees>
+                                <gco:CharacterString>No charge when downloading from the internet, and when no custom processing is required.</gco:CharacterString>
+                            </fees>
+                            <plannedAvailableDateTime>
+                                <gco:DateTime>2019-03-06T00:00:00</gco:DateTime>
+                            </plannedAvailableDateTime>
+                        </MD_StandardOrderProcess>
+                    </distributionOrderProcess>
+                </MD_Distributor>
+            </distributor>
+            <transferOptions>
+                <MD_DigitalTransferOptions/>
+            </transferOptions>
+        </MD_Distribution>
+    </distributionInfo>
+    <dataQualityInfo>
+        <DQ_DataQuality>
+            <scope>
+                <DQ_Scope>
+                    <level>
+                        <MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ScopeCode" codeListValue="dataset" codeSpace="ISOTC211/19115">dataset</MD_ScopeCode>
+                    </level>
+                </DQ_Scope>
+            </scope>
+            <report>
+                <DQ_CompletenessCommission>
+                    <evaluationMethodDescription>
+                        <gco:CharacterString>VCGI has verfied all villages, towns, counties, and RPCs are represented in the BHDHASH data layer. As noted, BNDHASH was developed from TBHASH (which has been archived). Boundaries have been derived from 'best available' sources, however, town and other boundaries are notoriously difficult to accurately locate. As a result, this data should be used with caution and for general mapping purposes only! KNOWN ISSUES AND SPECIAL NOTES: There are a number of town boundary and other boundary issues that have been identified and documented by VCGI, however, for various reasons VCGI has been unable to resolve them. Some of these issues have been identified by other organizations. 1) Barnard/Stockbridge boundary: Barnard's parcel data (2000) depicts a jog in the southwest corner of town which overlaps Stockbridge. VCGI chose to stick with the current representation (straight line) since the jog could not be validated. 2) Williamstown/Northfield boundary: The VT General Assembly, through Act M16 1988, commissioned a survey to accurately establish the boundary lines between Williamstown/Northfield and Brookfield/Roxbury. These boundaries also define the boundary between Orange and Washington Counties. The Williamstown/Northfield survey was completed in 1989 and was ratified by the General Assembly via Act M-7 1989. VCGI has a hardcopy of the survey (Dubois &amp; King, Inc.). VCGI contacted the surveyor to get a digital copy of the boundaries, however, the surveyor wasn't able to locate the digital file. VCGI visually check the BNDHASH Williamstown/Northfield boundary relative to the hardcopy survey and determined that the BNDHASH boundary is reasonably accurate. 3) Act 129 1994 Brandon/Goshen: VCGI used an ArcView 3.2a COGO extension to determine that the existing BNDHASH boundary was within 50 meters of the line defined in Act 129. As a result, the boundary was not modified. 4) Act M-20 1988 Hinesburg/Starksboro: VCGI did not modify the BNDHASH line because the description in the act was too difficult to translate. 5) Northfield/Warren town line: Parcel data from these two towns overlap eachother. As a result, VCGI used what was depicted on the 24K USGS topo map, which is consistent with what Warren had in their 1992 parcel data. 6) Ludlow/Mt. Holly boundary: Parcel data from these two towns overlap each other. An effort was made to determine the boundary based on the 1994 Legislative Act, H. 602, but this boundary was never surveyed. Used most recent 2015 Ludlow parcel data instead.</gco:CharacterString>
+                    </evaluationMethodDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_CompletenessCommission>
+            </report>
+            <report>
+                <DQ_TopologicalConsistency>
+                    <evaluationMethodDescription>
+                        <gco:CharacterString>Dataset checked for correct topology based on topology rules. Validated that BNDTYPE attribute is consistent within BNDHASH_LINE.</gco:CharacterString>
+                    </evaluationMethodDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_TopologicalConsistency>
+            </report>
+            <report>
+                <DQ_ConceptualConsistency>
+                    <measureDescription>
+                        <gco:CharacterString>Dataset checked for correct topology based on topology rules. Validated that BNDTYPE attribute is consistent within BNDHASH_LINE.</gco:CharacterString>
+                    </measureDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_ConceptualConsistency>
+            </report>
+            <report>
+                <DQ_CompletenessOmission>
+                    <measureDescription>
+                        <gco:CharacterString>VCGI has verfied all villages, towns, counties, and RPCs are represented in the BHDHASH data layer. As noted, BNDHASH was developed from TBHASH (which has been archived). Boundaries have been derived from 'best available' sources, however, town and other boundaries are notoriously difficult to accurately locate. As a result, this data should be used with caution and for general mapping purposes only! KNOWN ISSUES AND SPECIAL NOTES: There are a number of town boundary and other boundary issues that have been identified and documented by VCGI, however, for various reasons VCGI has been unable to resolve them. Some of these issues have been identified by other organizations. 1) Barnard/Stockbridge boundary: Barnard's parcel data (2000) depicts a jog in the southwest corner of town which overlaps Stockbridge. VCGI chose to stick with the current representation (straight line) since the jog could not be validated. 2) Williamstown/Northfield boundary: The VT General Assembly, through Act M16 1988, commissioned a survey to accurately establish the boundary lines between Williamstown/Northfield and Brookfield/Roxbury. These boundaries also define the boundary between Orange and Washington Counties. The Williamstown/Northfield survey was completed in 1989 and was ratified by the General Assembly via Act M-7 1989. VCGI has a hardcopy of the survey (Dubois &amp; King, Inc.). VCGI contacted the surveyor to get a digital copy of the boundaries, however, the surveyor wasn't able to locate the digital file. VCGI visually check the BNDHASH Williamstown/Northfield boundary relative to the hardcopy survey and determined that the BNDHASH boundary is reasonably accurate. 3) Act 129 1994 Brandon/Goshen: VCGI used an ArcView 3.2a COGO extension to determine that the existing BNDHASH boundary was within 50 meters of the line defined in Act 129. As a result, the boundary was not modified. 4) Act M-20 1988 Hinesburg/Starksboro: VCGI did not modify the BNDHASH line because the description in the act was too difficult to translate. 5) Northfield/Warren town line: Parcel data from these two towns overlap eachother. As a result, VCGI used what was depicted on the 24K USGS topo map, which is consistent with what Warren had in their 1992 parcel data. 6) Ludlow/Mt. Holly boundary: Parcel data from these two towns overlap each other. An effort was made to determine the boundary based on the 1994 Legislative Act, H. 602, but this boundary was never surveyed. Used most recent 2015 Ludlow parcel data instead.</gco:CharacterString>
+                    </measureDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_CompletenessOmission>
+            </report>
+            <report>
+                <DQ_QuantitativeAttributeAccuracy>
+                    <measureDescription>
+                        <gco:CharacterString>VCGI has verified that all features have valid attribute values. Values have been validated against the VGIS Geographic Area Codes (geocodes) standard and data product.</gco:CharacterString>
+                    </measureDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_QuantitativeAttributeAccuracy>
+            </report>
+            <report>
+                <DQ_AbsoluteExternalPositionalAccuracy>
+                    <measureDescription>
+                        <gco:CharacterString>The accuracy of each feature depends on its source data (refer to ARC_SRC and SRC_NOTES). In general, parcel level data can be considered more accurate than lines digitized from RF 24,000 scale topographic maps (which are very approximate). However, town boundaries are notoriously difficult to accurately locate. Where two adjoining towns have parcel-level data, the common boundary can often disagree by hundreds of meters. VCGI used the most recent parcel data, however, this does not mean that it is more accurate spatially. It is assumed that more recent parcel data is more accurate. VCGI has used survey data (when available in digital format) to update boundaries when available. These are assumed to be the most accurate.</gco:CharacterString>
+                    </measureDescription>
+                    <result gco:nilReason="missing"/>
+                </DQ_AbsoluteExternalPositionalAccuracy>
+            </report>
+            <lineage>
+                <LI_Lineage>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Release 2005A. Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2005A) --------------------------------------------- 1) MIDDLETOWN SPRINGS, IRA, POULTNEY, TINMOUTH, AND WELLS TOWN LINES. Got a DWG file from the surveyor. http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2006/acts/ACTM002.HTM - ACTION: Used CAD file provided by surveyor to revised boundary. THE BOUNDARY HAS CHANGED SIGNIFICANTLY FROM WHAT WAS IN THE PREVIOUS VERSION OF BNDASH. CAD file included with BNDHASH distribution under the ./cadfiles folder. 2) Baltimore, Cavendish, Weathersfield town line. There was no survey on file at the state archives as of 7/2004. Contacted surveyor (Gary Rapanotti 875-5000) got a DWG file of the new line. http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2004/acts/ACTM019.HTM</gco:CharacterString>
+                            </description>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Original release of TBHASH.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>1993-12-16T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Alice Doyle</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>Project Manager</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Revision of TBHASH. Changed TOWNNAME of SHERBURNE to KILLINGTON. Updated FIPS6 from 21105 to 21047. Update annotation. Revised metadata. Loaded into VGIS Data Warehouse.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2001-06-22T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Release 2003A. Major update of TBHASH. Renamed to BNDHASH. Integration of villages, counties, and RPC boundaries to create a vertically integrated layer with the best available village, town, county, RPC, and state BND data. These features are now managed as ArcInfo coverage REGIONS. Detailed summary below. This was the initial release of BNDHASH, which replaced TBHASH. VCGI has performed an extensive review of various information sources in order to identify village, town, county, and RPC boundary changes. Sources included records maintained by the Secretary of State at the Vermont State Archives in Montpelier. The VT Agency of Transportation also provided information regarding boundary errors or changes. Finally, VCGI asked all RPCs to provide information regarding boundary changes or errors (BCRC,CCRPC,LCPC,TRORC,WRC provided information). Refer to the details below: Significant Boundary Changes - Summary (2003A) ---------------------------------------------- Most of the village, town, and county boundary changes were minor tweaks based on better information or Legislative Act and Resolves noted in the State Archives. However, there were a few significant changes (some of which have been wrong for a long time). 1) Belvidere/Bakersfield (Lamoille/Franklin County) boundary: In 1896 Act 125 "An Act to Annex certain portions of Avery's Gore to the Town of Belvidere" was enacted by the VT General Assembly. This was once a Gore between Belvidere and Bakersfield that was annexed to Belvidere via Act 125 of 1896. However, USGS topographic maps and other maps did not depict this boundary change accurately. This is also a county boundary (Franklin/Lamoille), which makes the change more significant. VCGI correct this boundary error by using Belvidere's parcel data (provided by the Lamoille County RPC), which apparently was developed in consultation with town officials. However, VCGI did not independently validate this delineation via a ground survey or any other source. 2) Perley's Gore: In 1986 the VT General Assembly, through Act M-13 "An Act relating to Establishing a boundary line between the towns of Enosburg, Bakersfield, and Montgomery", modified these town boundaries to correct an error in the original survey used to established the boundaries. VCGI modified the boundary based on information provied by VTrans. The boundary change provided by VTrans only modified the border between Bakersfield and Enosburg (jog to allocate TH-31 completely to Enosburg). This change is consistent with Act M-13, however, VCGI did not independently validate the change against "Plan of Perley's Gore, December 1985, By Harvey W. Chaffee, RLS No. 558". 3) Pownal/VT/NY state line: The VT/NY state line in Pownal was modified to match Pownal's parcel data. State Archives (2003A) ---------------------- VCGI reviewed a document maintained by the Secretary of State entitled "Vermont Municipalities: An Index to their Charters and Special Acts - 1986 - 1997". This document included a listing of all village (merged with towns), town, and county boundary changes between 1986 and 1997. VCGI made all necessary changes to the BNDHASH boundary lines based on this information. VCGI also searched the VT Legislative "Acts and Resolves" online for boundary changes between 1998 and 2003 (http://www.leg.state.vt.us/docs/acts.cfm). Four changes were identified, including: - http://www.leg.state.vt.us/docs/2004/acts/ACTM004.HTM MERGING THE VILLAGE OF MILTON INTO THE TOWN OF MILTON - http://www.leg.state.vt.us/DOCS/2002/ACTS/ACTM009.HTM ALTERATION OF THE TOWN LINE BETWEEN THE CITY OF RUTLAND AND THE TOWN OF RUTLAND - http://www.leg.state.vt.us/DOCS/1998/ACTS/ACTM011.HTM MERGER OF THE TOWN OF RICHFORD AND THE VILLAGE OF RICHFORD VTrans Data (2003A) ------------------- VTrans provided VCGI with a town boundary layer called TB_MASTER. VCGI ran a spatial overlay operation between TB_MASTER and the original TBHASH layer to identify boundary changes. Changes were implemented in BNDHASH and included: 1) Burlington/Colchester/South Burlington/Winooski - boundaries shared with Burlington updated based on good boundary supplied by Jay Appleton of City of Burlington. 2) Waterbury/Moretown/Duxbury - corner updated to work better geometrically, match to the USGS 1:24,000 topo map. 3) Worcester/Stowe/Middlesex/Waterbury - corner moved to make this a true 4 corner and not angled off. The intersection matches the 1:24,000 USGS Topo Maps and looks better geometrically. 4) Perley's gore as noted in "Significant Boundary Changes" above.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2003-06-17T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Added ADMIN attribute to REGION.TOWNS attribute table. ADMIN identifies which Administrative District (created by Executive Order #7-95) the town is located in. Updated metadata to reflect changed. Loaded data into VGIS Data Warehouse.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2003-10-10T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Release 2004A. Added four missing villages (Groton, Northfield, South Ryegate, and Townshend) to REGION.VILLAGES. Dropped Upper Vally-Lake Sunapee Commission from REGION.RPC. Added new item/field to BNDHASH.AAT file called BNDTYPE (similar to old TBHASH TBLINE attribute). Loaded revised data into VGIS Data Warehouse. Detailed summary below. Significant Boundary Changes - Summary (2004A) --------------------------------------------- 1) Villages: The following villages have been added REGION.VILLAGES subclass A) Groton Village B) Northfield Village C) South Ryegate Village Lighting District D) Townshend Village NOTES: A) Groton, Ryegate, and Townshend village are not recognized by the U.S. Census Bureau. As a result, their FIPS10 values are a concatenate of the FIPS6 + 999. B) Groton Village: "Groton Village is listed here, even though the town voated to assume all village functions in 1965 and 1967. The Census Bureau no longer recognizes is as a village. Vermont law suggests that merger is the only way out for a village. Groton is still a village de jure, which is why we include it here." Source Publication: "Population and Local Government - State of Vermont - 2000 - Published by Deborah L. Markowitz, Secretary of State". C) South Ryegate Village Lighting District: "Although its name is 'Lighting District', this municipality is treated as a village for most purposes, except that the Census doesn't appear to have counted its population separately from the town for many years. The vagueness of the date of its organization is ude to poor recordkeeping." Source Publication: "Population and Local Government - State of Vermont - 2000 - Published by Deborah L. Markowitz, Secretary of State". 2) RPC Boundaries: The Upper Valley-Lake Sunapee Commission (UV) no longer serves any towns in Vermont (as of 7/1/2004). The towns formerly served by UV have been reallocated to Two Rivers-Ottauquechee Regional Planning Commission. BNDHASH's REGION.RPC subclass has been updated to reflect this change. Legislative "Acts and Resolves - 2004 Session" (2004A) ----------------------------------------------------- VCGI searched the VT Legislative "Acts and Resolves" online for boundary changes acted upon during the 2004 session (http://www.leg.state.vt.us/docs/acts.cfm). Two acts were identified, including: - http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2004/acts/ACTM019.HTM BALTIMORE, CAVENDISH, AND WEATHERSFIELD TOWN LINES NOTES: VCGI attempted to get a copy of the Baltimore/Cavendish/Weathersfield survey from the State Archives as specified in the Act, however, the Archives had not received any information from the either the towns or surveyor as specified in the Act.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2004-07-13T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Release 2004B. Dropped Bradford Village. Corrected spelling of "Buels Gore". Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2004B) --------------------------------------------- 1) Villages: Bradford Village has been dropped from REGION.VILLAGES. Supporting documentation http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2004/acts/ACTM010.HTM Minor Updates (2004B) --------------------- 1) Fixed a spelling error. The TOWNNAME "BUELLS GORE" was changed to "BUELS GORE" in the REGION.TOWNS feature class.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2004-12-17T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Release 2006A. Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2006A) --------------------------------------------- - NONE Minor Updates (2006A) --------------------- 1) Minor topological corrections. 2) Changed 'Alburg' to 'Alburgh' in TOWNS and VILLAGES feature classes. The Vermont Board of Libraries approvided the towns request to add the 'h' (http://www.burlingtonfreepress.com/apps/pbcs.dll/article?AID=/20060419/NEWS/60419002). The Board had not posted the April 2006 minutes as of 7/7/2006 to the following website http://dol.state.vt.us/gopher_root5/libraries/bol/BOL.HTML.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2006-07-21T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Revised BNDHASH (2007A). Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2007A) --------------------------------------------- 1) Bakersfield/Fairfield surveyed boundary (CAD file). M-9. AN ACT RELATING TO ESTABLISHING THE TOWN LINE BETWEEN BAKERSFIELD AND FAIRFIELD. http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2008/acts/ACTM009.HTM 2) Burke/Kirby surveyed boundary (CAD file). M-12. AN ACT RELATING TO ESTABLISHING THE TOWN LINE BETWEEN BURKE AND KIRBY. b. http://www.leg.state.vt.us/docs/legdoc.cfm?URL=/docs/2008/acts/ACTM012.HTM 3) Brookfield/Roxbury surveyed boundary (CAD file). Survey: Douglas Henson (656). Project # 98123. Survey Date: 12/3/1998 - Revised 2/5/2007. Lamoureux &amp; Dickinson. 802-878-4450. Plat Sheet #1 Minor Updates (2007A) --------------------- 1) CCRPC town boundary corrections. Colchester/Milton town line and Hinesburg/Richmond/Williston town line. 2) NWRPC town boundary corrections. Saint Albans City/Town line. 3) TRORC town boundary corrections. Pittsfield/Chittenden town line. Plymouth town line.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2008-02-12T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Annual review of data. VCGI did not identify any Legislative or other legal changes to municipal or village boundaries since the previous BNDHASH update (2007A). RPCs did not submit any corrections. Therefore no changes were made to BNDHASH in 2008.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2008-08-19T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Revised BNDHASH (2010A). Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2010A) --------------------------------------------- 1) Barnard/Pomfret surveyed boundary. Survey: Robert W Farnsworth (No. 21). Barnard/Pomfret State Road Area. Drawing number 08-1969. Data provided by Two Rivers RPC in VT. Provided as shapefile and PDF. 2) Adjusted US/CA border based on USGS boundary monument shapefile. Provided to VCGI by USGS. Note from USGS. The official boundary file I provided was obtained by the International Boundary Commission. The horizontal positions obtained by Canada and the US for the same monuments varied up to 33 feet. The temporary solution was to average between the two solutions. Bottom line is that the data varies at places. There is an ongoing joint project between CN and US to correctly GPS the positions. The problem with creating a corrected file is that the Official Boundary File is used as the join line for datasets between the two countries. If you do not use that file there will be data gaps or duplicate coverages. Minor Updates (2010A) --------------------- 1) Change Ferrisburg to Ferrisburgh per GNIS and VT Board of Libraries 2) Made minor adjustments to VT/NY border based on monumenation provided by VTrans.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2010-11-12T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Revised BNDHASH (2011A). The Boundary_BNDHASH_region_admin FC has been dropped because it was never adopted by the state. Loaded revised data into VGIS Data Warehouse. Significant Boundary Changes - Summary (2011A) --------------------------------------------- 1) Saint George / Shelburne Town line. Adjusted to match Survey &#147;Town Line Agreement between Towns of: Shelburne &amp; St. George Chittenden County State of Vermont&#148; conducted by a licensed land surveyor employed by Civil Engineering Associates, Inc. and dated March 9, 2011. Boundary codified by VT Legislature in 2011 H. 452 (ACT 0015). Recieved copy of survey boundary in shapefile format from CCRPC. 2) Braintree / Rochester town line. Adjusted based on latest matching Braintree/Rochester parcel data provided by TRORC. 3) MA / VT boundary. Adjusted MA / VT boundary based on survey point data provided by MassGIS http://www.mass.gov/mgis/townssurvey.htm which was derived from 68-volume MA "Harbor and Lands Commission Town Boundary Atlas". Minor Updates (2011A) --------------------- 1) Tweaked Norwich/Harford boundary based on the latest parcel data to correct a problem. 2) Updated LEPC boundaries based on new information. 3) Adjusted boundaries for several villages to match 2011 boundary information provided by VTrans from their HMS system.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2012-02-16T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Steve Sharp</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Revised BNDHASH (2016A). Renamed BNDHASH_REGION_* to BNDHASH_POLY_* feature classes. Created Geodatabase Domains for all coded attribute values. Identified differences between VCGI BNDHASH and VTrans TownIndex layer via Union, and exported as feature class to address inconsistencies. Made appropriate edits and loaded revised data into VCGI Open Geodata Portal. Incorporated RPC updates in the error identification layer and resolved based on best available data. Significant Boundary Changes - Summary (2016A) --------------------------------------------- 1) NH / VT boundary. Adjusted NH / VT boundary based on VTrans edits in accordance with border markers established by Supreme Court 289 U.S. 593 decision identifying boundary as low water mark on western side of Connecticut River. 2) Ludlow / Mt. Holly boundary. Used most recent 2015 Ludlow parcel data as a stopgap given the absence of usable ground survey boundary line. 3) Rutland / West Rutland boundary. Updated boundary based on Richard Lunna survey data (CAD file) from 1998. 4) Removed merged villages. Northfield Village/Town &#150; 2013 &#150; North Westminster / Westminster &#150; 2010 &#150; Cabot Village/Town &#150; 2010 Minor Updates (2016A) --------------------- 1) Adjusted boundaries in several cases where VTrans provided documentation in their TownIndex layer to justify edits based on combination of HMS index, VHD, new parcel data, or survey data. 2) Resolved peninsula issue between Ryegate, NH, and Newbury. 3) Used recent parcel data to adjust boundaries.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2016-11-02T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Jenny Bower</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Technician</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Added and populated fields to some feature classes for inclusion of codes per VT Geographic Area Codes Standard. More specifically, added STATEGEOID field to BNDHASH_poly_vtbnd, CNTYGEOID field to BNDHASH_poly_counties, TOWNGEOID field to BNDHASH_poly_towns, and VILLGEOID field to BNDHASH_poly_villages.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2018-06-30T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Ivan Brown</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Updated/revised the dataset per various resources (including town parcel-maps, surveys, signing, and property transfer) from various organizations (including VTrans, E911, and towns). Town-name Enosburg was changed to Enosburgh to follow GNIS standard. To reflect its dissolution, Waterbury Village was removed from BNDHASH_POLY_VILLAGES feature-class.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2018-11-05T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Joe Dippel</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <processStep>
+                        <LI_ProcessStep>
+                            <description>
+                                <gco:CharacterString>Posted the updated dataset to the Vermont Open Geodata Portal--as edition 2018B.</gco:CharacterString>
+                            </description>
+                            <dateTime>
+                                <gco:DateTime>2019-03-06T00:00:00</gco:DateTime>
+                            </dateTime>
+                            <processor>
+                                <CI_ResponsibleParty>
+                                    <individualName>
+                                        <gco:CharacterString>Ivan Brown</gco:CharacterString>
+                                    </individualName>
+                                    <organisationName>
+                                        <gco:CharacterString>VCGI</gco:CharacterString>
+                                    </organisationName>
+                                    <positionName>
+                                        <gco:CharacterString>GIS Database Administrator</gco:CharacterString>
+                                    </positionName>
+                                    <contactInfo gco:nilReason="missing"/>
+                                    <role>
+                                        <CI_RoleCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="processor" codeSpace="ISOTC211/19115">processor</CI_RoleCode>
+                                    </role>
+                                </CI_ResponsibleParty>
+                            </processor>
+                        </LI_ProcessStep>
+                    </processStep>
+                    <source>
+                        <LI_Source>
+                            <description>
+                                <gco:CharacterString>BNDHASH was based on TBHASH. Coverage TBHASH was a composite of generally 'best available' town boundaries, from various data sources. These include VGIS data layers BoundaryTown_TB24, TWNBND, and TB (from parcel data), and coverage CCTB for Chittenden County. All of these sources were digital, in Arc/Info format. Detailed documentation is available for each data layer; brief descriptions are given below. TB24 - Data source is USGS RF 24000 scale topographic maps, pre-1990 dates, original media 95% paper, 5% mylar, digital files obtained from EPA Region 1. TWNBND - Covers Addison, Orange, Rutland, and Windham counties (plus a few adjacent towns). Various data sources, including town parcel maps, Green Mountain National Forest Survey maps, State Archive survey documents, and orthophotos (lines photointerpreted, with guidance from USGS topographic maps). Where none of the above existed for a town, lines were inferred from existing data. All previously mentioned data sources were at RF 5000 scale. Source dates varied; orthophotos for the four counties were flown between 1974 &amp; 1982. Media included paper, tin sheets (GMNF maps), and digital (DXF and Arc/Info). Quality control was visual overlay with source map where applicable. TB \&lt;town&gt; coverages from parcel data - 24 towns. Source was town tax parcel maps (orthophoto-based), usually at RF 5000 scale (village or more densely populated areas were often at RF 2500 or 1250 scale. Source media was mylar or paper; a few towns were converted from digital DXF files. The feature accuracy is only as good as the town's original tax maps. There were often edgematching problems at adjacent sheets of different scales. Quality control consisted of proof plot overlays reviewed by town project coordinators, and independant review by VCGI. CCTB - Chittenden county town boundaries, compiled by CCRPC. Sources may vary. Many are RF 5000 scale (or larger) orthophoto-based tax parcel maps. Others are RF 24000 scale USGS topographic quads and RF 20000 scale 1978 orthophoto composites. Dates vary. Media was paper and digital (the original source of these data was a TB coverage from the University of Vermont School of Natural Resources). TBHASH was first released in 12/16/1993 (Alice Doyle, VCGI).</gco:CharacterString>
+                            </description>
+                            <sourceCitation>
+                                <CI_Citation>
+                                    <title>
+                                        <gco:CharacterString>TBHASH</gco:CharacterString>
+                                    </title>
+                                    <date>
+                                        <CI_Date>
+                                            <date>
+                                                <gco:Date>1993-12-16</gco:Date>
+                                            </date>
+                                            <dateType>
+                                                <CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication" codeSpace="ISOTC211/19115">publication</CI_DateTypeCode>
+                                            </dateType>
+                                        </CI_Date>
+                                    </date>
+                                    <citedResponsibleParty gco:nilReason="missing"/>
+                                </CI_Citation>
+                            </sourceCitation>
+                            <sourceExtent>
+                                <EX_Extent>
+                                    <description>
+                                        <gco:CharacterString>ground condition</gco:CharacterString>
+                                    </description>
+                                    <temporalElement>
+                                        <EX_TemporalExtent>
+                                            <extent>
+                                                <gml:TimePeriod gml:id="N66316">
+                                                    <gml:beginPosition>1974-00-00</gml:beginPosition>
+                                                    <gml:endPosition indeterminatePosition="unknown"/>
+                                                </gml:TimePeriod>
+                                            </extent>
+                                        </EX_TemporalExtent>
+                                    </temporalElement>
+                                </EX_Extent>
+                            </sourceExtent>
+                        </LI_Source>
+                    </source>
+                </LI_Lineage>
+            </lineage>
+        </DQ_DataQuality>
+    </dataQualityInfo>
+    <metadataConstraints>
+        <MD_SecurityConstraints>
+            <classification>
+                <MD_ClassificationCode codeList="http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#MD_ClassificationCode" codeListValue="unclassified" codeSpace="ISOTC211/19115">unclassified</MD_ClassificationCode>
+            </classification>
+            <classificationSystem>
+                <gco:CharacterString>None</gco:CharacterString>
+            </classificationSystem>
+            <handlingDescription>
+                <gco:CharacterString>No security considerations</gco:CharacterString>
+            </handlingDescription>
+        </MD_SecurityConstraints>
+    </metadataConstraints>
+</MD_Metadata>

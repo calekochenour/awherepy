@@ -13,7 +13,7 @@ import geopandas as gpd
 import rasterstats as rs
 
 
-def create_awhere_grid(study_area_path, buffer_distance, cell_size=0.08):
+def create_grid(study_area_path, buffer_distance, cell_size=0.08):
     """Creates an aWhere-sized grid (0.08 x 0.08 degree,
     5 arc-minute x 5 arc-minute grid) fit to a polygon.
 
@@ -43,9 +43,9 @@ def create_awhere_grid(study_area_path, buffer_distance, cell_size=0.08):
         >>> import geopandas as gpd
         >>> # Define path to shapefile boundary
         >>> vt_bound_path = os.path.join(
-        ...     working_directory, 'shapefiles', vermont_state_boundary.shp')
+        ...     working_directory, 'shapefiles', 'vermont_state_boundary.shp')
         >>> # Create aWhere grid
-        >>> vt_grid, vt_bound_4326 = create_awhere_grid(
+        >>> vt_grid, vt_bound_4326 = create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> # Plot aWhere grid
         >>> vt_grid.plot(facecolor="none", edgecolor="#984ea3", linewidth=1.5)
@@ -278,7 +278,7 @@ def plot_grid(
         >>> vt_bound_path = os.path.join(
         ...     working_directory, 'shapefiles', vermont_state_boundary.shp')
         >>> # Create aWhere grid
-        >>> vt_grid, vt_bound_4326 = create_awhere_grid(
+        >>> vt_grid, vt_bound_4326 = create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> fig, ax = plot_grid(vt_grid, vt_bound_4326)
     """
@@ -358,7 +358,7 @@ def export_grid(awhere_grid, output_path):
         ...     working_directory, 'shapefiles',
         ...     vermont_state_boundary.shp')
         >>> # Create aWhere grid
-        >>> vt_grid, vt_bound_4326 = create_awhere_grid(
+        >>> vt_grid, vt_bound_4326 = create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> # Define export path
         >>> # export_path = os.path.join(
