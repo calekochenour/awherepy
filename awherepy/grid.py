@@ -4,6 +4,7 @@ awherepy.grid
 A module to create and work with aWhere grids.
 """
 
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 import rasterio as rio
@@ -97,11 +98,6 @@ def create_awhere_grid(study_area_path, buffer_distance, cell_size=0.08):
     # Create geodataframe from grid polygons
     grid_polys_gdf = gpd.GeoDataFrame(crs=4326, geometry=grid_polys_list)
 
-    # Add centroid to each grid cell
-    grid_polys_gdf["centroid"] = grid_polys_gdf.geometry.apply(
-        lambda poly: poly.centroid
-    )
-
     # Narrow grid cells to those within the buffered boundary
     study_area_grid_4326 = gpd.sjoin(
         grid_polys_gdf, study_area_4326_buffer_gdf, op="within"
@@ -142,10 +138,16 @@ def extract_centroids(grid):
     # Create copy of dataframe (avoids altering the original)
     grid_extract = grid.copy()
 
+    # Add centroid to each grid cell
+    grid_extract["centroid"] = grid_extract.geometry.apply(
+        lambda poly: poly.centroid
+    )
+
     # Extract latitude and longitude to new columns
     grid_extract["longitude"] = grid_extract.centroid.apply(
         lambda point: point.x
     )
+
     grid_extract["latitude"] = grid_extract.centroid.apply(
         lambda point: point.y
     )
@@ -308,7 +310,7 @@ def plot_grid(
         ax.set_title(plot_title, fontsize=20)
         ax.tick_params(axis="both", which="major", labelsize=16)
 
-        # Add caption if input
+        # Add caption if data source included
         if data_source:
             fig.text(
                 0.5,
@@ -320,3 +322,85 @@ def plot_grid(
 
     # Return figure and axes
     return fig, ax
+
+
+def export_grid(awhere_grid, output_path):
+    """Exports an aWhere grid to the specified
+    file format.
+
+    Functionality currently support writing to
+    comma-separated values, (.CSV), shapefile (.SHP),
+    geojson (.GEOJSON), geopackage (.GPKG).
+
+    Parameters
+    ----------
+    awhere_grid : geopandas geodataframe
+        Geodataframe containing a grid of aWhere-sized
+        cells.
+
+    output_path : str
+        Path to write the output file (including file
+        name and extension).
+
+    Returns
+    -------
+    output_message : str
+        Message indicating successful export (and path)
+        or error.
+
+    Example
+    -------
+        >>> # Import packages
+        >>> import os
+        >>> import geopandas as gpd
+        >>> # Define path to shapefile boundary
+        >>> vt_bound_path = os.path.join(
+        ...     working_directory, 'shapefiles',
+        ...     vermont_state_boundary.shp')
+        >>> # Create aWhere grid
+        >>> vt_grid, vt_bound_4326 = create_awhere_grid(
+        ...     vt_bound_path, buffer_distance=0.12)
+        >>> # Define export path
+        >>> # export_path = os.path.join(
+        ...     working_directory, '03-processed-data',
+        ...     'vt_grid.csv')
+        >>> # Export grid to CSV
+        >>> export_grid(vt_grid, export_path)
+        >>> Exported to: working_directory\03-processed-data\vt_grid.csv
+    """
+    # Determine output folder
+    output_folder = os.path.dirname(output_path)
+
+    # Raise error if output folder does not exist
+    if not os.path.exists(output_folder):
+
+        raise OSError("Directory does not exist.")
+
+    # Extract file extension
+    file_extension = output_path.split(".")[-1]
+
+    # Define drivers for export
+    drivers = {"shp": "ESRI Shapefile", "geojson": "GeoJSON", "gpkg": "GPKG"}
+
+    # Check file extension; determine export method
+    if file_extension == "csv":
+
+        # Write to CSV
+        awhere_grid.to_csv(path_or_buf=output_path, index=False)
+        output_message = print(f"Exported to: {output_path}")
+
+    elif file_extension.lower() in drivers.keys():
+
+        # Write to shp, geojson, or gpkg
+        awhere_grid.to_file(output_path, driver=drivers.get(file_extension))
+        output_message = print(f"Exported to: {output_path}")
+
+    else:
+        # Raise error for unsupported file type
+        raise ValueError(
+            f"Invalid output format: .{file_extension}"
+            "\nFormats supported: .csv, .shp, .geojson, and .gpkg"
+        )
+
+    # Return output message
+    return output_message
