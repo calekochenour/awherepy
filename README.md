@@ -14,7 +14,7 @@ aWhere's agronomic and weather data API is currently accessible through the R pr
 * Connect to the aWhere API;
 * Get data from the aWhere API;
 * Extract data from the aWhere API returns;
-* Clean georeference extraced data;
+* Clean and georeference extracted data;
 * Create an aWhere-sized (9 km x 9 km) grid from a shapefile; and,
 * Rasterize existing remote sensing and GIS data to the aWhere grid.
 
