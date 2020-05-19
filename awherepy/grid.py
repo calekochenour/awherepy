@@ -4,7 +4,7 @@ awherepy.grid
 A module to create and work with aWhere grids.
 """
 
-
+import matplotlib.pyplot as plt
 import numpy as np
 import rasterio as rio
 from shapely.geometry import Polygon
@@ -167,9 +167,9 @@ def rasterize(awhere_grid, raster_path, zonal_stats="count sum"):
 
     Parameters
     ----------
-    awhere_grid : geopandas.geodataframe.GeoDataFrame object
+    awhere_grid : geopandas geodataframe
         Geodataframe containing a grid of aWhere-sized
-        cells, but to a shapefile boundary.
+        cells, sized to fit a shapefile boundary.
 
     raster_path : str
         Path to the data the will be rasterized.
@@ -180,7 +180,7 @@ def rasterize(awhere_grid, raster_path, zonal_stats="count sum"):
 
     Returns
     -------
-    awhere_grid_rasterized : geopandas.geodataframe.GeoDataFrame object
+    awhere_grid_rasterized : geopandas geodataframe
         Input geodataframe with the rasterized values
         and grid centroids added.
 
@@ -236,3 +236,87 @@ def rasterize(awhere_grid, raster_path, zonal_stats="count sum"):
 
     # Return rasterized geodataframe
     return awhere_grid_rasterized
+
+
+def plot_grid(
+    awhere_grid, study_area, plot_title="aWhere Grid", data_source=None
+):
+    """Plots a administrative boundary with the
+    mathching awhere grid.
+
+    Parameters
+    ----------
+    awhere_grid : geopandas geodataframe
+        Geodataframe containing a grid of aWhere-sized
+        cells.
+
+    study_area : geopandas geodataframe
+        Geodataframe containing the study area boundary
+        polygon.
+
+    plot_title : str
+        Title for the plot. Default value is 'aWhere Grid'.
+
+    Returns
+    -------
+    tuple
+
+        fig : matplotlib.figure.Figure object
+            The figure object associated with the histogram.
+
+        ax : matplotlib.axes._subplots.AxesSubplot objects
+            The axes object associated with the histogram.
+
+    Example
+    -------
+        >>> # Import packages
+        >>> import os
+        >>> import geopandas as gpd
+        >>> # Define path to shapefile boundary
+        >>> vt_bound_path = os.path.join(
+        ...     working_directory, 'shapefiles', vermont_state_boundary.shp')
+        >>> # Create aWhere grid
+        >>> vt_grid, vt_bound_4326 = create_awhere_grid(
+        ...     vt_bound_path, buffer_distance=0.12)
+        >>> fig, ax = plot_grid(vt_grid, vt_bound_4326)
+    """
+    # Project to WGS 84 Lat/Lon, EPSG 4326 if no CRS match
+    if not study_area.crs == "epsg:4326":
+        study_area_4326 = study_area.to_crs("epsg:4326")
+
+    else:
+        study_area_4326 = study_area
+
+    # Use dark background
+    with plt.style.context("dark_background"):
+
+        # Define figure and axes
+        fig, ax = plt.subplots(figsize=(20, 10))
+
+        # Plot awhere grid and study area on same axes
+        awhere_grid.plot(
+            ax=ax, facecolor="none", edgecolor="#984ea3", linewidth=1.5
+        )
+
+        study_area_4326.plot(
+            ax=ax, facecolor="none", edgecolor="#4daf4a", linewidth=2
+        )
+
+        # Configures axes
+        ax.set_xlabel("Longitude (degrees)", fontsize=16)
+        ax.set_ylabel("Latitude (degrees)", fontsize=16)
+        ax.set_title(plot_title, fontsize=20)
+        ax.tick_params(axis="both", which="major", labelsize=16)
+
+        # Add caption if input
+        if data_source:
+            fig.text(
+                0.5,
+                0.035,
+                f"Data Source: {data_source}",
+                ha="center",
+                fontsize=12,
+            )
+
+    # Return figure and axes
+    return fig, ax
