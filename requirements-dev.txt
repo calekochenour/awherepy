@@ -16,7 +16,7 @@ matplotlib
 numpy
 seaborn
 geopandas
-earthpy
+earthpy==0.9.1
 shapely
 autopep8
 jupyterlab
