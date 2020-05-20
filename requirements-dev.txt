@@ -18,7 +18,7 @@ seaborn
 geopandas
 earthpy
 shapely
-autopep8
+autopep8==1.5.2
 jupyterlab
 notebook
 jupyter_contrib_nbextensions
