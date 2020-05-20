@@ -14,7 +14,7 @@ pytest-cov==2.8.1
 
 matplotlib
 numpy
-seaborn
+seaborn==0.10.1
 geopandas
 earthpy
 shapely
