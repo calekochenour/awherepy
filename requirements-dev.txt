@@ -22,7 +22,7 @@ seaborn
 
 geopandas
 earthpy
-shapely
+shapely==1.7.0
 
 autopep8
 jupyterlab
