@@ -15,7 +15,7 @@ pytest-cov==2.8.1
 python=3.8
 pip
 
-matplotlib
+matplotlib==3.2.1
 numpy
 seaborn
 
