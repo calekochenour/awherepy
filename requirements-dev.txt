@@ -12,18 +12,12 @@ pytest==5.4.2
 pytest-runner==5.2
 pytest-cov==2.8.1
 
-python=3.8
-pip
-
 matplotlib
 numpy
 seaborn
-
-
 geopandas
 earthpy
 shapely
-
 autopep8
 jupyterlab
 notebook
