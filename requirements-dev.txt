@@ -19,7 +19,7 @@ geopandas
 earthpy
 shapely
 autopep8
-jupyterlab
+jupyterlab==2.1.2
 notebook
 jupyter_contrib_nbextensions
 nbclean
