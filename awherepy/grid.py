@@ -280,6 +280,7 @@ def plot_grid(
         >>> # Create aWhere grid
         >>> vt_grid, vt_bound_4326 = create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
+        >>> # Plot grid and boundary
         >>> fig, ax = plot_grid(vt_grid, vt_bound_4326)
     """
     # Project to WGS 84 Lat/Lon, EPSG 4326 if no CRS match
@@ -366,7 +367,7 @@ def export_grid(awhere_grid, output_path):
         ...     'vt_grid.csv')
         >>> # Export grid to CSV
         >>> export_grid(vt_grid, export_path)
-        >>> Exported to: working_directory\03-processed-data\vt_grid.csv
+        >>> working_directory\03-processed-data\vt_grid.csv
     """
     # Determine output folder
     output_folder = os.path.dirname(output_path)
@@ -387,13 +388,13 @@ def export_grid(awhere_grid, output_path):
 
         # Write to CSV
         awhere_grid.to_csv(path_or_buf=output_path, index=False)
-        output_message = print(f"Exported to: {output_path}")
+        output_message = output_path
 
     elif file_extension.lower() in drivers.keys():
 
         # Write to shp, geojson, or gpkg
         awhere_grid.to_file(output_path, driver=drivers.get(file_extension))
-        output_message = print(f"Exported to: {output_path}")
+        output_message = output_path
 
     else:
         # Raise error for unsupported file type

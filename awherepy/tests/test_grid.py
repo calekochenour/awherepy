@@ -2,6 +2,7 @@
 
 import os
 import pytest
+import matplotlib as mpl
 import shapely
 import geopandas as gpd
 import awherepy.grid as ag
@@ -66,6 +67,51 @@ def vermont_population(vermont_grid):
     return vt_pop_rasterized
 
 
+@pytest.fixture
+def vermont_plot_figure(vermont_grid, vermont_boundary):
+    """Fixture that returns a plot figure for the
+    Vermont aWhere grid and boudary plotted on the same
+    axes.
+    """
+    # Plot grid and boundary
+    fig, ax = ag.plot_grid(vermont_grid, vermont_boundary)
+
+    # Return figure
+    return fig
+
+
+@pytest.fixture
+def vermont_plot_axes(vermont_grid, vermont_boundary):
+    """Fixture that returns a plot axes for the
+    Vermont aWhere grid and boudary plotted on the same
+    axes.
+    """
+    # Plot grid and boundary
+    fig, ax = ag.plot_grid(vermont_grid, vermont_boundary)
+
+    # Return axes
+    return ax
+
+
+@pytest.fixture
+def vermont_grid_csv(vermont_grid):
+    """Fixture that returns the path to an exported
+    CSV for the Vermont aWhere grid.
+    """
+    # Define path output path
+    csv_outpath = os.path.join("test-data", "vermont_grid.csv")
+
+    # Remove file if already exists
+    if os.path.exists(csv_outpath):
+        os.remove(csv_outpath)
+
+    # Export CSV
+    export = ag.export_grid(vermont_grid, csv_outpath)
+
+    # Return file path to exported CSV
+    return export
+
+
 def test_create_grid(vermont_grid, vermont_boundary):
     """Test the aWhere grid output and study area
     boundary for Vermont.
@@ -121,9 +167,46 @@ def test_rasterize(vermont_population):
     assert vermont_population.loc[1]["count"] == 2759
 
 
-def test_plot_grid():
-    pass
+def test_plot_grid(vermont_plot_figure, vermont_plot_axes):
+    """The the plot of the aWhere grid and study
+    area boundary for Vermont.
+    """
+    # Test figure type
+    assert isinstance(vermont_plot_figure, mpl.figure.Figure)
+
+    # Test figure width
+    assert vermont_plot_figure.get_figwidth() == 20.0
+
+    # Test figure height
+    assert vermont_plot_figure.get_figheight() == 10.0
+
+    # Test axes type
+    assert isinstance(vermont_plot_axes, mpl.axes._subplots.Axes)
+
+    # Test axes subplot geometry
+    assert vermont_plot_axes.get_geometry() == (1, 1, 1)
+
+    # Test axes column start location
+    assert vermont_plot_axes.get_subplotspec().colspan.start == 0
+
+    # Test axes row start location
+    assert vermont_plot_axes.get_subplotspec().rowspan.start == 0
+
+    # Test only one axis in axes object
+    with pytest.raises(
+        TypeError, match="'AxesSubplot' object is not subscriptable"
+    ):
+        vermont_plot_axes[0]
 
 
-def test_export_grid():
-    pass
+def test_export_grid(vermont_grid_csv):
+    """Test grid export to CSV, SHP, GEOJSON, and GPKG
+    for the Vermont aWhere grid.
+    """
+    # Test existence of csv
+    assert os.path.exists(vermont_grid_csv)
+
+    # Test file extension
+    assert vermont_grid_csv.split(".")[-1] == "csv"
+
+    # for all file types, file exists? check contents of file
