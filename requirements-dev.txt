@@ -20,6 +20,6 @@ earthpy
 shapely
 autopep8
 jupyterlab
-notebook
+notebook==6.0.3
 jupyter_contrib_nbextensions
 nbclean
