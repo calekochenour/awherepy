@@ -16,7 +16,7 @@ python=3.8
 pip
 
 matplotlib
-numpy
+numpy==1.18.4
 seaborn
 
 
