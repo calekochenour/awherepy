@@ -11,15 +11,3 @@ twine==3.1.1
 pytest==5.4.2
 pytest-runner==5.2
 pytest-cov==2.8.1
-
-matplotlib
-numpy
-seaborn
-geopandas
-earthpy
-shapely
-autopep8
-jupyterlab
-notebook
-jupyter_contrib_nbextensions
-nbclean
