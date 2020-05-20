@@ -98,17 +98,94 @@ def vermont_grid_csv(vermont_grid):
     """Fixture that returns the path to an exported
     CSV for the Vermont aWhere grid.
     """
-    # Define path output path
-    csv_outpath = os.path.join("test-data", "vermont_grid.csv")
+    # Define output path
+    outpath = os.path.join("test-data", "vermont_grid.csv")
 
     # Remove file if already exists
-    if os.path.exists(csv_outpath):
-        os.remove(csv_outpath)
+    if os.path.exists(outpath):
+        os.remove(outpath)
 
-    # Export CSV
-    export = ag.export_grid(vermont_grid, csv_outpath)
+    # Export file
+    export = ag.export_grid(vermont_grid, outpath)
 
-    # Return file path to exported CSV
+    # Return exported file path
+    return export
+
+
+@pytest.fixture
+def vermont_grid_shp(vermont_grid):
+    """Fixture that returns the path to an exported
+    SHP for the Vermont aWhere grid.
+    """
+    # Define output path
+    outpath = os.path.join("test-data", "vermont_grid.shp")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Export file
+    export = ag.export_grid(vermont_grid, outpath)
+
+    # Return exported file path
+    return export
+
+
+@pytest.fixture
+def vermont_grid_geojson(vermont_grid):
+    """Fixture that returns the path to an exported
+    GEOJSON for the Vermont aWhere grid.
+    """
+    # Define output path
+    outpath = os.path.join("test-data", "vermont_grid.geojson")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Export file
+    export = ag.export_grid(vermont_grid, outpath)
+
+    # Return exported file path
+    return export
+
+
+@pytest.fixture
+def vermont_grid_gpkg(vermont_grid):
+    """Fixture that returns the path to an exported
+    GPKG for the Vermont aWhere grid.
+    """
+    # Define output path
+    outpath = os.path.join("test-data", "vermont_grid.gpkg")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Export file
+    export = ag.export_grid(vermont_grid, outpath)
+
+    # Return exported file path
+    return export
+
+
+@pytest.fixture
+def vermont_grid_gpx(vermont_grid):
+    """Fixture that returns the path to an exported
+    GPX for the Vermont aWhere grid. Designed to fail.
+    Unsupported export file type.
+    """
+    # Define output path
+    outpath = os.path.join("test-data", "vermont_grid.gpx")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Export file
+    export = ag.export_grid(vermont_grid, outpath)
+
+    # Return exported file path
     return export
 
 
@@ -199,14 +276,42 @@ def test_plot_grid(vermont_plot_figure, vermont_plot_axes):
         vermont_plot_axes[0]
 
 
-def test_export_grid(vermont_grid_csv):
+def test_export_grid(
+    vermont_grid_csv,
+    vermont_grid_shp,
+    vermont_grid_geojson,
+    vermont_grid_gpkg,
+    vermont_grid,
+):
     """Test grid export to CSV, SHP, GEOJSON, and GPKG
     for the Vermont aWhere grid.
     """
     # Test existence of csv
     assert os.path.exists(vermont_grid_csv)
 
-    # Test file extension
+    # Test csv file extension
     assert vermont_grid_csv.split(".")[-1] == "csv"
 
-    # for all file types, file exists? check contents of file
+    # Test existence of csv
+    assert os.path.exists(vermont_grid_shp)
+
+    # Test shp file extension
+    assert vermont_grid_shp.split(".")[-1] == "shp"
+
+    # Test existence of geojson
+    assert os.path.exists(vermont_grid_geojson)
+
+    # Test geojson file extension
+    assert vermont_grid_geojson.split(".")[-1] == "geojson"
+
+    # Test existence of gpkg
+    assert os.path.exists(vermont_grid_gpkg)
+
+    # Test gpkg file extension
+    assert vermont_grid_gpkg.split(".")[-1] == "gpkg"
+
+    # Test invalid export file type (GPX)
+    with pytest.raises(ValueError):
+        ag.export_grid(
+            vermont_grid, os.path.join("test-data", "vermont_grid.gpx")
+        )
