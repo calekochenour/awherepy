@@ -20,7 +20,7 @@ numpy
 seaborn
 
 
-geopandas
+geopandas==0.7.0
 earthpy
 shapely
 
