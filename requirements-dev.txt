@@ -12,7 +12,7 @@ pytest==5.4.2
 pytest-runner==5.2
 pytest-cov==2.8.1
 
-matplotlib
+matplotlib==3.2.1
 numpy
 seaborn
 geopandas
