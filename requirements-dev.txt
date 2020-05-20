@@ -28,4 +28,4 @@ autopep8
 jupyterlab
 notebook
 jupyter_contrib_nbextensions
-nbclean
+nbclean==0.3.2
