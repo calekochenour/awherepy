@@ -242,11 +242,15 @@ def test_extract_centroids(vermont_centroids):
     # Number of centroids (grid cells)
     assert len(vermont_centroids) == 533
 
-    # First centroid
-    assert vermont_centroids[0] == (-73.43783985107041, 43.52701241643375)
+    # First centroid; round to 4 digits
+    lon_first_round = round(vermont_centroids[0][0], 4)
+    lat_first_round = round(vermont_centroids[0][1], 4)
+    assert (lon_first_round, lat_first_round) == (-73.4378, 43.5270)
 
-    # Last centroid
-    assert vermont_centroids[-1] == (-71.43783985107045, 45.047012416433724)
+    # Last centroid; round to 4 digits
+    lon_last_round = round(vermont_centroids[0][0], 4)
+    lat_last_round = round(vermont_centroids[0][1], 4)
+    assert (lon_last_round, lat_last_round) == (-71.4378, 45.0470)
 
 
 def test_rasterize(vermont_population):
