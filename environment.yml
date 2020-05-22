@@ -19,6 +19,7 @@ dependencies:
   - geopandas
   - earthpy
   - shapely
+  - rasterstats
 
   # Jupyter Environment
   - autopep8
