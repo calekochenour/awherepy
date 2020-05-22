@@ -248,8 +248,8 @@ def test_extract_centroids(vermont_centroids):
     assert (lon_first_round, lat_first_round) == (-73.4378, 43.5270)
 
     # Last centroid; round to 4 digits
-    lon_last_round = round(vermont_centroids[0][0], 4)
-    lat_last_round = round(vermont_centroids[0][1], 4)
+    lon_last_round = round(vermont_centroids[-1][0], 4)
+    lat_last_round = round(vermont_centroids[-1][1], 4)
     assert (lon_last_round, lat_last_round) == (-71.4378, 45.0470)
 
 
