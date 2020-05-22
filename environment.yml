@@ -20,6 +20,7 @@ dependencies:
   - earthpy
   - shapely
   - rasterstats
+  - descartes
 
   # Jupyter Environment
   - autopep8
