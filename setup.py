@@ -1,50 +1,64 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+from os import path
+from setuptools import setup
 
-"""The setup script."""
-
-from setuptools import setup, find_packages
-
-with open("README.md") as readme_file:
-    readme = readme_file.read()
-
-with open("HISTORY.rst") as history_file:
-    history = history_file.read()
-
-requirements = []
-
-setup_requirements = [
-    "pytest-runner",
-]
-
-test_requirements = [
-    "pytest",
-]
-
-setup(
-    author="Cale Kochenour",
-    author_email="cale.kochenour@alumni.psu.edu",
-    classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD 3-Clause License",
-        "Natural Language :: English",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-    ],
-    description="Get data from the aWhere API with Python.",
-    install_requires=requirements,
-    license="BSD 3-Clause License",
-    long_description=readme + "\n\n" + history,
-    include_package_data=True,
-    keywords="awherepy",
-    name="awherepy",
-    packages=find_packages(include=["awherepy"]),
-    setup_requires=setup_requirements,
-    test_suite="tests",
-    tests_require=test_requirements,
-    url="https://github.com/calekochenour/awherepy",
-    version="0.1.0",
-    zip_safe=False,
+DISTNAME = "awherepy"
+DESCRIPTION = (
+    "Python package built to retrieve, extract, and format"
+    "weather and agronomic data from the aWhere API."
 )
+MAINTAINER = "Cale Kochenour"
+MAINTAINER_EMAIL = "cale.kochenour@alumni.psu.edu"
+
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+    LONG_DESCRIPTION = f.read()
+
+if __name__ == "__main__":
+    setup(
+        name=DISTNAME,
+        maintainer=MAINTAINER,
+        maintainer_email=MAINTAINER_EMAIL,
+        description=DESCRIPTION,
+        long_description=LONG_DESCRIPTION,
+        long_description_content_type="text/markdown",
+        version="0.1.0",
+        packages=["awherepy"],
+        install_requires=[
+            "matplotlib",
+            "numpy",
+            "seaborn",
+            "geopandas",
+            "earthpy",
+            "shapely",
+            "rasterstats",
+            "descartes",
+        ],
+        zip_safe=False,
+        classifiers=[
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: BSD License",
+            "Programming Language :: Python",
+            "Topic :: Software Development",
+            "Operating System :: Microsoft :: Windows",
+            "Operating System :: POSIX",
+            "Operating System :: Unix",
+            "Operating System :: MacOS",
+        ],
+        package_data={
+            DISTNAME: [
+                "tests/test-data/*.cpg",
+                "tests/test-data/*.dbf",
+                "tests/test-data/*.prj",
+                "tests/test-data/*.shp",
+                "tests/test-data/*.shx",
+                "tests/test-data/*.xml",
+                "tests/test-data/*.tfw",
+                "tests/test-data/*.tif",
+                "tests/test-data/*.tif.aux.xml",
+                "tests/test-data/*.tif.ovr",
+                "tests/test-data/*.tif.xml",
+            ]
+        },
+        url="https://github.com/calekochenour/awherepy",
+    )

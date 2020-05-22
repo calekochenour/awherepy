@@ -1,29 +1,54 @@
 # Config file for automatic testing at travis-ci.org
 
 language: python
-python:
-  - 3.8
-  - 3.7
-  - 3.6
+# python:
+#   - 3.8
+#   - 3.7
+#   - 3.6
+
+matrix:
+    include:
+        - os: linux
+          dist: xenial
+          python: 3.6
+          env: TOXENV=py36
+        - os: linux
+          dist: xenial
+          python: 3.7
+          env: TOXENV=py37
+        - os: linux
+          dist: xenial
+          python: 3.8
+          env: TOXENV=py38, black, docs
+        - os: osx
+          language: generic
+
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - sudo apt-get update
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
 
-  # - pip install -U tox-travis codecov
-  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - source "$HOME/miniconda/etc/profile.d/conda.sh"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
+script:
+  - chmod +x .travis/test.sh
+  - ./.travis/test.sh
+
+  # - sudo apt-get update
+  #
+  # # - pip install -U tox-travis codecov
+  # - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  # - bash miniconda.sh -b -p $HOME/miniconda
+  # - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  # - hash -r
+  # - conda config --set always_yes yes --set changeps1 no
+  # - conda update -q conda
 
   # Useful for debugging any issues with conda
-  - conda info -a
-
-  - conda env create -f environment.yml python=$TRAVIS_PYTHON_VERSION
-  - conda activate awhere-python
-  - python setup.py install
+  # - conda info -a
+  #
+  # - conda env create -f environment.yml python=$TRAVIS_PYTHON_VERSION
+  # - conda activate awhere-python
+  # - python setup.py install
   # - conda update --yes conda
   # - conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
   # - source activate testenv
@@ -34,13 +59,13 @@ install:
   # - conda info
   # - conda list
 
-# Command to run tests, e.g. python setup.py test
-script:
-    - pytest --cov-report term --cov=awherepy
-
-# Codecov after success
-after_success:
-    - codecov
+# # Command to run tests, e.g. python setup.py test
+# script:
+#     - pytest --cov-report term --cov=awherepy
+#
+# # Codecov after success
+# after_success:
+#     - codecov
 
 # Assuming you have installed the travis-ci CLI tool, after you
 # create the Github repo and add it to Travis, run the
