@@ -1,27 +1,27 @@
 # Config file for automatic testing at travis-ci.org
 
 language: python
-# python:
-#   - 3.8
-#   - 3.7
-#   - 3.6
+python:
+  - 3.8
+  - 3.7
+  - 3.6
 
-matrix:
-    include:
-        - os: linux
-          dist: xenial
-          python: 3.6
-          env: TOXENV=py36
-        - os: linux
-          dist: xenial
-          python: 3.7
-          env: TOXENV=py37
-        - os: linux
-          dist: xenial
-          python: 3.8
-          env: TOXENV=py38, black, docs
-        - os: osx
-          language: generic
+# matrix:
+#     include:
+#         - os: linux
+#           dist: xenial
+#           python: 3.6
+#           env: TOXENV=py36
+#         - os: linux
+#           dist: xenial
+#           python: 3.7
+#           env: TOXENV=py37
+#         - os: linux
+#           dist: xenial
+#           python: 3.8
+#           env: TOXENV=py38, black, docs
+#         - os: osx
+#           language: generic
 
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
