@@ -292,9 +292,7 @@ def test_plot_grid(vermont_plot_figure, vermont_plot_axes):
     assert vermont_plot_axes.get_subplotspec().rowspan.start == 0
 
     # Test only one axis in axes object
-    with pytest.raises(
-        TypeError, match="'AxesSubplot' object is not subscriptable"
-    ):
+    with pytest.raises(TypeError):
         vermont_plot_axes[0]
 
 
