@@ -14,7 +14,10 @@ def vermont_grid():
     the state of Vermont.
     """
     # Define path to shapefile boundary
-    vt_bound_path = os.path.join("test-data", "vermont_state_boundary.shp")
+    vt_bound_path = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_state_boundary.shp"
+    )
+
     # Create aWhere grid and boundary
     vt_grid, vt_bound_4326 = ag.create_grid(
         vt_bound_path, buffer_distance=0.12
@@ -30,7 +33,10 @@ def vermont_boundary():
     for the state of Vermont.
     """
     # Define path to shapefile boundary
-    vt_bound_path = os.path.join("test-data", "vermont_state_boundary.shp")
+    vt_bound_path = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_state_boundary.shp"
+    )
+
     # Create aWhere grid and boundary
     vt_grid, vt_bound_4326 = ag.create_grid(
         vt_bound_path, buffer_distance=0.12
@@ -58,7 +64,9 @@ def vermont_population(vermont_grid):
     grid rasterized to the Vermont aWhere grid (9x9 km).
     """
     # Define path to Vermont 2020 population per pixel
-    vt_pop_path = os.path.join("test-data", "vt_ppp_2020.tif")
+    vt_pop_path = os.path.join(
+        "awherepy", "tests", "test-data", "vt_ppp_2020.tif"
+    )
 
     # Rasterize ppp data (100x100 m) to aWhere grid (9x9 km)
     vt_pop_rasterized = ag.rasterize(vermont_grid, vt_pop_path)
@@ -99,7 +107,9 @@ def vermont_grid_csv(vermont_grid):
     CSV for the Vermont aWhere grid.
     """
     # Define output path
-    outpath = os.path.join("test-data", "vermont_grid.csv")
+    outpath = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_grid.csv"
+    )
 
     # Remove file if already exists
     if os.path.exists(outpath):
@@ -118,7 +128,9 @@ def vermont_grid_shp(vermont_grid):
     SHP for the Vermont aWhere grid.
     """
     # Define output path
-    outpath = os.path.join("test-data", "vermont_grid.shp")
+    outpath = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_grid.shp"
+    )
 
     # Remove file if already exists
     if os.path.exists(outpath):
@@ -137,7 +149,9 @@ def vermont_grid_geojson(vermont_grid):
     GEOJSON for the Vermont aWhere grid.
     """
     # Define output path
-    outpath = os.path.join("test-data", "vermont_grid.geojson")
+    outpath = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_grid.geojson"
+    )
 
     # Remove file if already exists
     if os.path.exists(outpath):
@@ -156,7 +170,9 @@ def vermont_grid_gpkg(vermont_grid):
     GPKG for the Vermont aWhere grid.
     """
     # Define output path
-    outpath = os.path.join("test-data", "vermont_grid.gpkg")
+    outpath = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_grid.gpkg"
+    )
 
     # Remove file if already exists
     if os.path.exists(outpath):
@@ -176,7 +192,9 @@ def vermont_grid_gpx(vermont_grid):
     Unsupported export file type.
     """
     # Define output path
-    outpath = os.path.join("test-data", "vermont_grid.gpx")
+    outpath = os.path.join(
+        "awherepy", "tests", "test-data", "vermont_grid.gpx"
+    )
 
     # Remove file if already exists
     if os.path.exists(outpath):
@@ -311,7 +329,7 @@ def test_export_grid(
     assert vermont_grid_gpkg.split(".")[-1] == "gpkg"
 
     # Test invalid export file type (GPX)
-    with pytest.raises(ValueError):
+    with pytest.raises(OSError):
         ag.export_grid(
             vermont_grid, os.path.join("test-data", "vermont_grid.gpx")
         )
