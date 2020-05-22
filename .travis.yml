@@ -36,8 +36,7 @@ install:
 
 # Command to run tests, e.g. python setup.py test
 script:
-    - pytest # --cov=awherepy --cov=codecov
-
+    - pytest --cov-report term --cov=awherepy
 
 # Codecov after success
 after_success:
