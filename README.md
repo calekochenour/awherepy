@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/calekochenour/awherepy.svg?branch=master)](https://travis-ci.org/calekochenour/awherepy)
 [![Build status](https://ci.appveyor.com/api/projects/status/donws1p4r2w4wcy1?svg=true)](https://ci.appveyor.com/project/calekochenour/awherepy)
 [![codecov](https://codecov.io/gh/calekochenour/awherepy/branch/master/graph/badge.svg)](https://codecov.io/gh/calekochenour/awherepy)
-[![Updates](https://pyup.io/repos/github/calekochenour/awherepy/shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/)
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Documentation Status](https://readthedocs.org/projects/awherepy/badge/?version=latest)](https://awherepy.readthedocs.io/en/latest/?badge=latest)
+[![Updates](https://pyup.io/repos/github/calekochenour/awherepy/shield.svg)](https://pyup.io/repos/github/calekochenour/awherepy/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # aWherePy
 
