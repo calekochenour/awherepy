@@ -10,7 +10,7 @@ Description
 
 `example.shp`
 
-### Example 1 Source
+### Source
 
 Source
 
