@@ -1,12 +1,12 @@
 version: 2
 formats: []
-python:
-   version: 3.8
-   install:
-      - requirements: requirements-dev.txt
-      - requirements: docs/requirements.txt
-      - method: pip
-        path: .
+# python:
+#    version: 3.8
+#    install:
+#       - requirements: requirements-dev.txt
+#       - requirements: docs/requirements.txt
+#       - method: pip
+#         path: .
    # system_packages: true
 sphinx:
   fail_on_warning: false
