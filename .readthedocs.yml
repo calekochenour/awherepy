@@ -6,6 +6,10 @@ python:
       - requirements: requirements-dev.txt
       - method: pip
         path: .
+    system_packages: true
 sphinx:
-  # fail_on_warning: true
+  fail_on_warning: false
   configuration: docs/conf.py
+
+# conda:
+#   environment: docs/environment.yml
