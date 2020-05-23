@@ -6,4 +6,4 @@ earthpy
 shapely
 rasterstats
 descartes
-rtree
+rtree==0.9.4
