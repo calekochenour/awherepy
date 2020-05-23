@@ -1,9 +1,0 @@
-matplotlib
-numpy
-seaborn
-geopandas
-earthpy
-shapely
-rasterstats
-descartes
-rtree
