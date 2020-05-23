@@ -4,6 +4,6 @@ seaborn
 geopandas
 earthpy
 shapely
-rasterstats
+rasterstats==0.14.0
 descartes
 rtree
