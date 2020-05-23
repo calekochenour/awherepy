@@ -1,6 +1,6 @@
 matplotlib
 numpy
-seaborn
+seaborn==0.10.1
 geopandas
 earthpy
 shapely
