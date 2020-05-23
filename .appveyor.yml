@@ -25,7 +25,7 @@ install:
   - conda config --add channels conda-forge
   - conda info -a
   - conda env create -f environment.yml
-  - activate earthpy-dev
+  - activate awhere-python
   - pip install -e . --no-deps
   - pip install -r requirements-dev.txt
 
