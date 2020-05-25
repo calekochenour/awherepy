@@ -366,8 +366,8 @@ def export_grid(awhere_grid, output_path):
         ...     working_directory, '03-processed-data',
         ...     'vt_grid.csv')
         >>> # Export grid to CSV
-        >>> export_grid(vt_grid, export_path)
-        >>> working_directory\03-processed-data\vt_grid.csv
+        >>> csv_export = export_grid(vt_grid, export_path)
+        working_directory\03-processed-data\vt_grid.csv
     """
     # Determine output folder
     output_folder = os.path.dirname(output_path)
