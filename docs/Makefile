@@ -2,8 +2,8 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = python -msphinx
+SPHINXOPTS    = -W
+SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = awherepy
 SOURCEDIR     = .
 BUILDDIR      = _build
