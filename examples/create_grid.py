@@ -48,7 +48,7 @@ vt_bound_path = os.path.join(
 
 ###############################################################################
 # Define Buffer Distance and Create Grid
-# ---------------------------------------
+# --------------------------------------
 #
 # Create the aWhere-grid by specifying the buffer distance (in degrees) for
 # grid, to ensure the entire study area is covered within the grid. The buffer

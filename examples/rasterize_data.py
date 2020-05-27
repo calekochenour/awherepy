@@ -9,7 +9,7 @@ aWherePy.
 
 ###############################################################################
 # Resample Rasterized Data to the aWhere Grid with aWherePy
-# ----------------------------------------------------------
+# ---------------------------------------------------------
 #
 # .. note::
 #    The example below will show you how to use the ``rasterize()`` function

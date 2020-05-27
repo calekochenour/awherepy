@@ -46,7 +46,7 @@ vt_grid, vt_bound_4326 = ag.create_grid(vt_bound_path, buffer_distance=0.12)
 
 ###############################################################################
 # Extract Centroids from the aWhere Grid
-# ---------------------------------------
+# --------------------------------------
 #
 # Extract the centroids by calling the ``extract_centroids()`` function on a
 # valid aWhere grid.

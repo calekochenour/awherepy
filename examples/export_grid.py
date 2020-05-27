@@ -9,7 +9,7 @@ using aWherePy.
 
 ###############################################################################
 # Export an aWhere Grid to CSV, SHP, GEOJSON, and GPKG Formats with aWherePy
-# ----------------------------------------------------------------------------
+# --------------------------------------------------------------------------
 #
 # .. note::
 #    The example below will show you how to use the ``export_grid()`` function
