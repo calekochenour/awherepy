@@ -8,14 +8,14 @@ aWherePy User Guide
    :maxdepth: 2
    :caption: Contents:
 
-   readme
-   Examples <gallery_vignettes/index>
-   installation
-   usage
-   modules
+   get-started
+   Examples Gallery <gallery_vignettes/index>
+   awherepy-data-subsets
+   api
    contributing
    contributors
-   history
+   change-log
+   code-of-conduct
 
 Indices and tables
 ==================
