@@ -4,7 +4,7 @@ Get Started With aWherePy
 aWherePy is a python package built to retrieve, extract, and format weather and agronomic data from the aWhere API.
 
 aWherePy Module and Function Documentation
------------------------------------------
+------------------------------------------
 
 All functions are included in the 7 awherepy modules:
 
