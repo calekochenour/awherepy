@@ -1,2 +1,2 @@
-Code of Conduct
-===============
+aWherePy Code of Conduct
+========================

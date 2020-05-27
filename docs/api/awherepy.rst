@@ -1,5 +1,5 @@
 awherepy package
-===============
+================
 
 .. automodule:: awherepy
    :members:

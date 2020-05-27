@@ -1,6 +1,5 @@
-=======
-Credits
-=======
+Contributors
+============
 
 Development Lead
 ----------------
