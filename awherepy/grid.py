@@ -326,12 +326,7 @@ def plot_grid(
 
 
 def export_grid(awhere_grid, output_path):
-    """Exports an aWhere grid to the specified
-    file format.
-
-    Functionality currently support writing to
-    comma-separated values, (.CSV), shapefile (.SHP),
-    geojson (.GEOJSON), geopackage (.GPKG).
+    """Exports an aWhere grid to the specified file format.
 
     Parameters
     ----------
@@ -367,7 +362,7 @@ def export_grid(awhere_grid, output_path):
         ...     'vt_grid.csv')
         >>> # Export grid to CSV
         >>> csv_export = export_grid(vt_grid, export_path)
-        working_directory\03-processed-data\vt_grid.csv
+        vt_grid.csv
     """
     # Determine output folder
     output_folder = os.path.dirname(output_path)
