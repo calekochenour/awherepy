@@ -260,14 +260,14 @@ class AgronomicsFieldPlantings(AgronomicsField):
         kwargs : dict
             Dictionary with update key/value pairs.
             Example: update_kwargs = {
-                "crop": 'wheat-hardred',
-                "planting_date": '2019-05-20',
-                "projected_yield_amount": 90,
-                "projected_yield_units": 'small boxes',
-                "projected_harvest_date": "2019-08-10",
-                "yield_amount": 100,
-                "yield_units": "medium boxes",
-                "harvest_date": '2019-08-31'
+                'crop': 'wheat-hardred',
+                'planting_date': '2019-05-20',
+                'projected_yield_amount': 90,
+                'projected_yield_units': 'small boxes',
+                'projected_harvest_date': '2019-08-10',
+                'yield_amount': 100,
+                'yield_units': 'medium boxes',
+                'harvest_date': '2019-08-31'
             }
 
         Returns
