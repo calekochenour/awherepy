@@ -247,28 +247,33 @@ class AgronomicsFieldPlantings(AgronomicsField):
     def update(
         self, planting_id="current", update_type="replace", kwargs=None
     ):
-        """Update a planting. update_type can be 'replace' or 'update'
+        """Update a planting.
 
-        kwargs is a dict with all the update values
+        Parameters
+        ----------
+        planting_id : str
+            Planting id.
 
-        PUT /v2/agronomics/fields/{fieldId}/plantings/{plantingId}
-        PUT /v2/agronomics/fields/{fieldId}/plantings/current
+        update_type : str
+            Can either be 'replace' or 'update'.
 
-        update_kwargs = {
-            "crop": 'wheat-hardred',
-            "planting_date": '2019-05-20',
-            "projected_yield_amount": 90,
-            "projected_yield_units": 'small boxes',
-            "projected_harvest_date": "2019-08-10",
-            "yield_amount": 100,
-            "yield_units": "medium boxes",
-            "harvest_date": '2019-08-31'
-        }
+        kwargs : dict
+            Dictionary with update key/value pairs.
+            Example: update_kwargs = {
+                "crop": 'wheat-hardred',
+                "planting_date": '2019-05-20',
+                "projected_yield_amount": 90,
+                "projected_yield_units": 'small boxes',
+                "projected_harvest_date": "2019-08-10",
+                "yield_amount": 100,
+                "yield_units": "medium boxes",
+                "harvest_date": '2019-08-31'
+            }
 
-        PATCH /v2/agronomics/fields/{fieldId}/plantings/{plantingId}
-        PATCH /v2/agronomics/fields/{fieldId}/plantings/current
-
-        Use dict comprehension for updates
+        Returns
+        -------
+        response : json response object
+            Response from the aWhere API.
         """
         # Setup the HTTP request headers
         auth_headers = {

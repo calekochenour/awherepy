@@ -31,7 +31,7 @@ using aWherePy.
 # following packages need to be imported.
 
 import os
-import awherepy.grid as ag
+import awherepy.grid as awg
 
 ###############################################################################
 # Prerequisites
@@ -46,7 +46,7 @@ vt_bound_path = os.path.join(
 )
 
 # Create aWhere grid and EPSG 4326 boundary from Vermont shapefile
-vt_grid, vt_bound_4326 = ag.create_grid(vt_bound_path, buffer_distance=0.12)
+vt_grid, vt_bound_4326 = awg.create_grid(vt_bound_path, buffer_distance=0.12)
 
 ###############################################################################
 # Plot aWhere Grid and Shapefile Boundary
@@ -57,7 +57,7 @@ vt_grid, vt_bound_4326 = ag.create_grid(vt_bound_path, buffer_distance=0.12)
 # geometry) and shapefile.
 
 # Plot grid and boundary
-fig, ax = ag.plot_grid(vt_grid, vt_bound_4326)
+fig, ax = awg.plot_grid(vt_grid, vt_bound_4326)
 
 ###############################################################################
 # Plot aWhere Grid and Shapefile Boundary with Additional Parameters
@@ -69,7 +69,7 @@ fig, ax = ag.plot_grid(vt_grid, vt_bound_4326)
 # ``plot_grid()`` function.
 
 # Plot grid and boundary with custom title and data source
-fig, ax = ag.plot_grid(
+fig, ax = awg.plot_grid(
     vt_grid,
     vt_bound_4326,
     plot_title="Vermont State aWhere Grid",
