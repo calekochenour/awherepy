@@ -17,6 +17,18 @@ class AWhereAPI:
         auth_token=None,
         # api_url="https://api.awhere.com/v2/"
     ):
+        """Constructor for AWhereAPI class.
+
+        Parameters
+        ----------
+        api_key : str
+
+        api_secret : str
+
+        base_64_encoded_secret_key : str
+
+        auth_token : str
+        """
         # Define authorization information
         self.api_key = api_key
         self.api_secret = api_secret

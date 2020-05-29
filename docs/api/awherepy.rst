@@ -11,4 +11,10 @@ Submodules
 
 .. toctree::
 
+   awherepy.agronomics
+   awherepy.crops
+   awherepy.fields
    awherepy.grid
+   awherepy.models
+   awherepy.plantings
+   awherepy.weather
