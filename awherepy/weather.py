@@ -218,6 +218,7 @@ class WeatherLocationNorms(WeatherLocation):
         self.longitude = longitude
         self.api_url = f"{self.api_url}/{self.latitude},{self.longitude}/norms"
 
+    @staticmethod
     def get_data(self, start_day="01-01", end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 10-year historical norms.
@@ -359,6 +360,7 @@ class WeatherLocationObserved(WeatherLocation):
             f"{self.api_url}/{self.latitude},{self.longitude}/observations"
         )
 
+    @staticmethod
     def get_data(self, start_day=None, end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 7-day observed weather.
@@ -524,6 +526,7 @@ class WeatherLocationForecast(WeatherLocation):
             f"{self.api_url}/{self.latitude},{self.longitude}/forecasts"
         )
 
+    @staticmethod
     def get_data(self, start_day=None, end_day=None, offset=0, block_size=24):
         """
         Performs a HTTP GET request to obtain the 7-day forecast.
@@ -796,6 +799,7 @@ class WeatherFieldNorms(WeatherField):
         self.field_id = field_id
         self.api_url = f"{self.api_url}/{self.field_id}/norms"
 
+    @staticmethod
     def get_data(self, start_day="01-01", end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 10-year historical norms.
@@ -929,6 +933,7 @@ class WeatherFieldObserved(WeatherField):
         self.field_id = field_id
         self.api_url = f"{self.api_url}/{self.field_id}/observations"
 
+    @staticmethod
     def get_data(self, start_day=None, end_day=None, offset=0):
         """
         Performs a HTTP GET request to obtain 7-day observed weather.
@@ -1098,6 +1103,7 @@ class WeatherFieldForecast(WeatherField):
         self.field_id = field_id
         self.api_url = f"{self.api_url}/{self.field_id}/forecasts"
 
+    @staticmethod
     def get_data(self, start_day=None, end_day=None, offset=0, block_size=24):
         """
         Performs a HTTP GET request to obtain the 7-day forecast.

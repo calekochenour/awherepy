@@ -328,6 +328,10 @@ def plot_grid(
 def export_grid(awhere_grid, output_path):
     """Exports an aWhere grid to the specified file format.
 
+    Functionality currently supports writing to
+    comma-separated values (.CSV), shapefile (.SHP),
+    geojson (.GEOJSON), geopackage (.GPKG).
+
     Parameters
     ----------
     awhere_grid : geopandas geodataframe

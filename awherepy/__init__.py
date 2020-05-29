@@ -1,6 +1,6 @@
 """
 
-Base class for authenticating to the the aWhere API.
+Base class for authenticating to the aWhere API.
 
 """
 
