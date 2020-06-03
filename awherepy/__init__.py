@@ -5,77 +5,56 @@ Base class for authenticating to the aWhere API.
 """
 
 import base64
-import requests
+import requests as rq
 
 
-class AWhereAPI:
-    def __init__(
-        self,
-        api_key,
-        api_secret,
-        base_64_encoded_secret_key=None,
-        auth_token=None,
-        # api_url="https://api.awhere.com/v2/"
-    ):
-        """Constructor for AWhereAPI class.
+def get_oauth_token(key, secret):
+    """Returns an OAuth Token used to authenticate to the
+    aWhere API if a valid key and secret are provided.
 
-        Parameters
-        ----------
-        api_key : str
+    Docs:
+        http://developer.awhere.com/api/authentication
 
-        api_secret : str
+    Returns:
+        The access token provided by the aWhere API
+    """
+    # Base64 Encode the API key/secret pair
+    encoded_key_secret = base64.b64encode(
+        bytes(f"{key}:{secret}", "utf-8")
+    ).decode("ascii")
 
-        base_64_encoded_secret_key : str
+    # Define authorization parameters for HTTP request
+    auth_url = "https://api.awhere.com/oauth/token"
 
-        auth_token : str
-        """
-        # Define authorization information
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.base_64_encoded_secret_key = self.encode_secret_and_key(
-            self.api_key, self.api_secret
-        )
-        self.auth_token = self.get_oauth_token(self.base_64_encoded_secret_key)
+    auth_headers = {
+        "Authorization": f"Basic {encoded_key_secret}",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
 
-    def encode_secret_and_key(self, key, secret):
-        """
-        Docs:
-            http://developer.awhere.com/api/authentication
-        Returns:
-            Returns the base64-encoded {key}:{secret} combination,
-            seperated by a colon.
-        """
-        # Base64 Encode the Secret and Key
-        key_secret = f"{key}:{secret}"
+    auth_body = "grant_type=client_credentials"
 
-        encoded_key_secret = base64.b64encode(
-            bytes(key_secret, "utf-8")
-        ).decode("ascii")
+    # Request OAuth Token
+    response = rq.post(url=auth_url, headers=auth_headers, data=auth_body)
 
-        return encoded_key_secret
+    # Get access token
+    access_token = response.json().get("access_token")
 
-    def get_oauth_token(self, encoded_key_secret):
-        """
-        Demonstrates how to make a HTTP POST request to obtain an OAuth Token
+    # Return access token
+    return access_token
 
-        Docs:
-            http://developer.awhere.com/api/authentication
 
-        Returns:
-            The access token provided by the aWhere API
-        """
-        # Define authorization parameters
-        auth_url = "https://api.awhere.com/oauth/token"
+def valid_credentials(key, secret):
+    """Returns True if credentials are valid, else False.
 
-        auth_headers = {
-            "Authorization": f"Basic {encoded_key_secret}",
-            "Content-Type": "application/x-www-form-urlencoded",
-        }
+    Checks if encoding the provided key and secret returns
+    a value (not NoneType).
+    """
+    # Get OAuth token
+    token = get_oauth_token(key, secret)
 
-        body = "grant_type=client_credentials"
+    # Check for validity
+    valid = False if token is None else True
 
-        # Perform HTTP request for OAuth Token
-        response = requests.post(auth_url, headers=auth_headers, data=body)
-
-        # Return access token
-        return response.json()["access_token"]
+    # Return valid
+    return valid
+    # return False if get_oauth_token(key, secret) is None else True
