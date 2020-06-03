@@ -46,6 +46,31 @@ NORMS_RENAME_MAP = {
     "location.fieldId": "field_id",
 }
 
+OBSERVED_COORD_COLS = ["location.longitude", "location.latitude"]
+
+OBSERVED_DROP_COLS = [
+    "temperatures.units",
+    "precipitation.units",
+    "solar.units",
+    "wind.units",
+    "_links.curies",
+    "_links.awhere:field.href",
+]
+
+OBSERVED_RENAME_MAP = {
+    "temperatures.max": "temp_max_cels",
+    "temperatures.min": "temp_min_cels",
+    "precipitation.amount": "precip_amount_mm",
+    "solar.amount": "solar_energy_w_h_per_m2",
+    "relativeHumidity.average": "rel_humidity_avg_%",
+    "relativeHumidity.max": "rel_humidity_max_%",
+    "relativeHumidity.min": "rel_humidity_min_%",
+    "wind.morningMax": "wind_morning_max_m_per_sec",
+    "wind.dayMax": "wind_day_max_m_per_sec",
+    "wind.average": "wind_avg_m_per_sec",
+    "location.fieldId": "field_id",
+}
+
 
 def _get_weather_norms(
     key,
@@ -189,11 +214,8 @@ def _clean_weather_norms(df):
     # Define global variables
     global NORMS_COORD_COLS, NORMS_DROP_COLS, NORMS_RENAME_MAP
 
-    # Define CRS (EPSG 4326) - make this a parameter?
+    # Define CRS (EPSG 4326)
     crs = "epsg:4326"
-
-    # Rename index - possibly as option, or take care of index prior?
-    # df.index.rename('date_rename', inplace=True)
 
     # Create copy of input dataframe; prevents altering the original
     df_copy = df.copy()
@@ -254,3 +276,234 @@ def weather_norms(key, secret, kwargs=None):
 
     # Return cleaned data
     return norms_gdf
+
+
+def _get_weather_observed(
+    key,
+    secret,
+    input_type="location",
+    location=(-105.648222, 40.313250),
+    field_id=None,
+    start_date=None,
+    end_date=None,
+    limit=10,
+    offset=0,
+):
+    """Retrieves observed weather data from the
+    aWhere API, based on input parameters.
+
+    Performs a HTTP GET request to obtain 7-day observed weather.
+
+    Docs:
+        http://developer.awhere.com/api/reference/weather/observations
+
+    Parameters
+    ----------
+    field_id : str
+        ID of the field.
+
+    Returns
+    -------
+    response : dict
+        Dictionary containing the observed weather.
+
+    Example
+    -------
+    """
+    # Check input data type
+    # Location-based
+    if input_type == "location":
+
+        # Raise error if location is not defined
+        if location is None:
+            raise ValueError("Must specify a location (longitude, latitude).")
+
+        # Set URL to location
+        api_url = "https://api.awhere.com/v2/weather/locations/"
+        f"{location[1]},{location[0]}"
+
+    # Field-based
+    elif input_type == "field":
+
+        # Raise error if field name is not defined
+        if field_id is None:
+            raise ValueError("Must specify a field name ('test-field').")
+
+        # Set URL to fields
+        api_url = f"https://api.awhere.com/v2/weather/fields/{field_id}"
+
+    # Invalid input
+    else:
+        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+
+    # Get OAuth token
+    auth_token = aw.get_oauth_token(key, secret)
+
+    # Set up the HTTP request headers
+    auth_headers = {"Authorization": f"Bearer {auth_token}"}
+
+    # Define URL variants
+    url_no_date = f"{api_url}/observations?limit={limit}&offset={offset}"
+    url_start_date = f"{api_url}/observations/{start_date}"
+    url_end_date = f"{api_url}/observations/{end_date}"
+    url_both_dates = (
+        f"{api_url}/observations/{start_date},{end_date}"
+        f"?limit={limit}&offset={offset}"
+    )
+
+    # Perform the HTTP request to obtain the norms for the Field
+    # Default - 7-day
+    if not (start_date or end_date):
+        response = rq.get(url_no_date, headers=auth_headers)
+
+    # Single date - specify start date
+    elif start_date and not end_date:
+        response = rq.get(url_start_date, headers=auth_headers)
+
+    # Single date - specify end date
+    elif end_date and not start_date:
+        response = rq.get(url_end_date, headers=auth_headers)
+
+    # Date range
+    elif start_date and end_date:
+        response = rq.get(url_both_dates, headers=auth_headers)
+
+    # Convert response to json format
+    weather_observed = response.json()
+
+    # Return the observed
+    return weather_observed
+
+
+def _extract_weather_observed(observed_weather):
+    """Creates a dataframe from a JSON-like
+    dictionary of aWhere observed weather data.
+
+    Parameters
+    ----------
+    observed_weather : dict
+        aWhere historic norm data in dictionary format.
+
+    Returns
+    -------
+    observed_weather_df : pandas dataframe
+        Flattened dataframe version of historic norms.
+    """
+    # Raise error if input is not of type dictionary
+    if not isinstance(observed_weather, dict):
+        raise TypeError("Input data must be a dictionary.")
+
+    # Check if multiple entries (days) are in observed
+    if observed_weather.get("observations"):
+        # Flatten to dataframe
+        observed_weather_df = json_normalize(
+            observed_weather.get("observations")
+        )
+
+    # Single-day observed
+    else:
+        # Flatten to dataframe
+        observed_weather_df = json_normalize(observed_weather)
+
+    # Set date as index
+    observed_weather_df.set_index("date", inplace=True)
+
+    # Drop unnecessary columns
+    observed_weather_df.drop(
+        columns=["_links.self.href"], axis=1, inplace=True
+    )
+
+    # Return dataframe
+    return observed_weather_df
+
+
+def _clean_weather_observed(df):
+    """Converts dataframe to geodataframe,
+    drops unnecessary columns, and renames
+    columns.
+
+    Parameters
+    ----------
+    df : dataframe
+        Input dataframe.
+
+    lon_lat_cols : list
+        List containing the column name for longitude (list[0])
+        and latitude (list[1]) attributes.
+
+    drop_cols : list (of str)
+        List of column names to be dropped.
+
+    name_map : dict
+        Dictionaty mapping old columns names (keys)
+        to new column names (values).
+
+    Returns
+    -------
+    gdf : geodataframe
+        Cleaned geodataframe.
+
+    Example
+    -------
+    """
+    # Define global variables
+    global OBSERVED_COORD_COLS, OBSERVED_DROP_COLS, OBSERVED_RENAME_MAP
+
+    # Define CRS (EPSG 4326)
+    crs = "epsg:4326"
+
+    # Create copy of input dataframe; prevents altering the original
+    df_copy = df.copy()
+
+    # Convert to geodataframe
+    gdf = gpd.GeoDataFrame(
+        df_copy,
+        crs=crs,
+        geometry=gpd.points_from_xy(
+            df[OBSERVED_COORD_COLS[0]], df[OBSERVED_COORD_COLS[1]]
+        ),
+    )
+
+    # Add lat/lon columns to drop columns list
+    OBSERVED_DROP_COLS += OBSERVED_COORD_COLS
+
+    # Drop columns
+    gdf.drop(columns=OBSERVED_DROP_COLS, axis=1, inplace=True, errors="ignore")
+
+    # Rename columns
+    gdf.rename(columns=OBSERVED_RENAME_MAP, inplace=True, errors="ignore")
+
+    # Return cleaned up geodataframe
+    return gdf
+
+
+def weather_observed(key, secret, kwargs=None):
+    """kwargs is a dictionary that provides values beyond the default;
+    unpack dictionary if it exists
+
+    kwargs are the parameters to get_data() method
+
+    kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+
+    input_type='location' 'field'
+    """
+    # Check if credentials are valid
+    if aw.valid_credentials(key, secret):
+
+        observed_json = (
+            _get_weather_observed(key, key, **kwargs)
+            if kwargs
+            else _get_weather_observed(key, secret)
+        )
+
+        # Extract data
+        observed_df = _extract_weather_observed(observed_json)
+
+        # Clean data
+        observed_gdf = _clean_weather_observed(observed_df)
+
+    else:
+        # Raise error
+        raise ValueError("Invalid aWhere API credentials.")
+
+    return observed_gdf
