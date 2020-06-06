@@ -128,8 +128,7 @@ def _call_weather_norms(
     limit=10,
     offset=0,
 ):
-    """Retrieves weather data from the aWhere API,
-    based on input parameters.
+    """Retrieves weather norms from the aWhere API.
     """
     # Check input data type
     # Location-based
@@ -189,7 +188,7 @@ def _call_weather_norms(
 
 
 def _extract_weather_norms(historic_norms):
-    """Extracts weather data from the aWhere API
+    """Extracts weather norms from the aWhere API
     return.
 
     Creates a dataframe from a JSON-like
@@ -292,29 +291,102 @@ def _clean_weather_norms(df):
 
 
 def get_weather_norms(key, secret, kwargs=None):
-    """kwargs is a dictionary that provides values beyond the default;
-    unpack dictionary if it exists
+    """Gets historical weather norms data from the aWhere API.
 
-    kwargs are the parameters to get_data() method
+    API reference: https://docs.awhere.com/knowledge-base-docs/weather/
 
-    kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
 
-    input_type='location' 'field'
+    secret : str
+        API secret for a valid aWhere API application.
 
-    kwargs : dict
-        input_type="location",
-        location=(-105.648222, 40.313250),
-        field_id=None,
-        start_date="01-01",
-        end_date=None,
-        limit=10,
-        offset=0,
+    kwargs : dict, optional
+        Keyword arguments for different query parameters.
+        Running the function without kwargs will use the
+        default values. Arguments include:
 
+        input_type : str
+            Type of data, weather API by geolocation or API by field.
+            Valid options include 'location' and 'field'. Default
+            value is 'location'.
+
+        location : tuple of float
+            Tuple containing the location (longitude, latitude) that the API
+            gets data from. For use with the 'location' input_type.
+            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+
+        field_id : str
+            Field ID for a valid aWhere field associated with the input API
+            key/secret. For use with the 'field' input_type. Default value is
+            None.
+
+        start_date : str
+            Start date for the weather norms data to be retrieved. Formatted
+            'MM-DD'. All days of the year are valid, from '01-01' to '12-31'.
+            Default value is '01-01'.
+
+        end_date : str
+            End date for the weather norms data to be retrieved. Formatted
+            'MM-DD'. All days of the year are valid, from '01-01' to '12-31'.
+            Default value is None.
+
+        limit : int
+            Number of results in the API response per page. Used with offset
+            kwarg to sort through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Maximum value is 10. Default value is 10.
+
+        offset : int
+            Number of results in the API response to skip. Used with limit
+            kwarg to sorts through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Default value is 0 (start with first result).
+
+    Returns
+    -------
+    norms_gdf : geopandas geodataframe
+        Geotdataframe containing the historical weather norms data for the
+        specified location or aWhere field, for the specified date(s).
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import awherepy.weather as aww
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get historical norms with default kwargs (Bear Lake, CO)
+        >>> bear_lake_norms = aww.get_weather_norms(
+        ...     key=awhere_api_key, secret=awhere_api_secret)
+        >>> # Check number of entries in geodataframe
+        >>> len(bear_lake_norms)
+        1
+        >>> # Define non-default kwargs (Manchester Center, Vermont)
+        >>> # Define kwargs for Manchester, Vermont
+        >>> vt_kwargs = {
+        ...     'location': (-73.0723269, 43.1636875),
+        ...     'start_date': '05-10',
+        ...     'end_date': '05-20'
+        ... }
+        >>> # Get historical norms for Manchester, Vermont
+        >>> manchester_vt_norms = aww.get_weather_norms(
+        ...     key=awhere_api_key,
+        ...     secret=awhere_api_secret,
+        ...     kwargs=vt_kwargs
+        ... )
+        >>> # Check number entries in geodataframe
+        >>> len(manchester_vt_norms)
+        10
     """
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
 
-        # Get data
+        # Call data
         norms_json = (
             _call_weather_norms(key, secret, **kwargs)
             if kwargs
@@ -537,27 +609,104 @@ def _clean_weather_observed(df):
 
 
 def get_weather_observed(key, secret, kwargs=None):
-    """kwargs is a dictionary that provides values beyond the default;
-    unpack dictionary if it exists
+    """Gets observed weather data from the aWhere API.
 
-    kwargs are the parameters to get_data() method
+    API reference: https://docs.awhere.com/knowledge-base-docs/weather/
 
-    kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
 
-    input_type='location' 'field'
+    secret : str
+        API secret for a valid aWhere API application.
 
-    kwargs : dict
-        input_type="location",
-        location=(-105.648222, 40.313250),
-        field_id=None,
-        start_date="01-01",
-        end_date=None,
-        limit=10,
-        offset=0,
+    kwargs : dict, optional
+        Keyword arguments for different query parameters.
+        Running the function without kwargs will use the
+        default values. Arguments include:
+
+        input_type : str
+            Type of data, weather API by geolocation or API by field.
+            Valid options include 'location' and 'field'. Default
+            value is 'location'.
+
+        location : tuple of float
+            Tuple containing the location (longitude, latitude) that the API
+            gets data from. For use with the 'location' input_type.
+            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+
+        field_id : str
+            Field ID for a valid aWhere field associated with the input API
+            key/secret. For use with the 'field' input_type. Default value is
+            None.
+
+        start_date : str
+            Start date for the observed weather data to be retrieved. Formatted
+            'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
+            'YYYY-12-31'. Default value is None, which returns the previous 7
+            days of observed weather.
+
+        end_date : str
+            End date for the observed weather data to be retrieved. Formatted
+            'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
+            'YYYY-12-31'. Default value is None, which returns the previous 7
+            days of observed weather.
+
+        limit : int
+            Number of results in the API response per page. Used with offset
+            kwarg to sort through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Maximum value is 10. Default value is 10.
+
+        offset : int
+            Number of results in the API response to skip. Used with limit
+            kwarg to sorts through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Default value is 0 (start with first result).
+
+    Returns
+    -------
+    observed_gdf : geopandas geodataframe
+        Geotdataframe containing the observed weather data for the
+        specified location or aWhere field, for the specified date(s).
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import awherepy.weather as aww
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get observed weather with default kwargs (Bear Lake, CO)
+        >>> bear_lake_observed = aww.get_weather_observed(
+        ...     key=awhere_api_key, secret=awhere_api_secret)
+        >>> # Check number of entries in geodataframe
+        >>> len(bear_lake_observed)
+        7
+        >>> # Define non-default kwargs (Manchester Center, Vermont)
+        >>> # Define kwargs for Manchester, Vermont
+        >>> vt_kwargs = {
+        ...     'location': (-73.0723269, 43.1636875),
+        ...     'start_date': '2020-05-10',
+        ...     'end_date': '2020-05-20'
+        ... }
+        >>> # Get observed weather for Manchester, Vermont
+        >>> manchester_vt_observed = aww.get_weather_observed(
+        ...     key=awhere_api_key,
+        ...     secret=awhere_api_secret,
+        ...     kwargs=vt_kwargs
+        ... )
+        >>> # Check number entries in geodataframe
+        >>> len(manchester_vt_observed)
+        10
     """
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
 
+        # Call data
         observed_json = (
             _call_weather_observed(key, secret, **kwargs)
             if kwargs
@@ -839,26 +988,118 @@ def _clean_weather_forecast(df):
 
 
 def get_weather_forecast(key, secret, forecast_type="main", kwargs=None):
-    """kwargs is a dictionary that provides values beyond the default;
-    unpack dictionary if it exists
+    """Gets weather forecast data from the aWhere API.
 
-    kwargs are the parameters to get_data() method
+    API reference: https://docs.awhere.com/knowledge-base-docs/weather/
 
-    kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
 
-    input_type='location' 'field'
+    secret : str
+        API secret for a valid aWhere API application.
 
     forecast_type : str
-        Either 'main' (default) or 'soil'.
+        Type of weather forecast. Valid options include 'main' and 'soil'.
+        Default value is 'main'.
 
-    kwargs : dict
-        input_type="location",
-        location=(-105.648222, 40.313250),
-        field_id=None,
-        start_date="01-01",
-        end_date=None,
-        limit=10,
-        offset=0,
+    kwargs : dict, optional
+        Keyword arguments for different query parameters.
+        Running the function without kwargs will use the
+        default values. Arguments include:
+
+        input_type : str
+            Type of data, weather API by geolocation or API by field.
+            Valid options include 'location' and 'field'. Default
+            value is 'location'.
+
+        location : tuple of float
+            Tuple containing the location (longitude, latitude) that the API
+            gets data from. For use with the 'location' input_type.
+            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+
+        field_id : str
+            Field ID for a valid aWhere field associated with the input API
+            key/secret. For use with the 'field' input_type. Default value is
+            None.
+
+        start_date : str
+            Start date for the weather forecast data to be retrieved. Formatted
+            'YYYY-MM-DD'. Valid dates inlclude up to 15 days from the current
+            day. Default value is None, which returns the next 10 days of
+            forecasted weather from the current day.
+
+        end_date : str
+            End date for the weather forecast data to be retrieved. Formatted
+            'YYYY-MM-DD'. Valid dates inlclude up to 15 days from the current
+            day. Default value is None, which returns the next 10 days of
+            forecasted weather from the current day.
+
+        limit : int
+            Number of results in the API response per page. Used with offset
+            kwarg to sort through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Maximum value is 10. Default value is 10.
+
+        offset : int
+            Number of results in the API response to skip. Used with limit
+            kwarg to sorts through pages of results (cases where the number of
+            results exceeds the limit per page). Applicable when the number
+            of results exceeds 1. Default value is 0 (start with first result).
+
+        block_size : int
+            Number of hourly forecasts per result. Valid options include
+            1, 2, 3, 4, 6, 8, 12, 24. Value of 1 indicates that the API
+            returns each daily forecast in 24 1-hour blocks. Value of 6
+            indicates that API returns each daily forecast in 4 6-hour blocks.
+            Value of 24 indicates that the API returns each daily forecast
+            in 1 24-hour block. Default value is 24.
+
+    Returns
+    -------
+    forecast_gdf : geopandas geodataframe
+        Geotdataframe containing the weather forecast data for the
+        specified location or aWhere field, for the specified date(s).
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import awherepy.weather as aww
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get the weather forecast with default kwargs (Bear Lake, CO)
+        >>> bear_lake_forecast = aww.get_weather_forecast(
+        ...     key=awhere_api_key, secret=awhere_api_secret)
+        >>> # Check number of entries in geodataframe
+        >>> len(bear_lake_forecast)
+        10
+        >>> # Define non-default kwargs (Manchester Center, Vermont)
+        >>> # Define kwargs for Manchester, Vermont
+        >>> vt_kwargs = {
+        ...     'location': (-73.0723269, 43.1636875)
+        ... }
+        >>> # Get weather forecast for Manchester, Vermont
+        >>> manchester_vt_forecast = aww.get_weather_forecast(
+        ...     key=awhere_api_key,
+        ...     secret=awhere_api_secret,
+        ...     kwargs=vt_kwargs
+        ... )
+        >>> # Check number entries in geodataframe
+        >>> len(manchester_vt_forecast)
+        10
+        >>> # Get soil forecast for default values (Bear Lake, CO)
+        >>> bear_lake_forecast_soil = aww.get_weather_forecast(
+        ...     key=awhere_api_key,
+        ...     secret=awhere_api_secret,
+        ...     forecast_type='soil'
+        ... )
+        >>> # Check number of entries in geodataframe
+        >>> len(bear_lake_forecast_soil)
+        40
     """
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
