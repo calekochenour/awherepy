@@ -54,23 +54,25 @@ def get_field(key, secret, kwargs=None):
         Running the function without kwargs will use the
         default values. Arguments include:
 
-        field_id: str
-            Field ID for a valid aWhere field associated with the input API
-            key/secret. Causes the function to return a single field if the
-            value is not None. If value is None, all fields associated with
-            the API key/secret will be returned. Default value is None.
+            field_id: str
+                Field ID for a valid aWhere field associated with the input API
+                key/secret. Causes the function to return a single field if the
+                value is not None. If value is None, all fields associated with
+                the API key/secret will be returned. Default value is None.
 
-        limit: int
-            Number of results in the API response per page. Used with offset
-            kwarg to sort through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Maximum value is 10. Default value is 10.
+            limit: int
+                Number of results in the API response per page. Used with
+                offset kwarg to sort through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Maximum value is 10. Default
+                value is 10.
 
-        offset: int
-            Number of results in the API response to skip. Used with limit
-            kwarg to sorts through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Default value is 0 (start with first result).
+            offset: int
+                Number of results in the API response to skip. Used with limit
+                kwarg to sorts through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Default value is 0 (start
+                with first result).
 
     Returns
     -------
@@ -223,8 +225,8 @@ def create_field(key, secret, field_info):
                 Can contain only alphanumeric characters, underscores, and
                 dashes. Maximum 255 characters.
 
-            acres : int or float, optional
-                Approximate size of the field in acres.
+            acres: int or float, optional
+                Size of the field in acres.
 
     Returns
     -------

@@ -308,42 +308,44 @@ def get_weather_norms(key, secret, kwargs=None):
         Running the function without kwargs will use the
         default values. Arguments include:
 
-        input_type: str
-            Type of data, weather API by geolocation or API by field.
-            Valid options include 'location' and 'field'. Default
-            value is 'location'.
+            input_type: str
+                Type of data, weather API by geolocation or API by field.
+                Valid options include 'location' and 'field'. Default
+                value is 'location'.
 
-        location: tuple of float
-            Tuple containing the location (longitude, latitude) that the API
-            gets data from. For use with the 'location' input_type.
-            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+            location: tuple of float
+                Tuple containing the location (longitude, latitude) that the
+                API gets data from. For use with the 'location' input_type.
+                Default value is (-105.648222, 40.313250), for Bear Lake, CO.
 
-        field_id: str
-            Field ID for a valid aWhere field associated with the input API
-            key/secret. For use with the 'field' input_type. Default value is
-            None.
+            field_id: str
+                Field ID for a valid aWhere field associated with the input API
+                key/secret. For use with the 'field' input_type. Default value
+                is None.
 
-        start_date: str
-            Start date for the weather norms data to be retrieved. Formatted
-            'MM-DD'. All days of the year are valid, from '01-01' to '12-31'.
-            Default value is '01-01'.
+            start_date: str
+                Start date for the weather norms data to be retrieved.
+                Formatted 'MM-DD'. All days of the year are valid, from
+                '01-01' to '12-31'. Default value is '01-01'.
 
-        end_date: str
-            End date for the weather norms data to be retrieved. Formatted
-            'MM-DD'. All days of the year are valid, from '01-01' to '12-31'.
-            Default value is None.
+            end_date: str
+                End date for the weather norms data to be retrieved. Formatted
+                'MM-DD'. All days of the year are valid, from '01-01' to
+                '12-31'. Default value is None.
 
-        limit: int
-            Number of results in the API response per page. Used with offset
-            kwarg to sort through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Maximum value is 10. Default value is 10.
+            limit: int
+                Number of results in the API response per page. Used with
+                offset kwarg to sort through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Maximum value is 10. Default
+                value is 10.
 
-        offset: int
-            Number of results in the API response to skip. Used with limit
-            kwarg to sorts through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Default value is 0 (start with first result).
+            offset: int
+                Number of results in the API response to skip. Used with limit
+                kwarg to sorts through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Default value is 0 (start
+                with first result).
 
     Returns
     -------
@@ -626,44 +628,46 @@ def get_weather_observed(key, secret, kwargs=None):
         Running the function without kwargs will use the
         default values. Arguments include:
 
-        input_type: str
-            Type of data, weather API by geolocation or API by field.
-            Valid options include 'location' and 'field'. Default
-            value is 'location'.
+            input_type: str
+                Type of data, weather API by geolocation or API by field.
+                Valid options include 'location' and 'field'. Default
+                value is 'location'.
 
-        location: tuple of float
-            Tuple containing the location (longitude, latitude) that the API
-            gets data from. For use with the 'location' input_type.
-            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+            location: tuple of float
+                Tuple containing the location (longitude, latitude) that the
+                API gets data from. For use with the 'location' input_type.
+                Default value is (-105.648222, 40.313250), for Bear Lake, CO.
 
-        field_id: str
-            Field ID for a valid aWhere field associated with the input API
-            key/secret. For use with the 'field' input_type. Default value is
-            None.
+            field_id: str
+                Field ID for a valid aWhere field associated with the input API
+                key/secret. For use with the 'field' input_type. Default value
+                is None.
 
-        start_date: str
-            Start date for the observed weather data to be retrieved. Formatted
-            'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
-            'YYYY-12-31'. Default value is None, which returns the previous 7
-            days of observed weather.
+            start_date: str
+                Start date for the observed weather data to be retrieved.
+                Formatted 'YYYY-MM-DD'. All days of the year are valid, from
+                'YYYY-01-01' to 'YYYY-12-31'. Default value is None, which
+                returns the previous 7 days of observed weather.
 
-        end_date: str
-            End date for the observed weather data to be retrieved. Formatted
-            'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
-            'YYYY-12-31'. Default value is None, which returns the previous 7
-            days of observed weather.
+            end_date: str
+                End date for the observed weather data to be retrieved.
+                Formatted 'YYYY-MM-DD'. All days of the year are valid, from
+                'YYYY-01-01' to 'YYYY-12-31'. Default value is None, which
+                returns the previous 7 days of observed weather.
 
-        limit: int
-            Number of results in the API response per page. Used with offset
-            kwarg to sort through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Maximum value is 10. Default value is 10.
+            limit: int
+                Number of results in the API response per page. Used with
+                offset kwarg to sort through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Maximum value is 10. Default
+                value is 10.
 
-        offset: int
-            Number of results in the API response to skip. Used with limit
-            kwarg to sorts through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Default value is 0 (start with first result).
+            offset: int
+                Number of results in the API response to skip. Used with limit
+                kwarg to sorts through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Default value is 0 (start
+                with first result).
 
     Returns
     -------
@@ -1009,52 +1013,54 @@ def get_weather_forecast(key, secret, forecast_type="main", kwargs=None):
         Running the function without kwargs will use the
         default values. Arguments include:
 
-        input_type: str
-            Type of data, weather API by geolocation or API by field.
-            Valid options include 'location' and 'field'. Default
-            value is 'location'.
+            input_type: str
+                Type of data, weather API by geolocation or API by field.
+                Valid options include 'location' and 'field'. Default
+                value is 'location'.
 
-        location: tuple of float
-            Tuple containing the location (longitude, latitude) that the API
-            gets data from. For use with the 'location' input_type.
-            Default value is (-105.648222, 40.313250), for Bear Lake, CO.
+            location: tuple of float
+                Tuple containing the location (longitude, latitude) that the
+                API gets data from. For use with the 'location' input_type.
+                Default value is (-105.648222, 40.313250), for Bear Lake, CO.
 
-        field_id: str
-            Field ID for a valid aWhere field associated with the input API
-            key/secret. For use with the 'field' input_type. Default value is
-            None.
+            field_id: str
+                Field ID for a valid aWhere field associated with the input API
+                key/secret. For use with the 'field' input_type. Default value
+                is None.
 
-        start_date: str
-            Start date for the weather forecast data to be retrieved. Formatted
-            'YYYY-MM-DD'. Valid dates inlclude up to 15 days from the current
-            day. Default value is None, which returns the next 10 days of
-            forecasted weather from the current day.
+            start_date: str
+                Start date for the weather forecast data to be retrieved.
+                Formatted 'YYYY-MM-DD'. Valid dates inlclude up to 15 days
+                from the current day. Default value is None, which returns the
+                next 10 days of forecasted weather from the current day.
 
-        end_date: str
-            End date for the weather forecast data to be retrieved. Formatted
-            'YYYY-MM-DD'. Valid dates inlclude up to 15 days from the current
-            day. Default value is None, which returns the next 10 days of
-            forecasted weather from the current day.
+            end_date: str
+                End date for the weather forecast data to be retrieved.
+                Formatted 'YYYY-MM-DD'. Valid dates inlclude up to 15 days
+                from the current day. Default value is None, which returns the
+                next 10 days of forecasted weather from the current day.
 
-        limit: int
-            Number of results in the API response per page. Used with offset
-            kwarg to sort through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Maximum value is 10. Default value is 10.
+            limit: int
+                Number of results in the API response per page. Used with
+                offset kwarg to sort through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Maximum value is 10. Default
+                value is 10.
 
-        offset: int
-            Number of results in the API response to skip. Used with limit
-            kwarg to sorts through pages of results (cases where the number of
-            results exceeds the limit per page). Applicable when the number
-            of results exceeds 1. Default value is 0 (start with first result).
+            offset: int
+                Number of results in the API response to skip. Used with limit
+                kwarg to sorts through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Default value is 0 (start
+                with first result).
 
-        block_size: int
-            Number of hourly forecasts per result. Valid options include
-            1, 2, 3, 4, 6, 8, 12, 24. Value of 1 indicates that the API
-            returns each daily forecast in 24 1-hour blocks. Value of 6
-            indicates that API returns each daily forecast in 4 6-hour blocks.
-            Value of 24 indicates that the API returns each daily forecast
-            in 1 24-hour block. Default value is 24.
+            block_size: int
+                Number of hourly forecasts per result. Valid options include
+                1, 2, 3, 4, 6, 8, 12, 24. Value of 1 indicates that the API
+                returns each daily forecast in 24 1-hour blocks. Value of 6
+                indicates that API returns each daily forecast in 4 6-hour
+                blocks. Value of 24 indicates that the API returns each daily
+                forecast in 1 24-hour block. Default value is 24.
 
     Returns
     -------
