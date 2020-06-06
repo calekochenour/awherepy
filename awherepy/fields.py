@@ -4,75 +4,77 @@ awherepy.fields
 A module to access and work with aWhere fields.
 """
 
-import requests
+import requests as rq
 from pandas.io.json import json_normalize
 import geopandas as gpd
-from awherepy import AWhereAPI
+import awherepy as aw
+
+# Define lon/lat columns
+FIELD_COORD_COLS = ["centerPoint.longitude", "centerPoint.latitude"]
 
 
-class Fields(AWhereAPI):
+# Define columns to drop
+FIELD_DROP_COLS = [
+    "_links.self.href",
+    "_links.curies",
+    "_links.awhere:observations.href",
+    "_links.awhere:forecasts.href",
+    "_links.awhere:plantings.href",
+    "_links.awhere:agronomics.href",
+]
 
-    # Define columns to drop
-    drop_cols = [
-        "_links.self.href",
-        "_links.curies",
-        "_links.awhere:observations.href",
-        "_links.awhere:forecasts.href",
-        "_links.awhere:plantings.href",
-        "_links.awhere:agronomics.href",
-    ]
+# Define new column names
+FIELD_RENAME_MAP = {
+    "name": "field_name",
+    "acres": "area_acres",
+    "farmId": "farm_id",
+    "id": "field_id",
+}
 
-    # Define new column names
-    rename_map = {
-        "name": "field_name",
-        "acres": "area_acres",
-        "farmId": "farm_id",
-        "id": "field_id",
-        "centerPoint.latitude": "center_latitude",
-        "centerPoint.longitude": "center_longitude",
-    }
+# Define CRS (EPSG 4326)
+FIELD_CRS = "epsg:4326"
 
-    # Define CRS (EPSG 4326)
-    crs = "epsg:4326"
 
-    def __init__(
-        self,
-        api_key,
-        api_secret,
-        base_64_encoded_secret_key=None,
-        auth_token=None,
-        api_url=None,
-    ):
-        super(Fields, self).__init__(
-            api_key, api_secret, base_64_encoded_secret_key, auth_token
-        )
+def get_field(
+    key, secret, field_id=None, query_params={"limit": 10, "offset": 0}
+):
+    """
+    Retrieves all fields or an individual field associated
+    with the provided API key/secret.
 
-        self.api_url = "https://api.awhere.com/v2/fields"
+    Docs:
+        http://developer.awhere.com/api/reference/fields/get-fields
+    """
+    # Define global variables
+    global FIELD_COORD_COLS, FIELD_DROP_COLS, FIELD_RENAME_MAP, FIELD_CRS
 
-    # Modify this to return all fields into a dataframe?
-    def get(self, field_id=None, limit=10, offset=0):
-        """
-        Performs a HTTP GET request to obtain all Fields you've
-        created on your aWhere App.
+    # Define fields api url
+    api_url = "https://api.awhere.com/v2/fields"
 
-        Docs:
-            http://developer.awhere.com/api/reference/fields/get-fields
-        """
-        # Setup the HTTP request headers
-        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+    # Check if credentials are valid
+    if aw.valid_credentials(key, secret):
+
+        # Get OAuth token
+        auth_token = aw.get_oauth_token(key, secret)
+
+        # Set up the HTTP request headers
+        auth_headers = {"Authorization": f"Bearer {auth_token}"}
 
         # Single field
         if field_id:
             # Perform the HTTP request to obtain a specific field
-            fields_response = requests.get(
-                f"{self.api_url}/{field_id}", headers=auth_headers
+            fields_response = rq.get(
+                f"{api_url}/{field_id}", headers=auth_headers
             )
 
         # All fields
         else:
             # Perform the HTTP request to obtain a list of all fields
-            fields_response = requests.get(
-                f"{self.api_url}?limit={limit}&offset={offset}",
+            fields_response = rq.get(
+                (
+                    f"{api_url}?limit={query_params.get('limit')}"
+                    "&offset={query_params.get('offset')}"
+                ),
                 headers=auth_headers,
             )
 
@@ -86,399 +88,289 @@ class Fields(AWhereAPI):
             else json_normalize(response.get("fields"))
         )
 
-        # Drop columns
-        fields_df.drop(columns=Fields.drop_cols, inplace=True)
-
-        # Rename columns
-        fields_df.rename(columns=Fields.rename_map, inplace=True)
-
-        # Set field ID as index
-        fields_df.set_index("field_id", inplace=True)
-
         # Prep for geodataframe conversion
         df_copy = fields_df.copy()
 
         # Convert to geodataframe
         fields_gdf = gpd.GeoDataFrame(
             df_copy,
-            crs=Fields.crs,
+            crs=FIELD_CRS,
             geometry=gpd.points_from_xy(
-                df_copy.center_longitude, df_copy.center_latitude
+                df_copy[FIELD_COORD_COLS[0]], df_copy[FIELD_COORD_COLS[1]]
             ),
         )
 
-        # Drop lat/lon columns
-        fields_gdf.drop(
-            columns=["center_longitude", "center_latitude"], inplace=True
+        # Add lat/lon columns to drop columns list
+        FIELD_DROP_COLS += FIELD_COORD_COLS
+
+        # Drop columns
+        fields_gdf.drop(columns=FIELD_DROP_COLS, inplace=True, errors="ignore")
+
+        # Rename columns
+        fields_gdf.rename(
+            columns=FIELD_RENAME_MAP, inplace=True, errors="ignore"
         )
 
-        # Return geodataframe
-        return fields_gdf
+        # Set field ID as index
+        fields_gdf.set_index("field_id", inplace=True)
 
-    def create(
-        self,
-        field_id,
-        field_name,
-        farm_id,
-        center_latitude,
-        center_longitude,
-        acres,
-    ):
-        """
-        Performs a HTTP POST request to create and add a Field to
-        your aWhere App.AWhereAPI, based on user input
+    # Invalid credentials
+    else:
+        # Raise error
+        raise ValueError("Invalid aWhere API credentials.")
 
-        Docs:
-            http://developer.awhere.com/api/reference/fields/create-field
-        """
-        field_body = {
-            "id": field_id,
-            "name": field_name,
-            "farmId": farm_id,
-            "centerPoint": {
-                "latitude": center_latitude,
-                "longitude": center_longitude,
-            },
-            "acres": acres,
-        }
+    # Return geodataframe
+    return fields_gdf
+
+
+def create_field(key, secret, field_info):
+    """
+    Performs a HTTP POST request to create and add a Field to
+    your aWhere App.AWhereAPI, based on user input
+
+    field_info : dict
+        Must contain the following keys
+            field_id : str
+            field_name : str
+            farm_id : str
+            center_latitude : int or float
+            center_longitude : int or float
+            acres : int or float
+
+    Docs:
+        http://developer.awhere.com/api/reference/fields/create-field
+    """
+    # Check field_info object type
+    if not isinstance(field_info, dict):
+        raise TypeError(
+            "Invalid type: 'field_info' must be of type dictionary."
+        )
+
+    # Raise errors for missing required parameters
+    if not field_info.get("field_id"):
+        raise KeyError("Missing required field parameter: 'field_id'.")
+
+    if not field_info.get("center_latitude"):
+        raise KeyError("Missing required field parameter: 'center_latitude'.")
+
+    if not field_info.get("center_longitude"):
+        raise KeyError("Missing required field parameter: 'center_longitude'.")
+
+    # Raise error if field name already exists
+    if field_info.get("field_id") in get_field(key, secret).index:
+        raise KeyError("Field name already exists within account.")
+
+    # Define fields api url
+    api_url = "https://api.awhere.com/v2/fields"
+
+    # Check if credentials are valid
+    if aw.valid_credentials(key, secret):
+
+        # Get OAuth token
+        auth_token = aw.get_oauth_token(key, secret)
 
         # Setup the HTTP request headers
         auth_headers = {
-            "Authorization": f"Bearer {str(self.auth_token)}",
+            "Authorization": f"Bearer {str(auth_token)}",
             "Content-Type": "application/json",
+        }
+
+        # Define request body
+        field_body = {
+            "id": field_info.get("field_id"),
+            "name": field_info.get("field_name"),
+            "farmId": field_info.get("farm_id"),
+            "centerPoint": {
+                "latitude": field_info.get("center_latitude"),
+                "longitude": field_info.get("center_longitude"),
+            },
+            "acres": field_info.get("acres"),
         }
 
         # Perform the POST request to create Field
         print("Attempting to create field...\n")
-        response = requests.post(
-            self.api_url, headers=auth_headers, json=field_body
+        response = rq.post(api_url, headers=auth_headers, json=field_body)
+
+        # Check if request succeeded
+        if response.ok:
+
+            # Get field for output
+            field = get_field(key, secret, field_id=field_info.get("field_id"))
+
+            # Indicate success
+            print(f"Created field: {field_info.get('field_id')}\n")
+
+        else:
+
+            # Indicate error
+            print("Failed to create field.\n")
+
+    # Invalid credentials
+    else:
+        # Raise error
+        raise ValueError("Invalid aWhere API credentials.")
+
+    # Return created field
+    return field
+
+
+def update_field(key, secret, field_info):
+    """Update the field name and/or farm id for a specified field.
+
+    field_info : dict
+        Must contain the following keys
+            field_id : str
+            field_name str
+            farm_id: str
+    """
+    # Check field_info object type
+    if not isinstance(field_info, dict):
+        raise TypeError(
+            "Invalid type: 'field_info' must be of type dictionary."
         )
 
-        # Convert API response to JSON
-        response_json = response.json()
+    # Raise errors for missing required parameters
+    if not field_info.get("field_id"):
+        raise KeyError("Missing required field parameter: 'field_id'.")
 
-        # Convert JSON to dataframe
-        fields_df = json_normalize(response_json)
-
-        # Drop columns
-        fields_df.drop(columns=Fields.drop_cols, inplace=True)
-
-        # Rename columns
-        fields_df.rename(columns=Fields.rename_map, inplace=True)
-
-        # Set field ID as index
-        fields_df.set_index("field_id", inplace=True)
-
-        # Prep for geodataframe conversion
-        df_copy = fields_df.copy()
-
-        # Convert to geodataframe
-        fields_gdf = gpd.GeoDataFrame(
-            df_copy,
-            crs=Fields.crs,
-            geometry=gpd.points_from_xy(
-                df_copy.center_longitude, df_copy.center_latitude
-            ),
+    if not (field_info.get("field_name") or field_info.get("farm_id")):
+        raise KeyError(
+            (
+                "Missing parameter: must update at least one attribute,"
+                "'field_name' or 'farm_id'."
+            )
         )
 
-        # Drop lat/lon columns
-        fields_gdf.drop(
-            columns=["center_longitude", "center_latitude"], inplace=True
-        )
+    # Raise error if field does not exist
+    if field_info.get("field_id") not in get_field(key, secret).index:
+        raise KeyError("Field name does not exist within account.")
 
-        # Return geodataframe
-        print(f"Created field: {field_id}")
-        return fields_gdf
+    # Define fields api url
+    api_url = "https://api.awhere.com/v2/fields"
 
-    def update(self, field_id, name=None, farm_id=None):
-        """Update the name and/or farm id for a field.
-        """
-        # Empty update (neither name or farm id)
-        if not (name or farm_id):
-            field_body = [
-                {"op": "replace", "path": "/name", "value": name},
-                {"op": "replace", "path": "/farmId", "value": farm_id},
-            ]
+    # Check if credentials are valid
+    if aw.valid_credentials(key, secret):
 
-        # Name only update
-        elif name and not farm_id:
-            field_body = [{"op": "replace", "path": "/name", "value": name}]
-
-        # Farm id only update
-        elif farm_id and not name:
-            field_body = [
-                {"op": "replace", "path": "/farmId", "value": farm_id}
-            ]
-
-        # Name and farm id update
-        elif name and farm_id:
-            field_body = [
-                {"op": "replace", "path": "/name", "value": name},
-                {"op": "replace", "path": "/farmId", "value": farm_id},
-            ]
+        # Get OAuth token
+        auth_token = aw.get_oauth_token(key, secret)
 
         # Setup the HTTP request headers
         auth_headers = {
-            "Authorization": f"Bearer {str(self.auth_token)}",
+            "Authorization": f"Bearer {auth_token}",
         }
+
+        # Set up request body
+        # Field name and farm id update
+        if field_info.get("field_name") and field_info.get("farm_id"):
+            field_body = [
+                {
+                    "op": "replace",
+                    "path": "/name",
+                    "value": field_info.get("field_name"),
+                },
+                {
+                    "op": "replace",
+                    "path": "/farmId",
+                    "value": field_info.get("farm_id"),
+                },
+            ]
+
+        # Field name only update
+        elif field_info.get("field_name") and not field_info.get("farm_id"):
+            field_body = [
+                {
+                    "op": "replace",
+                    "path": "/name",
+                    "value": field_info.get("field_name"),
+                }
+            ]
+
+        # Farm id only update
+        elif field_info.get("farm_id") and not field_info.get("field_name"):
+            field_body = [
+                {
+                    "op": "replace",
+                    "path": "/farmId",
+                    "value": field_info.get("farm_id"),
+                }
+            ]
 
         # Perform the HTTP request to update field information
         print("Attempting to update field...\n")
-        response = requests.patch(
-            f"{self.api_url}/{field_id}", headers=auth_headers, json=field_body
+        response = rq.patch(
+            f"{api_url}/{field_info.get('field_id')}",
+            headers=auth_headers,
+            json=field_body,
         )
 
-        # Convert API response to JSON
-        response_json = response.json()
+        # Check if request succeeded
+        if response.ok:
 
-        # Convert JSON to dataframe
-        fields_df = json_normalize(response_json)
+            # Get field for output
+            field = get_field(key, secret, field_id=field_info.get("field_id"))
 
-        # Drop columns
-        fields_df.drop(columns=Fields.drop_cols, inplace=True)
+            # Indicate success
+            print(f"Updated field: {field_info.get('field_id')}\n")
 
-        # Rename columns
-        fields_df.rename(columns=Fields.rename_map, inplace=True)
+        else:
 
-        # Set field ID as index
-        fields_df.set_index("field_id", inplace=True)
+            # Indicate error
+            print("Failed to create field.\n")
 
-        # Prep for geodataframe conversion
-        df_copy = fields_df.copy()
+    # Invalid credentials
+    else:
+        # Raise error
+        raise ValueError("Invalid aWhere API credentials.")
 
-        # Convert to geodataframe
-        fields_gdf = gpd.GeoDataFrame(
-            df_copy,
-            crs=Fields.crs,
-            geometry=gpd.points_from_xy(
-                df_copy.center_longitude, df_copy.center_latitude
-            ),
-        )
+    # Return updated field
+    return field
 
-        # Drop lat/lon columns
-        fields_gdf.drop(
-            columns=["center_longitude", "center_latitude"], inplace=True
-        )
 
-        # Return geodataframe
-        print(f"Updated field: {field_id}")
-        return fields_gdf
+def delete_field(key, secret, field_id):
+    """
+    Performs a HTTP DELETE request to delete a Field from your aWhere App.
+    Docs: http://developer.awhere.com/api/reference/fields/delete-field
+    Args:
+        field_id: The field to be deleted
+    """
+    # Raise error if field does not exist
+    if field_id not in get_field(key, secret).index:
+        raise KeyError("Field name does not exist within account.")
 
-    def delete(self, field_id):
-        """
-        Performs a HTTP DELETE request to delete a Field from your aWhere App.
-        Docs: http://developer.awhere.com/api/reference/fields/delete-field
-        Args:
-            field_id: The field to be deleted
-        """
+    # Define fields api url
+    api_url = "https://api.awhere.com/v2/fields"
+
+    # Check if credentials are valid
+    if aw.valid_credentials(key, secret):
+
+        # Get OAuth token
+        auth_token = aw.get_oauth_token(key, secret)
+
         # Setup the HTTP request headers
         auth_headers = {
-            "Authorization": f"Bearer {self.auth_token}",
+            "Authorization": f"Bearer {auth_token}",
             "Content-Type": "application/json",
         }
 
         # Perform the POST request to Ddlete the field
         print("Attempting to delete field...\n")
-        response = requests.delete(
-            f"{self.api_url}/{field_id}", headers=auth_headers
-        )
+        rq.delete(f"{api_url}/{field_id}", headers=auth_headers)
 
-        # Create output message
-        message = (
-            f"Deleted field: {field_id}"
-            if response.status_code == 204
-            else "Could not delete field."
-        )
+        # Check if field exists within account
+        try:
+            get_field(key, secret, field_id="Test")
 
-        return print(message)
+        # Catch error if field does not exist (was deleted)
+        except KeyError:
+            message = print(f"Deleted field: {field_id}")
 
+        # If delete did not work
+        else:
+            message = print("Could not delete field.")
 
-class Field(Fields):
+    # Invalid credentials
+    else:
+        # Raise error
+        raise ValueError("Invalid aWhere API credentials.")
 
-    # Define columns to drop
-    drop_cols = [
-        "_links.self.href",
-        "_links.curies",
-        "_links.awhere:observations.href",
-        "_links.awhere:forecasts.href",
-        "_links.awhere:plantings.href",
-        "_links.awhere:agronomics.href",
-    ]
-
-    # Define new column names
-    rename_map = {
-        "name": "field_name",
-        "acres": "area_acres",
-        "farmId": "farm_id",
-        "id": "field_id",
-        "centerPoint.latitude": "center_latitude",
-        "centerPoint.longitude": "center_longitude",
-    }
-
-    # Define CRS (EPSG 4326)
-    crs = "epsg:4326"
-
-    def __init__(
-        self,
-        api_key,
-        api_secret,
-        field_id,
-        base_64_encoded_secret_key=None,
-        auth_token=None,
-        api_url=None,
-    ):
-        super(Field, self).__init__(
-            api_key, api_secret, base_64_encoded_secret_key, auth_token
-        )
-
-        self.field_id = field_id
-        self.api_url = f"https://api.awhere.com/v2/fields/{self.field_id}"
-
-    def get(self):
-        """
-        Performs a HTTP GET request to obtain all Fields you've
-        created on your aWhere App.
-
-        Docs:
-            http://developer.awhere.com/api/reference/fields/get-fields
-        """
-        # Setup the HTTP request headers
-        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
-
-        # Perform the HTTP request to obtain the field information
-        field_response = requests.get(f"{self.api_url}", headers=auth_headers)
-
-        # Convert API response to JSON
-        response = field_response.json()
-
-        # Convert JSON to dataframe
-        field_df = json_normalize(response)
-
-        # Drop columns
-        field_df.drop(columns=Field.drop_cols, inplace=True)
-
-        # Rename columns
-        field_df.rename(columns=Field.rename_map, inplace=True)
-
-        # Set field ID as index
-        field_df.set_index("field_id", inplace=True)
-
-        # Prep for geodataframe conversion
-        df_copy = field_df.copy()
-
-        # Convert to geodataframe
-        field_gdf = gpd.GeoDataFrame(
-            df_copy,
-            crs=Field.crs,
-            geometry=gpd.points_from_xy(
-                df_copy.center_longitude, df_copy.center_latitude
-            ),
-        )
-
-        # Drop lat/lon columns
-        field_gdf.drop(
-            columns=["center_longitude", "center_latitude"], inplace=True
-        )
-
-        # Return geodataframe
-        return field_gdf
-
-    def create(self):
-        pass
-
-    def update(self, name=None, farm_id=None):
-        """Update the name and/or farm id for a field.
-        """
-        # Empty update (neither name or farm id)
-        if not (name or farm_id):
-            field_body = [
-                {"op": "replace", "path": "/name", "value": name},
-                {"op": "replace", "path": "/farmId", "value": farm_id},
-            ]
-
-        # Name only update
-        elif name and not farm_id:
-            field_body = [{"op": "replace", "path": "/name", "value": name}]
-
-        # Farm id only update
-        elif farm_id and not name:
-            field_body = [
-                {"op": "replace", "path": "/farmId", "value": farm_id}
-            ]
-
-        # Name and farm id update
-        elif name and farm_id:
-            field_body = [
-                {"op": "replace", "path": "/name", "value": name},
-                {"op": "replace", "path": "/farmId", "value": farm_id},
-            ]
-
-        # Setup the HTTP request headers
-        auth_headers = {
-            "Authorization": f"Bearer {str(self.auth_token)}",
-        }
-
-        # Perform the HTTP request to update field information
-        response = requests.patch(
-            f"{self.api_url}", headers=auth_headers, json=field_body
-        )
-
-        # Convert API response to JSON
-        response_json = response.json()
-
-        # Convert JSON to dataframe
-        fields_df = json_normalize(response_json)
-
-        # Drop columns
-        fields_df.drop(columns=Field.drop_cols, inplace=True)
-
-        # Rename columns
-        fields_df.rename(columns=Field.rename_map, inplace=True)
-
-        # Set field ID as index
-        fields_df.set_index("field_id", inplace=True)
-
-        # Prep for geodataframe conversion
-        df_copy = fields_df.copy()
-
-        # Convert to geodataframe
-        fields_gdf = gpd.GeoDataFrame(
-            df_copy,
-            crs=Field.crs,
-            geometry=gpd.points_from_xy(
-                df_copy.center_longitude, df_copy.center_latitude
-            ),
-        )
-
-        # Drop lat/lon columns
-        fields_gdf.drop(
-            columns=["center_longitude", "center_latitude"], inplace=True
-        )
-
-        # Return geodataframe
-        print(f"Updated field: {self.field_id}")
-        return fields_gdf
-
-    def delete(self):
-        """
-        Performs a HTTP DELETE request to delete a Field from your aWhere App.
-        Docs: http://developer.awhere.com/api/reference/fields/delete-field
-        Args:
-            field_id: The field to be deleted
-        """
-        # Setup the HTTP request headers
-        auth_headers = {
-            "Authorization": f"Bearer {self.auth_token}",
-            "Content-Type": "application/json",
-        }
-
-        # Perform the POST request to Delete the Field
-        response = requests.delete(f"{self.api_url}", headers=auth_headers)
-
-        message = (
-            f"Deleted field: {self.field_id}"
-            if response.status_code == 204
-            else "Could not delete field."
-        )
-
-        return print(message)
+    return message

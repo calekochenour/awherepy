@@ -291,7 +291,7 @@ def _clean_weather_norms(df):
     return gdf
 
 
-def weather_norms(key, secret, kwargs=None):
+def get_weather_norms(key, secret, kwargs=None):
     """kwargs is a dictionary that provides values beyond the default;
     unpack dictionary if it exists
 
@@ -301,6 +301,14 @@ def weather_norms(key, secret, kwargs=None):
 
     input_type='location' 'field'
 
+    kwargs : dict
+        input_type="location",
+        location=(-105.648222, 40.313250),
+        field_id=None,
+        start_date="01-01",
+        end_date=None,
+        limit=10,
+        offset=0,
 
     """
     # Check if credentials are valid
@@ -528,7 +536,7 @@ def _clean_weather_observed(df):
     return gdf
 
 
-def weather_observed(key, secret, kwargs=None):
+def get_weather_observed(key, secret, kwargs=None):
     """kwargs is a dictionary that provides values beyond the default;
     unpack dictionary if it exists
 
@@ -537,6 +545,15 @@ def weather_observed(key, secret, kwargs=None):
     kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
 
     input_type='location' 'field'
+
+    kwargs : dict
+        input_type="location",
+        location=(-105.648222, 40.313250),
+        field_id=None,
+        start_date="01-01",
+        end_date=None,
+        limit=10,
+        offset=0,
     """
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
@@ -830,6 +847,18 @@ def get_weather_forecast(key, secret, forecast_type="main", kwargs=None):
     kwargs={'start_day': '03-04', 'end_day': '03-07', 'offset': 2}
 
     input_type='location' 'field'
+
+    forecast_type : str
+        Either 'main' (default) or 'soil'.
+
+    kwargs : dict
+        input_type="location",
+        location=(-105.648222, 40.313250),
+        field_id=None,
+        start_date="01-01",
+        end_date=None,
+        limit=10,
+        offset=0,
     """
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
