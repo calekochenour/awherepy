@@ -626,40 +626,40 @@ def get_weather_observed(key, secret, kwargs=None):
         Running the function without kwargs will use the
         default values. Arguments include:
 
-        input_type : str
+        input_type: str
             Type of data, weather API by geolocation or API by field.
             Valid options include 'location' and 'field'. Default
             value is 'location'.
 
-        location : tuple of float
+        location: tuple of float
             Tuple containing the location (longitude, latitude) that the API
             gets data from. For use with the 'location' input_type.
             Default value is (-105.648222, 40.313250), for Bear Lake, CO.
 
-        field_id : str
+        field_id: str
             Field ID for a valid aWhere field associated with the input API
             key/secret. For use with the 'field' input_type. Default value is
             None.
 
-        start_date : str
+        start_date: str
             Start date for the observed weather data to be retrieved. Formatted
             'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
             'YYYY-12-31'. Default value is None, which returns the previous 7
             days of observed weather.
 
-        end_date : str
+        end_date: str
             End date for the observed weather data to be retrieved. Formatted
             'YYYY-MM-DD'. All days of the year are valid, from 'YYYY-01-01' to
             'YYYY-12-31'. Default value is None, which returns the previous 7
             days of observed weather.
 
-        limit : int
+        limit: int
             Number of results in the API response per page. Used with offset
             kwarg to sort through pages of results (cases where the number of
             results exceeds the limit per page). Applicable when the number
             of results exceeds 1. Maximum value is 10. Default value is 10.
 
-        offset : int
+        offset: int
             Number of results in the API response to skip. Used with limit
             kwarg to sorts through pages of results (cases where the number of
             results exceeds the limit per page). Applicable when the number
