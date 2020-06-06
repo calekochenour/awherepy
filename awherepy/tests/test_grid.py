@@ -5,7 +5,7 @@ import pytest
 import matplotlib as mpl
 import shapely
 import geopandas as gpd
-import awherepy.grid as ag
+import awherepy.grid as awg
 
 
 @pytest.fixture
@@ -19,7 +19,7 @@ def vermont_grid():
     )
 
     # Create aWhere grid and boundary
-    vt_grid, vt_bound_4326 = ag.create_grid(
+    vt_grid, vt_bound_4326 = awg.create_grid(
         vt_bound_path, buffer_distance=0.12
     )
 
@@ -38,7 +38,7 @@ def vermont_boundary():
     )
 
     # Create aWhere grid and boundary
-    vt_grid, vt_bound_4326 = ag.create_grid(
+    vt_grid, vt_bound_4326 = awg.create_grid(
         vt_bound_path, buffer_distance=0.12
     )
 
@@ -52,7 +52,7 @@ def vermont_centroids(vermont_grid):
     the Vermont aWhere grid cells.
     """
     # Extract centroids
-    vt_centroids = ag.extract_centroids(vermont_grid)
+    vt_centroids = awg.extract_centroids(vermont_grid)
 
     # Return centroids
     return vt_centroids
@@ -67,7 +67,7 @@ def vermont_population(vermont_grid):
     vt_pop_path = os.path.join("awherepy", "example-data", "vt_ppp_2020.tif")
 
     # Rasterize ppp data (100x100 m) to aWhere grid (9x9 km)
-    vt_pop_rasterized = ag.rasterize(vermont_grid, vt_pop_path)
+    vt_pop_rasterized = awg.rasterize(vermont_grid, vt_pop_path)
 
     # Return geodataframe with rasterized pop data
     return vt_pop_rasterized
@@ -80,7 +80,7 @@ def vermont_plot_figure(vermont_grid, vermont_boundary):
     axes.
     """
     # Plot grid and boundary
-    fig, ax = ag.plot_grid(vermont_grid, vermont_boundary)
+    fig, ax = awg.plot_grid(vermont_grid, vermont_boundary)
 
     # Return figure
     return fig
@@ -93,7 +93,7 @@ def vermont_plot_axes(vermont_grid, vermont_boundary):
     axes.
     """
     # Plot grid and boundary
-    fig, ax = ag.plot_grid(vermont_grid, vermont_boundary)
+    fig, ax = awg.plot_grid(vermont_grid, vermont_boundary)
 
     # Return axes
     return ax
@@ -112,7 +112,7 @@ def vermont_grid_csv(vermont_grid):
         os.remove(outpath)
 
     # Export file
-    export = ag.export_grid(vermont_grid, outpath)
+    export = awg.export_grid(vermont_grid, outpath)
 
     # Return exported file path
     return export
@@ -131,7 +131,7 @@ def vermont_grid_shp(vermont_grid):
         os.remove(outpath)
 
     # Export file
-    export = ag.export_grid(vermont_grid, outpath)
+    export = awg.export_grid(vermont_grid, outpath)
 
     # Return exported file path
     return export
@@ -150,7 +150,7 @@ def vermont_grid_geojson(vermont_grid):
         os.remove(outpath)
 
     # Export file
-    export = ag.export_grid(vermont_grid, outpath)
+    export = awg.export_grid(vermont_grid, outpath)
 
     # Return exported file path
     return export
@@ -169,7 +169,7 @@ def vermont_grid_gpkg(vermont_grid):
         os.remove(outpath)
 
     # Export file
-    export = ag.export_grid(vermont_grid, outpath)
+    export = awg.export_grid(vermont_grid, outpath)
 
     # Return exported file path
     return export
@@ -189,7 +189,7 @@ def vermont_grid_gpx(vermont_grid):
         os.remove(outpath)
 
     # Export file
-    export = ag.export_grid(vermont_grid, outpath)
+    export = awg.export_grid(vermont_grid, outpath)
 
     # Return exported file path
     return export
@@ -320,6 +320,6 @@ def test_export_grid(
 
     # Test invalid export file type (GPX)
     with pytest.raises(OSError):
-        ag.export_grid(
+        awg.export_grid(
             vermont_grid, os.path.join("test-data", "vermont_grid.gpx")
         )
