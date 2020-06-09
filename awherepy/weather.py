@@ -342,7 +342,7 @@ def get_weather_norms(key, secret, kwargs=None):
 
             offset: int
                 Number of results in the API response to skip. Used with limit
-                kwarg to sorts through pages of results (cases where the
+                kwarg to sort through pages of results (cases where the
                 number of results exceeds the limit per page). Applicable when
                 the number of results exceeds 1. Default value is 0 (start
                 with first result).
@@ -373,7 +373,7 @@ def get_weather_norms(key, secret, kwargs=None):
         >>> vt_kwargs = {
         ...     'location': (-73.0723269, 43.1636875),
         ...     'start_date': '05-10',
-        ...     'end_date': '05-20'
+        ...     'end_date': '05-19'
         ... }
         >>> # Get historical norms for Manchester, Vermont
         >>> manchester_vt_norms = aww.get_weather_norms(
@@ -664,7 +664,7 @@ def get_weather_observed(key, secret, kwargs=None):
 
             offset: int
                 Number of results in the API response to skip. Used with limit
-                kwarg to sorts through pages of results (cases where the
+                kwarg to sort through pages of results (cases where the
                 number of results exceeds the limit per page). Applicable when
                 the number of results exceeds 1. Default value is 0 (start
                 with first result).
@@ -1049,7 +1049,7 @@ def get_weather_forecast(key, secret, forecast_type="main", kwargs=None):
 
             offset: int
                 Number of results in the API response to skip. Used with limit
-                kwarg to sorts through pages of results (cases where the
+                kwarg to sort through pages of results (cases where the
                 number of results exceeds the limit per page). Applicable when
                 the number of results exceeds 1. Default value is 0 (start
                 with first result).
