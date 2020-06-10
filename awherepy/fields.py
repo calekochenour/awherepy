@@ -35,7 +35,7 @@ FIELD_RENAME_MAP = {
 FIELD_CRS = "epsg:4326"
 
 
-def get_field(key, secret, kwargs=None):
+def get_fields(key, secret, kwargs=None):
     """
     Returns fields (all or individual) associated with an aWhere application.
 
@@ -89,14 +89,14 @@ def get_field(key, secret, kwargs=None):
         >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
         >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
         >>> # Get all fields associated with key/secret
-        >>> all_fields = awf.get_field(awhere_api_key, awhere_api_secret)
+        >>> all_fields = awf.get_fields(awhere_api_key, awhere_api_secret)
         >>> # Check number of entries in field
         >>> len(all_fields)
         3
         >>> # Define kwargs for single field
         >>> manchester_vt_kwargs = {'field_id': 'Manchester-VT'}
         >>> # Get a single field
-        >>> manchester_vt_field = awf.get_field(
+        >>> manchester_vt_field = awf.get_fields(
         ...     awhere_api_key, awhere_api_secret, kwargs=manchester_vt_kwargs)
         >>> # Check number of entries
         >>> len(manchester_vt_field)
@@ -280,7 +280,7 @@ def create_field(key, secret, field_info):
         raise KeyError("Missing required field parameter: 'center_longitude'.")
 
     # Raise error if field name already exists
-    if field_info.get("field_id") in get_field(key, secret).index:
+    if field_info.get("field_id") in get_fields(key, secret).index:
         raise KeyError("Field name already exists within account.")
 
     # Define fields api url
@@ -318,7 +318,9 @@ def create_field(key, secret, field_info):
         if response.ok:
 
             # Get field for output
-            field = get_field(key, secret, field_id=field_info.get("field_id"))
+            field = get_fields(
+                key, secret, field_id=field_info.get("field_id")
+            )
 
             # Indicate success
             print(f"Created field: {field_info.get('field_id')}")
@@ -414,7 +416,7 @@ def update_field(key, secret, field_info):
         )
 
     # Raise error if field does not exist
-    if field_info.get("field_id") not in get_field(key, secret).index:
+    if field_info.get("field_id") not in get_fields(key, secret).index:
         raise KeyError("Field name does not exist within account.")
 
     # Define fields api url
@@ -479,7 +481,9 @@ def update_field(key, secret, field_info):
         if response.ok:
 
             # Get field for output
-            field = get_field(key, secret, field_id=field_info.get("field_id"))
+            field = get_fields(
+                key, secret, field_id=field_info.get("field_id")
+            )
 
             # Indicate success
             print(f"Updated field: {field_info.get('field_id')}")
@@ -538,7 +542,7 @@ def delete_field(key, secret, field_id):
     Deleted field: VT-Manchester
     """
     # Raise error if field does not exist
-    if field_id not in get_field(key, secret).index:
+    if field_id not in get_fields(key, secret).index:
         raise KeyError("Field name does not exist within account.")
 
     # Define fields api url
@@ -562,7 +566,7 @@ def delete_field(key, secret, field_id):
 
         # Check if field exists within account
         try:
-            get_field(key, secret, field_id="Test")
+            get_fields(key, secret, field_id="Test")
 
         # Catch error if field does not exist (was deleted)
         except KeyError:

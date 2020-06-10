@@ -79,7 +79,7 @@ def get_crops(
         >>> # Imports
         >>> import os
         >>> import awherepy as aw
-        >>> import awherepy.fields as awc
+        >>> import awherepy.crops as awc
         >>> # Get aWhere API key and secret
         >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
         >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
