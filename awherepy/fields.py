@@ -187,8 +187,7 @@ def get_fields(key, secret, kwargs=None):
 
 
 def create_field(key, secret, field_info):
-    """
-    Creates a field associated with an aWhere application.
+    """Creates a field associated with an aWhere application.
 
     API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
 
@@ -489,9 +488,8 @@ def update_field(key, secret, field_info):
             print(f"Updated field: {field_info.get('field_id')}")
 
         else:
-
             # Indicate error
-            print("Failed to create field.")
+            field = print("Failed to create field.")
 
     # Invalid credentials
     else:
@@ -557,16 +555,15 @@ def delete_field(key, secret, field_id):
         # Setup the HTTP request headers
         auth_headers = {
             "Authorization": f"Bearer {auth_token}",
-            "Content-Type": "application/json",
         }
 
         # Perform the POST request to Ddlete the field
-        print("Attempting to delete field...\n")
+        print("Attempting to delete field...")
         rq.delete(f"{api_url}/{field_id}", headers=auth_headers)
 
         # Check if field exists within account
         try:
-            get_fields(key, secret, field_id="Test")
+            get_fields(key, secret, field_id=field_id)
 
         # Catch error if field does not exist (was deleted)
         except KeyError:
