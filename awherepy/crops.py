@@ -183,4 +183,5 @@ def get_crops(
         # Raise error
         raise ValueError("Invalid aWhere API credentials.")
 
+    # Return crops
     return crop_df
