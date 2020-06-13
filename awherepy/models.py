@@ -117,6 +117,55 @@ MODEL_RESULTS_REORDER_COLS = [
 
 def get_models(key, secret, model_id=None):
     """Retrieve a list of available models or single model if specified.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/models/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    model_id : str, optional
+        Valid aWhere model id.
+
+    Returns
+    -------
+    model_df : pandas dataframe
+        Dataframe containing a single model or all available models.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import awherepy.models as awm
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get all available aWhere models
+        >>> all_models = awm.get_models(awhere_api_key, awhere_api_secret)
+        >>> # Display model id for first model
+        >>> all_models.index[0]
+        BarleyGenericMSU
+        >>> # Get a single model
+        >>> corn_2700 = awm.get_models(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     modei_id='Corn2700ISUAbendroth'
+        ... )
+        >>> # Show model name
+        >>> corn_2700.model_name
+        model_id
+        Corn2700ISUAbendroth    Corn, 2700 GDD (Iowa State University)
+        Name: model_name, dtype: object
+        >>> # Show model type
+        >>> corn_2700.model_type
+        model_id
+        Corn2700ISUAbendroth    GrowthStage
+        Name: model_type, dtype: object
     """
     # Define global variables
     global MODELS_LIST, MODELS_DROP_COLS, MODELS_RENAME_MAP
@@ -215,6 +264,60 @@ def get_models(key, secret, model_id=None):
 def get_model_details(key, secret, model_id=None):
     """Retrieve model details for all available models
     or single model if specified.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/models/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    model_id : str, optional
+        Valid aWhere model id.
+
+    Returns
+    -------
+    tuple
+
+        base_info_df: pandas dataframe
+            Dataframe containing the base information about the model.
+
+        stage_info_df: pandas dataframe
+            Dataframe containing the stage information about the model.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import awherepy.models as awm
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get details for barley generic
+        >>> barley_base_details, barley_stage_details = awm.get_model_details(
+        ...     awhere_api_key, awhere_api_secret, model_id='BarleyGenericMSU'
+        ... )
+        >>> # Show base detiils - GDD method
+        >>> barley_base_details.gdd_method
+        model_id
+        BarleyGenericMSU    standard
+        Name: gdd_method, dtype: object
+        >>> # Show stage names
+        >>> barley_stage_details.stage_name
+        model_id          stage_id
+        BarleyGenericMSU  stage1      Universal 1.0
+                          stage2      Universal 1.2
+                          stage3      Universal 2.1
+                          stage4      Universal 3.1
+                          stage5      Universal 6.1
+                          stage6      Universal 7.1
+                          stage7      Universal 8.5
+                          stage8      Universal 8.9
+        Name: stage_name, dtype: object
     """
     # Define global variables
     global MODELS_LIST, MODELS_DROP_COLS, MODELS_RENAME_MAP
@@ -370,6 +473,62 @@ def get_model_details(key, secret, model_id=None):
 def get_model_results(key, secret, field_id, model_id):
     """Returns the aWhere agronomic model results
     associated with a specific field and model.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/models/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    field_id : str
+        Field id for an existing aWhere field.
+
+    model_id : str
+        Valid aWhere model id.
+
+    Returns
+    -------
+    stages_df: pandas dataframe
+        Dataframe containing the model results.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import ahwerepy.plantings as awp
+        >>> import awherepy.models as awm
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Create planting for Manchester, Vermont field
+        >>> vt_planting_info = {
+        ...     'crop': 'wheat-hardred',
+        ...     'planting_date': '2020-06-01'
+        ... }
+        >>> awp.create_planting(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester',
+        ...     planting_info=vt_info
+        ... )
+        >>> # Get model results
+        >>> vt_model_results = awm.get_model_results(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester',
+        ...     model_id='WheatHardRedMSU'
+        ... )
+        >>> # Show some columns of model results
+        >>> vt_model_results[['stage_description', 'gdd_threshold_cels']]
+                                   stage_description  gdd_threshold_cels
+        field_id      stage_status
+        VT-Manchester Current              emergence               161.0
+                      Next          leaf development               206.0
     """
     # Define global variables
     global MODEL_RESULTS_DROP_COLS
