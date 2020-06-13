@@ -525,6 +525,7 @@ def get_model_results(key, secret, field_id, model_id):
         ... )
         >>> # Show some columns of model results
         >>> vt_model_results[['stage_description', 'gdd_threshold_cels']]
+
                                    stage_description  gdd_threshold_cels
         field_id      stage_status
         VT-Manchester Current              emergence               161.0

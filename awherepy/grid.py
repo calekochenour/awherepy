@@ -263,10 +263,10 @@ def plot_grid(
     -------
     tuple
 
-        fig : matplotlib.figure.Figure object
+        fig: matplotlib.figure.Figure object
             The figure object associated with the histogram.
 
-        ax : matplotlib.axes._subplots.AxesSubplot objects
+        ax: matplotlib.axes._subplots.AxesSubplot objects
             The axes object associated with the histogram.
 
     Example

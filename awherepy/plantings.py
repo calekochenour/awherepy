@@ -36,31 +36,85 @@ def create_planting(key, secret, field_id, planting_info):
 
     API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
 
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    field_id : str
+        Field ID for an existing aWhere field.
+
     planting_info : dict
         Dictionary containing the information required to create an aWhere
         planting. Can contain the following keys:
 
             crop: str, required
-                ID for the field. This ID is used to reference the field in
-                all applicable aWhere APIs. Can contain only alphanumeric
-                characters, underscores, and dashes. Maximum 50 characters.
+                ID for the crop that will be planted. Must be a valid aWhere
+                crop ID.
 
             planting_date: str, required
-                'YYYY-MM-DD'
+                Planting date for the crop, formatted as 'YYYY-MM-DD'.
 
-            projected_yield_amount: str, optional
+            projected_yield_amount: str or int or float, optional
+                Projected yield amount for the crop. If used, the
+                projected_yield_units parameter must also be set.
 
             projected_yield_units: str, optional
+                Units for the projected crop yield. If used, the
+                projected_yield_amount parameter must also be set.
 
             projected_harvest_date: str, optional
-                'YYYY-MM-DD'. Projected harvest date.
+                Projected harvest date for the crop, formatted as
+                'YYYY-MM-DD'.
 
-            yield_amount: str, optional
+            yield_amount: str or int or float, optional
+                Actual yield amount for the crop. If used, the
+                yield_units parameter must also be set.
 
             yield_units: str, optional
+                Units for the actual crop yield. If used, the
+                yield_amount parameter must also be set.
 
             harvest_date: str, optional
-                Actual harvest date.
+                Actual harvest date for the crop, formatted as 'YYYY-MM-DD'.
+
+    Returns
+    -------
+    planting : pandas dataframe
+        Dataframe containing the planting information.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import ahwerepy.plantings as awp
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Create planting for Manchester, Vermont field
+        >>> vt_planting_info = {
+        ...     'crop': 'potato-generic',
+        ...     'planting_date': '2020-05-01',
+        ...     'projected_harvest_date': '2020-09-30',
+        ...     'projected_yield_amount': 200,
+        ...     'projected_yield_units': 'boxes'
+        ... }
+        >>> awp.create_planting(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester',
+        ...     planting_info=vt_planting_info
+        ... )
+        Attempting to create planting...
+        Created planting: potato-generic planted in VT-Manchester
+
+                            crop_id         field_id    planting_date
+        planting_id
+        ######       potato-generic    VT-Manchester       2020-05-01
     """
     # Check planting_info object type
     if not isinstance(planting_info, dict):
@@ -177,6 +231,85 @@ def get_plantings(
     """Gets all aWhere plantings associated an account, all plantings
     associated with a with a specified field, or an individual planting
     associated with a specific field.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    kwargs : dict, optional
+        Keyword arguments for different query parameters.
+        Running the function without kwargs will use the
+        default values. Arguments include:
+
+            field_id: str
+                Field ID for a valid aWhere field associated with the input API
+                key/secret. If not specified and planting_id not specified,
+                all plantings for all fields will be returned. If specified and
+                planting_id not specified, all plantings associated with the
+                specific field will be returned.
+
+            planting_id: int
+                Planting ID for a valid planting associated with an existing
+                aWhere field. If specified and field_specified, a single
+                planting will be returned. If not specified and field_id
+                specified, the current (most recent) planting for that field
+                will be returned.
+
+            limit: int
+                Number of results in the API response per page. Used with
+                offset kwarg to sort through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Maximum value is 10. Default
+                value is 10.
+
+            offset: int
+                Number of results in the API response to skip. Used with limit
+                kwarg to sorts through pages of results (cases where the
+                number of results exceeds the limit per page). Applicable when
+                the number of results exceeds 1. Default value is 0 (start
+                with first result).
+
+    Returns
+    -------
+    plantings_df : pandas dataframe
+        Dataframe containing all plantings or an individual planting.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import ahwerepy.plantings as awp
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get all plantings in all fields
+        >>> all_plantings = awp.get_plantings(
+        ...     awhere_api_key, awhere_api_secret
+        ... )
+        >>> # Get all plantings for a specific field
+        >>> vt_plantings = awp.get_plantings(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester'
+        ... )
+        >>> # Get most recent planting (looks through all fields)
+        >>> current_planting = awp.get_plantings(
+        ...     awhere_api_key, awhere_api_secret, planting_id='current'
+        ... )
+        >>> # Get specific planting for specific field
+        >>> vt_planting = awp.get_plantings(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester',
+        ...     planting_id=######
+        ... )
     """
     # Raise error if planting does not exist
     if planting_id is not None and planting_id != "current":
@@ -264,6 +397,93 @@ def update_planting(
     update_type="full",
 ):
     """Updates a specified planting.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    field_id : str
+        Field ID for an existing aWhere field.
+
+    planting_info : dict
+        Dictionary containing the information to update an aWhere planting.
+        Can contain the following keys:
+
+            crop: str, required
+                ID for the crop that will be planted. Must be a valid aWhere
+                crop ID.
+
+            planting_date: str, required
+                Planting date for the crop, formatted as 'YYYY-MM-DD'.
+
+            projected_yield_amount: str or int or float, optional
+                Projected yield amount for the crop. If used, the
+                projected_yield_units parameter must also be set.
+
+            projected_yield_units: str, optional
+                Units for the projected crop yield. If used, the
+                projected_yield_amount parameter must also be set.
+
+            projected_harvest_date: str, optional
+                Projected harvest date for the crop, formatted as
+                'YYYY-MM-DD'.
+
+            yield_amount: str or int or float, optional
+                Actual yield amount for the crop. If used, the
+                yield_units parameter must also be set.
+
+            yield_units: str, optional
+                Units for the actual crop yield. If used, the
+                yield_amount parameter must also be set.
+
+            harvest_date: str, optional
+                Actual harvest date for the crop, formatted as 'YYYY-MM-DD'.
+
+    planting_id : int
+        Planting ID of the planting to be updated. Default value is 'current',
+        which references the most recent planting the specified field.
+
+    update_type : str
+        The type of update. Options are 'full' or 'partial'. Full update
+        replaces every parameter in the planting. Partial update replaces
+        only the provided parameters in the planting. Default value is 'full'.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> import ahwerepy.plantings as awp
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Define planting update information
+        >>> planting_update_info = {
+        ...     "crop": "sugarbeet-generic",
+        ...     "planting_date": '2020-06-05',
+        ...     "projections_yield_amount": 50,
+        ...     "projections_yield_units": 'large boxes',
+        ...     "projected_harvest_date": '2020-08-08',
+        ...     "yield_amount": 200,
+        ...     "yield_units": 'large boxes',
+        ...     "harvest_date": '2020-07-31'
+        ... }
+        >>> # Update planting
+        >>> awp.update_planting(
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     field_id='VT-Manchester',
+        ...     planting_id=######,
+        ...     planting_info=update_info
+        ... )
+        Attempting to update planting...
+        Updated planting: sugarbeet-generic in VT-Manchester
     """
     # Check planting_info object type
     if not isinstance(planting_info, dict):
@@ -379,6 +599,49 @@ def update_planting(
 
 def delete_planting(key, secret, field_id, planting_id="current"):
     """Deletes a specified aWhere planting.
+
+    API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
+
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    field_id : str
+        Field ID for an existing aWhere field.
+
+    planting_id : int, optional
+        Planting ID for an existing planting. This identifies the planting that
+        will be deleted from the specified aWhere field. Default value is
+        'current', which references the most recent planting associated with
+        the specified field.
+
+    Returns
+    -------
+    message : str
+        Output message indicating success or failure for the planting deletion.
+
+    Example
+    -------
+    >>> # Imports
+    >>> import os
+    >>> import awherepy as aw
+    >>> import awherepy.plantings as awp
+    >>> # Get aWhere API key and secret
+    >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+    >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+    >>> # Delete planting in Manchester, Vermont field
+    >>> awp.delete_planting(
+    ...     awhere_api_key,
+    ...     awhere_api_secret,
+    ...     field_id='VT-Manchester',
+    ...     planting_id=######
+    ... )
+    Attempting to delete planting...
+    Deleted planting: ###### in VT-Manchester
     """
     # Raise error if field does not exist
     if field_id not in awf.get_fields(key, secret).index:
@@ -418,7 +681,7 @@ def delete_planting(key, secret, field_id, planting_id="current"):
 
         # Catch error if planting does not exist (was deleted)
         except KeyError:
-            message = print(f"Deleted planting: {planting_id}")
+            message = print(f"Deleted planting: {planting_id} in {field_id}")
 
         # If delete did not work
         else:
