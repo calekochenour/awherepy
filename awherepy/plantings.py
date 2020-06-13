@@ -114,7 +114,7 @@ def create_planting(key, secret, field_id, planting_info):
 
                             crop_id         field_id    planting_date
         planting_id
-        ######       potato-generic    VT-Manchester       2020-05-01
+        # potato-generic    VT-Manchester       2020-05-01
     """
     # Check planting_info object type
     if not isinstance(planting_info, dict):
@@ -400,12 +400,7 @@ def get_plantings(key, secret, kwargs=None):
 
 
 def update_planting(
-    key,
-    secret,
-    field_id,
-    planting_info,
-    planting_id="current",
-    update_type="full",
+    key, secret, planting_info,
 ):
     """Updates a specified planting.
 
@@ -419,14 +414,22 @@ def update_planting(
     secret : str
         API secret for a valid aWhere API application.
 
-    field_id : str
-        Field ID for an existing aWhere field.
-
     planting_info : dict
         Dictionary containing the information to update an aWhere planting.
         Can contain the following keys:
 
-            crop: str, required
+            field_id: str
+                Field ID for an existing aWhere field.
+
+            planting_id: int
+                Planting ID for an existing planting.
+
+            update_type : str
+                The type of update. Options are 'full' or 'partial'. Full
+                update replaces every parameter in the planting. Partial
+                update replaces only the provided parameters in the planting.
+
+            crop: str
                 ID for the crop that will be planted. Must be a valid aWhere
                 crop ID.
 
@@ -456,15 +459,6 @@ def update_planting(
             harvest_date: str, optional
                 Actual harvest date for the crop, formatted as 'YYYY-MM-DD'.
 
-    planting_id : int
-        Planting ID of the planting to be updated. Default value is 'current',
-        which references the most recent planting the specified field.
-
-    update_type : str
-        The type of update. Options are 'full' or 'partial'. Full update
-        replaces every parameter in the planting. Partial update replaces
-        only the provided parameters in the planting. Default value is 'full'.
-
     Example
     -------
         >>> # Imports
@@ -476,22 +470,23 @@ def update_planting(
         >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
         >>> # Define planting update information
         >>> planting_update_info = {
-        ...     "crop": "sugarbeet-generic",
-        ...     "planting_date": '2020-06-05',
-        ...     "projections_yield_amount": 50,
-        ...     "projections_yield_units": 'large boxes',
-        ...     "projected_harvest_date": '2020-08-08',
-        ...     "yield_amount": 200,
-        ...     "yield_units": 'large boxes',
-        ...     "harvest_date": '2020-07-31'
+        ...     'field_id': 'VT-Manchester',
+        ...     'planting_id': 475994,
+        ...     'update_type': 'partial'
+        ...     'crop': 'sugarbeet-generic',
+        ...     'planting_date': '2020-06-05',
+        ...     'projections_yield_amount': 50,
+        ...     'projections_yield_units': 'large boxes',
+        ...     'projected_harvest_date': '2020-08-08',
+        ...     'yield_amount': 200,
+        ...     'yield_units': 'large boxes',
+        ...     'harvest_date': '2020-07-31'
         ... }
         >>> # Update planting
         >>> awp.update_planting(
         ...     awhere_api_key,
         ...     awhere_api_secret,
-        ...     field_id='VT-Manchester',
-        ...     planting_id=######,
-        ...     planting_info=update_info
+        ...     planting_info=planting_update_info
         ... )
         Attempting to update planting...
         Updated planting: sugarbeet-generic in VT-Manchester
@@ -503,22 +498,26 @@ def update_planting(
         )
 
     # Raise error if field does not exist
-    if field_id not in awf.get_fields(key, secret).index:
+    if planting_info.get("field_id") not in awf.get_fields(key, secret).index:
         raise KeyError("Field does not exist within account.")
 
     # Raise error if planting does not exist
-    if planting_id != "current":
-        if planting_id not in get_plantings(key, secret).index:
+    if planting_info.get("planting_id") != "current":
+        if (
+            planting_info.get("planting_id")
+            not in get_plantings(key, secret).index
+        ):
             raise KeyError("Planting does not exist within account.")
 
     # Raise error if update type is not valid
-    if update_type not in ["full", "partial"]:
+    if planting_info.get("update_type") not in ["full", "partial"]:
         raise ValueError("Invalid update type. Must be 'full' or 'partial'.")
 
     # Define api url
     api_url = (
-        f"https://api.awhere.com/v2/agronomics/fields/"
-        f"{field_id}/plantings/{planting_id}"
+        "https://api.awhere.com/v2/agronomics/fields/"
+        f"{planting_info.get('field_id')}/plantings/"
+        f"{planting_info.get('planting_id')}"
     )
 
     # Check if credentials are valid
@@ -534,7 +533,7 @@ def update_planting(
         }
 
         # Full update
-        if update_type.lower() == "full":
+        if planting_info.get("update_type").lower() == "full":
 
             # Define request body
             field_body = {
@@ -561,7 +560,7 @@ def update_planting(
             )
 
         # Partial update
-        elif update_type.lower() == "partial":
+        elif planting_info.get("update_type").lower() == "partial":
 
             # Define field body
             field_body = [
@@ -589,11 +588,16 @@ def update_planting(
                 key,
                 secret,
                 field_id=planting_info.get("field_id"),
-                planting_id=planting_id,
+                planting_id=planting_info.get("planting_id"),
             )
 
             # Indicate success
-            print(f"Updated planting: {planting_id} in {field_id}")
+            print(
+                (
+                    f"Updated planting: {planting_info.get('planting_id')}"
+                    f"in {planting_info.get('field_id')}"
+                )
+            )
 
         else:
             # Indicate error

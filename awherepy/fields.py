@@ -354,7 +354,7 @@ def update_field(key, secret, field_info):
     field_info : dict
         Dictionary containing information required to update the field. Must
         provide an update to field_name or farm_id (cannot make empty update).
-        Can nontain the following keys:
+        Can contain the following keys:
 
             field_id: str, required
                 Field ID for an existing aWhere field. This identifies the
