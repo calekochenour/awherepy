@@ -225,12 +225,9 @@ def create_planting(key, secret, field_id, planting_info):
     return planting
 
 
-def get_plantings(
-    key, secret, field_id=None, planting_id=None, limit=10, offset=0
-):
+def get_plantings(key, secret, kwargs=None):
     """Gets all aWhere plantings associated an account, all plantings
-    associated with a with a specified field, or an individual planting
-    associated with a specific field.
+    associated with a with a specified field, or an individual planting.
 
     API reference: https://docs.awhere.com/knowledge-base-docs/field-plantings/
 
@@ -297,24 +294,23 @@ def get_plantings(
         >>> vt_plantings = awp.get_plantings(
         ...     awhere_api_key,
         ...     awhere_api_secret,
-        ...     field_id='VT-Manchester'
+        ...     kwargs={'field_id': 'VT-Manchester'}
         ... )
         >>> # Get most recent planting (looks through all fields)
         >>> current_planting = awp.get_plantings(
-        ...     awhere_api_key, awhere_api_secret, planting_id='current'
+        ...     awhere_api_key,
+        ...     awhere_api_secret,
+        ...     kwargs={'planting_id': 'current'}
         ... )
-        >>> # Get specific planting for specific field
+        >>> # Get specific planting
         >>> vt_planting = awp.get_plantings(
         ...     awhere_api_key,
         ...     awhere_api_secret,
-        ...     field_id='VT-Manchester',
-        ...     planting_id=######
+        ...     kwargs={'planting_id': ######}
         ... )
     """
-    # Raise error if planting does not exist
-    if planting_id is not None and planting_id != "current":
-        if planting_id not in get_plantings(key, secret).index:
-            raise KeyError("Planting does not exist within account.")
+    # Define global variables
+    global PLANTINGS_DROP_COLS, PLANTINGS_RENAME_MAP
 
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
@@ -325,40 +321,51 @@ def get_plantings(
         # Setup the HTTP request headers
         auth_headers = {"Authorization": f"Bearer {auth_token}"}
 
-        # Check if field id specified
-        if field_id:
+        # All plantings from all fields
+        if not kwargs:
 
-            # Raise error if invalid field id
-            if field_id not in awf.get_fields(key, secret).index:
-                raise KeyError("Field does not exist within account.")
+            # Set limit and offset query parameters
+            kwargs = {"limit": 10, "offset": 0}
 
-            # Define fields base url
-            fields_url = "https://api.awhere.com/v2/agronomics/fields"
-
-            # Define field-specific api url
+            # Define api url
             api_url = (
-                f"{fields_url}/{field_id}/plantings/{planting_id}"
-                if planting_id
-                else f"{fields_url}/{field_id}/plantings"
+                "https://api.awhere.com/v2/agronomics/plantings?limit="
+                f"{kwargs.get('limit')}&offset={kwargs.get('offset')}"
             )
 
-        # No field specified
+        # All plantings from single field
+        elif kwargs.get("field_id") and not kwargs.get("planting_id"):
+
+            # Set limit and offset query parameters if not existing
+            if "limit" not in kwargs.keys():
+                kwargs["limit"] = 10
+
+            if "offset" not in kwargs.keys():
+                kwargs["offset"] = 0
+
+            # Define api url
+            api_url = (
+                "https://api.awhere.com/v2/agronomics/fields/"
+                f"{kwargs.get('field_id')}/plantings"
+            )
+
+        # Single planting (id/current), field-independent
+        elif kwargs.get("planting_id") and not kwargs.get("field_id"):
+
+            # Define api url
+            api_url = (
+                "https://api.awhere.com/v2/agronomics/plantings/"
+                f"{kwargs.get('planting_id')}"
+            )
+
+        # Invalid combination
         else:
 
-            # Define non-fields base url
-            non_field_url = "https://api.awhere.com/v2/agronomics/plantings"
-
-            # Defune non-fields-specific url
-            api_url = (
-                f"{non_field_url}/{planting_id}"
-                if planting_id == "current"
-                else f"{non_field_url}"
-            )
+            # Raise error
+            raise KeyError("Invalid kwarg combination.")
 
         # Get API response
-        response = rq.get(
-            f"{api_url}?limit={limit}&offset={offset}", headers=auth_headers
-        )
+        response = rq.get(f"{api_url}", headers=auth_headers)
 
         # Convert API response to JSON format
         response_json = response.json()
@@ -371,10 +378,14 @@ def get_plantings(
         )
 
         # Drop unnecessary columns
-        plantings_df.drop(columns=PLANTINGS_DROP_COLS, inplace=True)
+        plantings_df.drop(
+            columns=PLANTINGS_DROP_COLS, inplace=True, errors="ignore"
+        )
 
         # Rename columns
-        plantings_df.rename(columns=PLANTINGS_RENAME_MAP, inplace=True)
+        plantings_df.rename(
+            columns=PLANTINGS_RENAME_MAP, inplace=True, errors="ignore"
+        )
 
         # Set index
         plantings_df.set_index("planting_id", inplace=True)
