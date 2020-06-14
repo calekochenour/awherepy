@@ -318,7 +318,7 @@ def create_field(key, secret, field_info):
 
             # Get field for output
             field = get_fields(
-                key, secret, field_id=field_info.get("field_id")
+                key, secret, kwargs={"field_id": field_info.get("field_id")}
             )
 
             # Indicate success
@@ -389,7 +389,7 @@ def update_field(key, secret, field_info):
         >>> # Update the field
         >>> field_updated = awf.update_field(
         ...     api_key, api_secret,
-        ...     field_info=field_info_rmnp_update
+        ...     field_info=manchester_update_info
         ... )
         Attempting to update field...
         Updated field: VT-Manchester
@@ -481,7 +481,7 @@ def update_field(key, secret, field_info):
 
             # Get field for output
             field = get_fields(
-                key, secret, field_id=field_info.get("field_id")
+                key, secret, kwargs={"field_id": field_info.get("field_id")}
             )
 
             # Indicate success
@@ -489,7 +489,7 @@ def update_field(key, secret, field_info):
 
         else:
             # Indicate error
-            field = print("Failed to create field.")
+            field = print("Failed to update field.")
 
     # Invalid credentials
     else:
@@ -563,15 +563,17 @@ def delete_field(key, secret, field_id):
 
         # Check if field exists within account
         try:
-            get_fields(key, secret, field_id=field_id)
+            get_fields(key, secret, kwargs={"field_id": field_id})
 
         # Catch error if field does not exist (was deleted)
         except KeyError:
-            message = print(f"Deleted field: {field_id}")
+            message = f"Deleted field: {field_id}"
+            print(message)
 
         # If delete did not work
         else:
-            message = print("Could not delete field.")
+            message = "Could not delete field."
+            print(message)
 
     # Invalid credentials
     else:
