@@ -45,9 +45,23 @@ def created_field(awhere_api_key, awhere_api_secret):
     }
 
     # Create field
-    field = awf.create_field(
-        awhere_api_key, awhere_api_secret, field_info=field_info
-    )
+    try:
+        field = awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        field = awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
 
     # Return field
     return field
