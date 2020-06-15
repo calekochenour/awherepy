@@ -1,8 +1,4 @@
-"""
-
-Base class for authenticating to the aWhere API.
-
-"""
+""" Base module for authenticating to the aWhere API. """
 
 import base64
 import requests as rq
