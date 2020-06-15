@@ -199,14 +199,16 @@ def create_planting(key, secret, field_id, planting_info):
             planting = get_plantings(
                 key,
                 secret,
-                field_id=planting_info.get("field_id"),
-                planting_id="current",
+                kwargs={
+                    "field_id": planting_info.get("field_id"),
+                    "planting_id": "current",
+                },
             )
 
             # Indicate success
             print(
                 (
-                    f"Created planting: {planting_info.get('crop')}"
+                    f"Created planting: {planting_info.get('crop')} "
                     f"planted in {field_id}"
                 )
             )
@@ -601,7 +603,8 @@ def update_planting(
 
         else:
             # Indicate error
-            planting = print("Failed to update planting.")
+            planting = "Failed to update planting."
+            print(planting)
 
     # Invalid credentials
     else:
@@ -691,16 +694,20 @@ def delete_planting(key, secret, field_id, planting_id="current"):
         # Check if planting exists within account
         try:
             get_plantings(
-                key, secret, field_id=field_id, planting_id=planting_id
+                key,
+                secret,
+                kwargs={"field_id": field_id, "planting_id": planting_id},
             )
 
         # Catch error if planting does not exist (was deleted)
         except KeyError:
-            message = print(f"Deleted planting: {planting_id} in {field_id}")
+            message = f"Deleted planting: {planting_id} in {field_id}"
+            print(message)
 
         # If delete did not work
         else:
-            message = print("Could not delete planting.")
+            message = "Could not delete planting."
+            print(message)
 
     # Invalid credentials
     else:
