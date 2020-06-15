@@ -12,11 +12,31 @@ def get_oauth_token(key, secret):
     """Returns an OAuth Token used to authenticate to the
     aWhere API if a valid key and secret are provided.
 
-    Docs:
-        http://developer.awhere.com/api/authentication
+    API reference: http://developer.awhere.com/api/authentication
 
-    Returns:
-        The access token provided by the aWhere API
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    Returns
+    -------
+    access_token : str
+        Access token created from the API key and secret.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Get OAuth token
+        >>> auth_token = aw.get_oauth_token(awhere_api_key, awhere_api_secret)
     """
     # Base64 Encode the API key/secret pair
     encoded_key_secret = base64.b64encode(
@@ -44,10 +64,34 @@ def get_oauth_token(key, secret):
 
 
 def valid_credentials(key, secret):
-    """Returns True if credentials are valid, else False.
+    """Returns True if aWhere API credentials are valid, else False.
 
-    Checks if encoding the provided key and secret returns
-    a value (not NoneType).
+    Parameters
+    ----------
+    key : str
+        API key for a valid aWhere API application.
+
+    secret : str
+        API secret for a valid aWhere API application.
+
+    Returns
+    -------
+    valid : bool
+        Boolean indicating True if API credentials are valid, else false.
+
+    Example
+    -------
+        >>> # Imports
+        >>> import os
+        >>> import awherepy as aw
+        >>> # Get aWhere API key and secret
+        >>> awhere_api_key = os.environ.get('AWHERE_API_KEY')
+        >>> awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
+        >>> # Check validity of credentials and get OAuth token
+        >>> if aw.valid_credentials(awhere_api_key, awhere_api_secret):
+        ...     auth_token = aw.get_oauth_token(
+        ...         awhere_api_key, awhere_api_secret
+        ...     )
     """
     # Get OAuth token
     token = get_oauth_token(key, secret)
