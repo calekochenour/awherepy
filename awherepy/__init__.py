@@ -8,7 +8,7 @@ def get_oauth_token(key, secret):
     """Returns an OAuth Token used to authenticate to the
     aWhere API if a valid key and secret are provided.
 
-    API reference: http://developer.awhere.com/api/authentication
+    API reference: https://docs.awhere.com/knowledge-base-docs/authentication/
 
     Parameters
     ----------
