@@ -72,7 +72,7 @@ def manchester_vermont_norms(
 
 @pytest.fixture
 def bear_lake_observed(awhere_api_key, awhere_api_secret):
-    """Fixture that returns a geodataframe for the oberved weather
+    """Fixture that returns a geodataframe for the observed weather
     for Bear Lake, RMNP, Colorado.
     """
     # Define kwargs for Bear Lake, RMNP, Colorado
