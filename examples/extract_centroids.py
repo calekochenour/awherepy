@@ -23,7 +23,7 @@ Learn how to extract aWhere grid cell centroids using aWherePy.
 # Import Packages
 # ---------------
 #
-# In order to use the functionality in the``awherepy.grid`` module, the
+# In order to use the functionality in the ``awherepy.grid`` module, the
 # following packages need to be imported.
 
 import os
