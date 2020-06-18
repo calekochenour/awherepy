@@ -1,26 +1,26 @@
 """
-Get Weather Data with aWherePy
-==============================
+Get Agronomic Data with aWherePy
+================================
 
-Learn how to get weather norms and observed weather with aWherePy.
+Learn how to get agronomic norms and observed values with aWherePy.
 
 """
 
 ###############################################################################
-# Get Historical Norms and Observed Weather Data with aWherePy
-# ------------------------------------------------------------
+# Get Historical Norms and Observed Agronomic Data Data with aWherePy
+# -------------------------------------------------------------------
 #
 # .. note::
-#    The example below will show you how to use the ``get_weather_norms()`` and
-#    ``get_weather_observed()`` functions to obtain weather data from the
-#    aWhere weather API.
+#    The example below will show you how to use the ``get_agronomics_norms()``
+#    and ``get_agronomic_values()`` functions to obtain agronomics data from
+#    the aWhere agronomics API.
 #
 # In this vignette, you will use a single aWhere grid cell centroid near Rocky
-# Mountain National Park, Colorado to get weather norms and observed weather
-# for May 4 - May 13. Weather norms are data aggregated over many years and do
-# not reference a specific year. The observed weather for this example is from
-# 2014. In addition, you will plot a comparison of the historical weather norms
-# to the observed data in 2014.
+# Mountain National Park, Colorado to get agronomic norms and observed values
+# for May 4 - May 13. Agrnomic norms are data aggregated over many years and do
+# not reference a specific year. The agronomic values for this example are from
+# 2014. In addition, you will plot a comparison of the historical agronomic
+# norms to the observed data in 2014.
 
 ###############################################################################
 # Import Packages
@@ -31,8 +31,8 @@ Learn how to get weather norms and observed weather with aWherePy.
 
 import os
 import matplotlib.pyplot as plt
+import awherepy.agronomics as awa
 import awherepy.grid as awg
-import awherepy.weather as aww
 
 ###############################################################################
 # Prerequisites
@@ -79,79 +79,83 @@ rmnp_grid_centroids = awg.extract_centroids(rmnp_grid)
 analysis_centroid = rmnp_grid_centroids[0]
 
 ###############################################################################
-# Get aWhere Weather Norms Data
-# -----------------------------
+# Get aWhere Agronomic Norms Data
+# -------------------------------
 #
-# Get aWhere weather norms data by calling the ``get_weather_norms()``
+# Get aWhere agronomic norms data by calling the ``get_agronomic_norms()``
 # function, with optional keyword arguments to use values outside the default.
 
 # Define RMNP norms kwargs
-rmnp_weather_norms_kwargs = {
+rmnp_agronomic_norms_kwargs = {
     "location": (analysis_centroid[0], analysis_centroid[1]),
     "start_date": "05-04",
     "end_date": "05-13",
 }
 
-# Get RMNP weather norms, 05-04 to 05-13
-rmnp_weather_norms = aww.get_weather_norms(
-    awhere_api_key, awhere_api_secret, kwargs=rmnp_weather_norms_kwargs
+# Get RMNP agronomic norms, 05-04 to 05-13
+rmnp_norms_total, rmnp_norms_daily = awa.get_agronomic_norms(
+    awhere_api_key, awhere_api_secret, kwargs=rmnp_agronomic_norms_kwargs
 )
 
-# Get precipitation average from weather norms data
-rmnp_precip_norms = rmnp_weather_norms[["precip_avg_mm"]]
+# Get rolling total precipitation average
+rmnp_precip_rolling_avg = rmnp_norms_daily[["precip_rolling_total_average_mm"]]
 
 ###############################################################################
-# Get aWhere Weather Observed Data
+# Get aWhere Agronomic Values Data
 # --------------------------------
 #
-# Get aWhere weather observed data by calling the ``get_weather_observed()``
-# function, with optional keyword arguments to use values outside the default.
+# Get aWhere observed agronomoc values data by calling the
+# ``get_agronomic_values()`` function, with optional keyword arguments to use
+# values outside the default.
 
-# Define RMNP observed kwargs
-rmnp_weather_observed_kwargs = {
+# Define RMNP values kwargs
+rmnp_agronomic_values_kwargs = {
     "location": (analysis_centroid[0], analysis_centroid[1]),
     "start_date": "2014-05-04",
     "end_date": "2014-05-13",
 }
 
-# Get observed weather
-rmnp_weather_observed = aww.get_weather_observed(
-    awhere_api_key, awhere_api_secret, kwargs=rmnp_weather_observed_kwargs
+# Get observed agronomic values
+rmnp_values_total, rmnp_values_daily = awa.get_agronomic_values(
+    awhere_api_key, awhere_api_secret, kwargs=rmnp_agronomic_values_kwargs
 )
 
-# Get precipitation amount from observed weather
-rmnp_precip_observed = rmnp_weather_observed[["precip_amount_mm"]]
+# Get observed precipitation rolling total
+rmnp_precip_rolling_observed = rmnp_values_daily[["precip_rolling_total_mm"]]
 
 # Change date (YYYY-MM-DD) to day (MM-DD) for plotting
-days = [value[5:] for value in rmnp_precip_observed.index.values]
-rmnp_precip_observed.insert(1, "day", days, True)
-rmnp_precip_observed.set_index("day", inplace=True)
+days = [value[5:] for value in rmnp_precip_rolling_observed.index.values]
+rmnp_precip_rolling_observed.insert(1, "day", days, True)
+rmnp_precip_rolling_observed.set_index("day", inplace=True)
 
 ###############################################################################
-# Combine aWhere Weather Norms and Observed Data Subsets for Plotting
-# -------------------------------------------------------------------
+# Combine aWhere Agronomic Norms and Observed Values Data Subsets for Plotting
+# ----------------------------------------------------------------------------
 #
-# Merge the weather data subsets for precipitation into a single dataframe for
+# Merge the agrnomic data subsets for precipitation into a single dataframe for
 # use with plotting and visualiztion.
 
-# Merge precipitation components (norms and observed)
-rmnp_precip_may_2014 = rmnp_precip_observed.merge(rmnp_precip_norms, on="day")
+# Merge precipitation components (norms and observed values)
+rmnp_precip_rolling_may_2014 = rmnp_precip_rolling_observed.merge(
+    rmnp_precip_rolling_avg, on="day"
+)
 
-# Add column for difference between observed and norms
-rmnp_precip_may_2014["precip_diff_mm"] = (
-    rmnp_precip_may_2014.precip_amount_mm - rmnp_precip_may_2014.precip_avg_mm
+# Add column for difference between observed values and norms
+rmnp_precip_rolling_may_2014["precip_rolling_diff_mm"] = (
+    rmnp_precip_rolling_may_2014.precip_rolling_total_mm
+    - rmnp_precip_rolling_may_2014.precip_rolling_total_average_mm
 )
 
 ###############################################################################
-# Plot a Comparison between the aWhere Norms and Observed Data for RMNP, CO
-# -------------------------------------------------------------------------
+# Plot a Comparison between the aWhere Norms and Observed Values for RMNP, CO
+# ---------------------------------------------------------------------------
 #
-# Plot the norms and observed data on the same subplot and also the difference
-# between the data on a second subplot to see which days in the May 4 - May 13
-# temporal extent showed higher or lower precipatation compared to the historic
-# norms.
+# Plot the norms and observed values on the same subplot and also the
+# difference between the data on a second subplot to see which days in the May
+# 4 - May 13 temporal extent showed higher or lower rolling total
+# precipatation compared to the historic norms.
 
-# Plot daily precip comparison
+# Plot rolling total precip comparison
 with plt.style.context("dark_background"):
 
     # Create figure and axes
@@ -162,7 +166,8 @@ with plt.style.context("dark_background"):
         (
             "Rocky Mountain National Park, CO\nLongitude: "
             f"{round(analysis_centroid[0], 4)}, Latitude: "
-            f"{round(analysis_centroid[1], 4)}\nPrecipitation, May 2014"
+            f"{round(analysis_centroid[1], 4)}\nRolling Total Precipitation, "
+            "May 2014"
         ),
         fontsize=24,
     )
@@ -170,14 +175,13 @@ with plt.style.context("dark_background"):
     # Set spacing
     plt.subplots_adjust(top=0.8)
 
-    # Subplot 1 - Observed and Historic Precipitation
+    # Subplot 1 - Observed and Historic Rolling Precipitation
     # Add grid
     ax[0].grid(zorder=1)
 
-    # Add daily observed total (line)
+    # Add daily observed rolling total (line)
     ax[0].plot(
-        rmnp_precip_may_2014.precip_amount_mm,
-        label="Observed",
+        rmnp_precip_rolling_may_2014.precip_rolling_total_mm,
         marker="o",
         color="#7fc97f",
         markersize=8,
@@ -186,10 +190,21 @@ with plt.style.context("dark_background"):
         zorder=2,
     )
 
-    # Add daily average total (line)
+    # Add observed rolling total (fill)
+    ax[0].fill_between(
+        rmnp_precip_rolling_may_2014.index.values,
+        rmnp_precip_rolling_may_2014.precip_rolling_total_mm,
+        label="Observed Rolling Total",
+        color="#7fc97f",
+        linewidth=0.5,
+        linestyle="-",
+        zorder=2,
+        alpha=1,
+    )
+
+    # Add daily average rolling total (line)
     ax[0].plot(
-        rmnp_precip_may_2014.precip_avg_mm,
-        label="Historic Average",
+        rmnp_precip_rolling_may_2014.precip_rolling_total_average_mm,
         marker="o",
         color="#beaed4",
         markersize=8,
@@ -198,25 +213,37 @@ with plt.style.context("dark_background"):
         zorder=3,
     )
 
+    # Add average rolling total (fill)
+    ax[0].fill_between(
+        rmnp_precip_rolling_may_2014.index.values,
+        rmnp_precip_rolling_may_2014.precip_rolling_total_average_mm,
+        label="Average Rolling Total",
+        color="#beaed4",
+        linewidth=2,
+        linestyle="-",
+        zorder=2,
+        alpha=1,
+    )
+
     # Configure axes
     ax[0].set_xlabel("Date", fontsize=16)
     ax[0].set_ylabel("Precipitation (mm)", fontsize=16)
-    ax[0].set_title("Daily Total Precipitation", fontsize=20)
+    ax[0].set_title("Rolling Total Precipitation", fontsize=20)
     ax[0].tick_params(axis="both", which="major", labelsize=16)
     plt.setp(ax[0].xaxis.get_majorticklabels(), rotation=45)
 
     # Add legend
     ax[0].legend(borderpad=0.75, edgecolor="w", fontsize=16, shadow=True)
 
-    # Subplot 2 - Precipitation Difference
+    # Subplot 2 - Rolling Precipitation Difference
     # Add grid
     ax[1].grid(zorder=1)
 
     # Add difference (observed - norms)
     ax[1].bar(
-        rmnp_precip_may_2014.index.values,
-        rmnp_precip_may_2014.precip_diff_mm,
-        label="Daily Total Difference",
+        rmnp_precip_rolling_may_2014.index.values,
+        rmnp_precip_rolling_may_2014.precip_rolling_diff_mm,
+        label="Rolling Total Difference",
         zorder=2,
         edgecolor="#ff7f00",
         color="#fdc086",
