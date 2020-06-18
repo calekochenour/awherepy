@@ -11,7 +11,7 @@ Learn how to create, get, update, and delete fields with aWherePy.
 # ----------------------------------------------------
 #
 # .. note::
-#    The example below will show you how to use the ``create_field()``.
+#    The example below will show you how to use the ``create_field()``,
 #    ``get_fields()``, ``update_field()``, and ``delete_field()`` functions to
 #    to work with fields in the aWhere API.
 #
