@@ -1,4 +1,4 @@
-.. automodule:: awherepy.grid
+.. automodule:: awherepy.grids
    :members:
    :undoc-members:
    :show-inheritance:

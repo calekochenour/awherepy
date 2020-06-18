@@ -17,7 +17,7 @@ and rasterize data to grids with aWherePy.
 # Import Packages
 # ~~~~~~~~~~~~~~~
 #
-# In order to use the functionality in the``awherepy.grids`` module, the
+# In order to use the functionality in the ``awherepy.grids`` module, the
 # following packages need to be imported.
 
 import os
