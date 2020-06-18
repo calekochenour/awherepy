@@ -7,12 +7,12 @@ Learn how to get agronomic norms and observed values with aWherePy.
 """
 
 ###############################################################################
-# Get Historical Norms and Observed Agronomic Data Data with aWherePy
-# -------------------------------------------------------------------
+# Get Agronomic Norms and Observed Agronomic Data with aWherePy
+# -------------------------------------------------------------
 #
 # .. note::
-#    The example below will show you how to use the ``get_agronomics_norms()``
-#    and ``get_agronomic_values()`` functions to obtain agronomics data from
+#    The example below will show you how to use the ``get_agronomic_norms()``
+#    and ``get_agronomic_values()`` functions to obtain agronomic data from
 #    the aWhere agronomics API.
 #
 # In this vignette, you will use a single aWhere grid cell centroid near Rocky
