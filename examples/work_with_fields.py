@@ -13,7 +13,7 @@ Learn how to create, get, update, and delete fields with aWherePy.
 # .. note::
 #    The example below will show you how to use the ``create_field()``,
 #    ``get_fields()``, ``update_field()``, and ``delete_field()`` functions to
-#    to work with fields in the aWhere API.
+#    work with fields in the aWhere API.
 #
 # In this vignette, you will create an example field located in Manchester,
 # Vermont. You will also get the field, update the field, and delete the field.
@@ -84,8 +84,8 @@ except KeyError:
 # Get an aWhere Field
 # -------------------
 #
-# Creating an aWhere field returs the field in geodataframe format when the
-# field is created. However, once a field is created, another with with the
+# Creating an aWhere field returns the field in geodataframe format when the
+# field is created. However, once a field is created, another field with the
 # same field ID cannot be created unless the original field is deleted first.
 # When you want to access and store that field in a geodataframe after it has
 # already been created, you used the ``get_fields()`` function. This function

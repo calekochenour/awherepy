@@ -1,6 +1,6 @@
 """
-Get Crop Information with aWherePy
-==================================
+Work with Crops in aWherePy
+===========================
 
 Learn how to get crop information with aWherePy.
 
@@ -45,7 +45,7 @@ awhere_api_secret = os.environ.get("AWHERE_API_SECRET")
 # -------------
 #
 # To get a dataframe with all available aWhere crops, you use the
-# ``get_crops()`` function with defulat parameters. This can be useful for
+# ``get_crops()`` function with default parameters. This can be useful for
 # cases when you need information about all crops, in the aWhere API, as
 # opposed to a single crop.
 
@@ -57,7 +57,7 @@ all_crops = awc.get_crops(key=awhere_api_key, secret=awhere_api_secret)
 # -----------------
 #
 # To get a dataframe with a single aWhere crop, you use the ``get_crops()``
-# function and include the specific crop ID. This example selecte a random crop
+# function and include the specific crop ID. This example selects a random crop
 # ID from the list of all available crops.
 
 # Get single crop

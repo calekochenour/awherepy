@@ -1,6 +1,6 @@
 """
-Get Agronomic Data with aWherePy
-================================
+Work with Agronomic Data in aWherePy
+====================================
 
 Learn how to get agronomic norms and observed values with aWherePy.
 
