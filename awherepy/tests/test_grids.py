@@ -1,11 +1,11 @@
-"""Tests for the grid module."""
+"""Tests for the grids module."""
 
 import os
 import pytest
 import matplotlib as mpl
 import shapely
 import geopandas as gpd
-import awherepy.grid as awg
+import awherepy.grids as awg
 
 
 @pytest.fixture

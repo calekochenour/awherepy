@@ -32,7 +32,7 @@ Learn how to get agronomic norms and observed values with aWherePy.
 import os
 import matplotlib.pyplot as plt
 import awherepy.agronomics as awa
-import awherepy.grid as awg
+import awherepy.grids as awg
 
 ###############################################################################
 # Prerequisites

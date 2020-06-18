@@ -31,7 +31,7 @@ Learn how to get weather norms and observed weather with aWherePy.
 
 import os
 import matplotlib.pyplot as plt
-import awherepy.grid as awg
+import awherepy.grids as awg
 import awherepy.weather as aww
 
 ###############################################################################

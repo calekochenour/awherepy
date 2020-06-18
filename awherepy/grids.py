@@ -1,6 +1,6 @@
 """
-awherepy.grid
-=============
+awherepy.grids
+==============
 A module to create and work with aWhere grids.
 """
 
@@ -40,12 +40,12 @@ def create_grid(study_area_path, buffer_distance, cell_size=0.08):
     -------
         >>> # Import packages
         >>> import os
-        >>> import geopandas as gpd
+        >>> import awherepy.grids as awg
         >>> # Define path to shapefile boundary
         >>> vt_bound_path = os.path.join(
         ...     working_directory, 'shapefiles', 'vermont_state_boundary.shp')
         >>> # Create aWhere grid
-        >>> vt_grid, vt_bound_4326 = create_grid(
+        >>> vt_grid, vt_bound_4326 = awg.create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> # Plot aWhere grid
         >>> vt_grid.plot(facecolor="none", edgecolor="#984ea3", linewidth=1.5)
@@ -127,7 +127,7 @@ def extract_centroids(grid):
     Example
     -------
         >>> # Extract centroids
-        >>> vt_grid_centroids = extract_centroids(vt_grid)
+        >>> vt_grid_centroids = awg.extract_centroids(vt_grid)
         >>> # Show number of centroids/grid cells
         >>> len(vt_grid_centroids)
         533
@@ -190,20 +190,20 @@ def rasterize(awhere_grid, raster_path, zonal_stats="count sum"):
     -------
         >>> # Import packages
         >>> import os
-        >>> import geopandas as gpd
+        >>> import awherepy.grids as awg
         >>> # Define path to shapefile boundary
         >>> vt_bound_path = os.path.join(
         ...     working_directory, 'shapefiles',
         ...     vermont_state_boundary.shp')
         >>> # Create aWhere grid for Vermont
-        >>> vt_grid, vt_bound_4326 = create_grid(
+        >>> vt_grid, vt_bound_4326 = awg.create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> # Define path to Vermont 2020 population per pixel
         >>> vt_pop_path = os.path.join(
         ...     working_directory, 'geotiffs',
         ...     'vt_ppp_2020.tif')
         >>> # Rasterize pop data (100x100 m) to aWhere grid (9x9 km)
-        >>> vt_pop_rasterized = rasterize(vt_grid, vt_pop_path)
+        >>> vt_pop_rasterized = awg.rasterize(vt_grid, vt_pop_path)
         >>> # Display single entry in resulting geodataframe
         >>> vt_pop_rasterized.loc[1]
         geometry    POLYGON ((-73.4778398510704 43.56701241643375,...
@@ -273,7 +273,7 @@ def plot_grid(
     -------
         >>> # Import packages
         >>> import os
-        >>> import geopandas as gpd
+        >>> import awherepy.grids as awg
         >>> # Define path to shapefile boundary
         >>> vt_bound_path = os.path.join(
         ...     working_directory, 'shapefiles', vermont_state_boundary.shp')
@@ -352,20 +352,20 @@ def export_grid(awhere_grid, output_path):
     -------
         >>> # Import packages
         >>> import os
-        >>> import geopandas as gpd
+        >>> import awherepy.grids as awg
         >>> # Define path to shapefile boundary
         >>> vt_bound_path = os.path.join(
         ...     working_directory, 'shapefiles',
         ...     vermont_state_boundary.shp')
         >>> # Create aWhere grid
-        >>> vt_grid, vt_bound_4326 = create_grid(
+        >>> vt_grid, vt_bound_4326 = awg.create_grid(
         ...     vt_bound_path, buffer_distance=0.12)
         >>> # Define export path
         >>> # export_path = os.path.join(
         ...     working_directory, '03-processed-data',
         ...     'vt_grid.csv')
         >>> # Export grid to CSV
-        >>> csv_export = export_grid(vt_grid, export_path)
+        >>> csv_export = awg.export_grid(vt_grid, export_path)
         vt_grid.csv
     """
     # Determine output folder
