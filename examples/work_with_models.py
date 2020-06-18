@@ -1,6 +1,6 @@
 """
-Work with Agronomic Models in aWherePy
-======================================
+Work with Models in aWherePy
+============================
 
 Learn how to get models, model details, and model results with aWherePy.
 
