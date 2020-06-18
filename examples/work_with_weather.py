@@ -1,6 +1,6 @@
 """
-Work with Weather Data in aWherePy
-==================================
+Work with Weather in aWherePy
+=============================
 
 Learn how to get weather norms and observed weather with aWherePy.
 
