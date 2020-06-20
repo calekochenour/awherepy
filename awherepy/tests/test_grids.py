@@ -30,7 +30,7 @@ def vermont_grid():
 @pytest.fixture
 def vermont_boundary():
     """Fixture that returns the study area boundary
-    for the state of Vermont.
+    for the state of Vermont, in EPSG 4326.
     """
     # Define path to shapefile boundary
     vt_bound_path = os.path.join(
@@ -44,6 +44,23 @@ def vermont_boundary():
 
     # Return grid
     return vt_bound_4326
+
+
+@pytest.fixture
+def vermont_boundary_32145():
+    """Fixture that returns the study area boundary
+    for the state of Vermont, in VT State Plane Meters, EPSG 32145
+    """
+    # Define path to shapefile boundary
+    vt_bound_path = os.path.join(
+        "awherepy", "example-data", "vermont_state_boundary.shp"
+    )
+
+    # Read shapefile into geodataframe
+    vt_bound_32145 = gpd.read_file(vt_bound_path)
+
+    # Return boundary
+    return vt_bound_32145
 
 
 @pytest.fixture
@@ -80,7 +97,9 @@ def vermont_plot_figure(vermont_grid, vermont_boundary):
     axes.
     """
     # Plot grid and boundary
-    fig, ax = awg.plot_grid(vermont_grid, vermont_boundary)
+    fig, ax = awg.plot_grid(
+        vermont_grid, vermont_boundary, data_source="State of Vermont"
+    )
 
     # Return figure
     return fig
@@ -93,7 +112,39 @@ def vermont_plot_axes(vermont_grid, vermont_boundary):
     axes.
     """
     # Plot grid and boundary
-    fig, ax = awg.plot_grid(vermont_grid, vermont_boundary)
+    fig, ax = awg.plot_grid(
+        vermont_grid, vermont_boundary, data_source="State of Vermont"
+    )
+
+    # Return axes
+    return ax
+
+
+@pytest.fixture
+def vermont_plot_figure_32145(vermont_grid, vermont_boundary_32145):
+    """Fixture that returns a plot figure for the
+    Vermont aWhere grid and boudary plotted on the same
+    axes, with input boundary in EPSG 32145.
+    """
+    # Plot grid and boundary
+    fig, ax = awg.plot_grid(
+        vermont_grid, vermont_boundary_32145, data_source="State of Vermont"
+    )
+
+    # Return figure
+    return fig
+
+
+@pytest.fixture
+def vermont_plot_axes_32145(vermont_grid, vermont_boundary_32145):
+    """Fixture that returns a plot axes for the Vermont aWhere grid
+    and boundary plotted on the same axes, with input boundary in EPSG
+    32145.
+    """
+    # Plot grid and boundary
+    fig, ax = awg.plot_grid(
+        vermont_grid, vermont_boundary_32145, data_source="State of Vermont"
+    )
 
     # Return axes
     return ax
@@ -195,6 +246,44 @@ def vermont_grid_gpx(vermont_grid):
     return export
 
 
+@pytest.fixture
+def rmnp_grid():
+    """Fixture that returns the aWhere grid for the Rocky Mountain
+    National Park, Colorado. boundary.
+    """
+    # Define path to shapefile boundary
+    rmnp_bound_path = os.path.join(
+        "awherepy", "example-data", "colorado_rmnp_boundary.shp"
+    )
+
+    # Create aWhere grid and boundary
+    rmnp_grid, rmnp_bound_4326 = awg.create_grid(
+        rmnp_bound_path, buffer_distance=0.12
+    )
+
+    # Return grid
+    return rmnp_grid
+
+
+@pytest.fixture
+def rmnp_boundary():
+    """Fixture that returns the study area boundary for Rocky Mountain
+    National Park, Colorado.
+    """
+    # Define path to shapefile boundary
+    rmnp_bound_path = os.path.join(
+        "awherepy", "example-data", "colorado_rmnp_boundary.shp"
+    )
+
+    # Create aWhere grid and boundary
+    rmnp_grid, rmnp_bound_4326 = awg.create_grid(
+        rmnp_bound_path, buffer_distance=0.12
+    )
+
+    # Return grid
+    return rmnp_grid
+
+
 def test_create_grid(vermont_grid, vermont_boundary):
     """Test the aWhere grid output and study area
     boundary for Vermont.
@@ -255,7 +344,7 @@ def test_rasterize(vermont_population):
 
 
 def test_plot_grid(vermont_plot_figure, vermont_plot_axes):
-    """The the plot of the aWhere grid and study
+    """Tests the plot of the aWhere grid and study
     area boundary for Vermont.
     """
     # Test figure type
@@ -282,6 +371,36 @@ def test_plot_grid(vermont_plot_figure, vermont_plot_axes):
     # Test only one axis in axes object
     with pytest.raises(TypeError):
         vermont_plot_axes[0]
+
+
+def test_plot_grid_32145(vermont_plot_figure_32145, vermont_plot_axes_32145):
+    """Tests the plot of the aWhere grid and study
+    area boundary for Vermont, with input boundary in EPSG 32145.
+    """
+    # Test figure type
+    assert isinstance(vermont_plot_figure_32145, mpl.figure.Figure)
+
+    # Test figure width
+    assert vermont_plot_figure_32145.get_figwidth() == 20.0
+
+    # Test figure height
+    assert vermont_plot_figure_32145.get_figheight() == 10.0
+
+    # Test axes type
+    assert isinstance(vermont_plot_axes_32145, mpl.axes._subplots.Axes)
+
+    # Test axes subplot geometry
+    assert vermont_plot_axes_32145.get_geometry() == (1, 1, 1)
+
+    # Test axes column start location
+    assert vermont_plot_axes_32145.get_subplotspec().colspan.start == 0
+
+    # Test axes row start location
+    assert vermont_plot_axes_32145.get_subplotspec().rowspan.start == 0
+
+    # Test only one axis in axes object
+    with pytest.raises(TypeError):
+        vermont_plot_axes_32145[0]
 
 
 def test_export_grid(
@@ -323,3 +442,34 @@ def test_export_grid(
         awg.export_grid(
             vermont_grid, os.path.join("test-data", "vermont_grid.gpx")
         )
+
+
+def test_export_grid_exceptions(vermont_grid):
+    """Tests the export_grid() function for expected errors/exceptions.
+    """
+    # Define output path
+    outpath = os.path.join("awherepy", "example-data", "vermont_grid.gpx")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Test unsupported export file type
+    with pytest.raises(ValueError):
+
+        # Export file
+        awg.export_grid(vermont_grid, outpath)
+
+
+def test_create_grid_rmnp(rmnp_grid, rmnp_boundary):
+    """Test the aWhere grid output and study area
+    boundary for Rocky Mountain National Park, Colorado.
+    """
+    # Test grid object type
+    assert isinstance(rmnp_grid, gpd.geodataframe.GeoDataFrame)
+
+    # Test boundary object type
+    assert isinstance(rmnp_boundary, gpd.geodataframe.GeoDataFrame)
+
+    # Test grid and boundary crs
+    assert rmnp_grid.crs == rmnp_boundary.crs
