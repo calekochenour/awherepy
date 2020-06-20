@@ -170,11 +170,11 @@ def get_models(key, secret, model_id=None):
     # Define global variables
     global MODELS_LIST, MODELS_DROP_COLS, MODELS_RENAME_MAP
 
-    # Define models api url
-    api_url = "https://api.awhere.com/v2/agronomics/models"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Define models api url
+        api_url = "https://api.awhere.com/v2/agronomics/models"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -322,11 +322,11 @@ def get_model_details(key, secret, model_id=None):
     # Define global variables
     global MODELS_LIST, MODELS_DROP_COLS, MODELS_RENAME_MAP
 
-    # Define models api url
-    api_url = "https://api.awhere.com/v2/agronomics/models"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Define models api url
+        api_url = "https://api.awhere.com/v2/agronomics/models"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -536,18 +536,18 @@ def get_model_results(key, secret, field_id, model_id):
     global MODEL_RESULTS_RENAME_MAP
     global MODEL_RESULTS_REORDER_COLS
 
-    # Raise error if field does not exist
-    if field_id not in awf.get_fields(key, secret).index:
-        raise KeyError("Field name does not exist within account.")
-
-    # Define api url
-    api_url = (
-        f"https://api.awhere.com/v2/agronomics/fields/"
-        f"{field_id}/models/{model_id}/results"
-    )
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Raise error if field does not exist
+        if field_id not in awf.get_fields(key, secret).index:
+            raise KeyError("Field does not exist within account.")
+
+        # Define api url
+        api_url = (
+            f"https://api.awhere.com/v2/agronomics/fields/"
+            f"{field_id}/models/{model_id}/results"
+        )
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)

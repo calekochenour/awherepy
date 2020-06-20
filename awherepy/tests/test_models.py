@@ -288,3 +288,77 @@ def test_get_model_results(model_results):
     assert "gdd_threshold_cels" in model_results.columns
     assert "gdd_accumulation_current_cels" in model_results.columns
     assert "gdd_remaining_next_cels" in model_results.columns
+
+
+def test_get_models_exceptions(awhere_api_key, awhere_api_secret):
+    """Tests the get_models() function for expected errors/exceptions.
+    """
+    # Test invalid model
+    with pytest.raises(KeyError):
+        awm.get_models(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            model_id="Invalid-Model",
+        )
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_models(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_models(key="Invalid-Key", secret=awhere_api_secret)
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_models(key=awhere_api_key, secret="Invalid-Secret")
+
+
+def test_get_model_details_exceptions(awhere_api_key, awhere_api_secret):
+    """Tests the get_model_details() function for expected errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_details(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_details(key="Invalid-Key", secret=awhere_api_secret)
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_details(key=awhere_api_key, secret="Invalid-Secret")
+
+
+def test_get_model_results_exceptions(awhere_api_key, awhere_api_secret):
+    """Tests the get_model_results() function for expected errors/exceptions.
+    """
+    # Test invalid field id
+    with pytest.raises(KeyError, match="Field does not exist within account."):
+        awm.get_model_results(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Invalid",
+            model_id="WheatHardRedMSU",
+        )
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_results(
+            key="Invalid-Key",
+            secret="Invalid-Secret",
+            field_id="VT-Test",
+            model_id="WheatHardRedMSU",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_results(
+            key="Invalid-Key",
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            model_id="WheatHardRedMSU",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awm.get_model_results(
+            key=awhere_api_key,
+            secret="Invalid-Secret",
+            field_id="VT-Test",
+            model_id="WheatHardRedMSU",
+        )
