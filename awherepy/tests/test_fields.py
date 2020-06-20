@@ -161,6 +161,118 @@ def test_update_field(updated_field):
     assert len(updated_field) == 1
 
 
+def test_update_field_name(awhere_api_key, awhere_api_secret):
+    """Tests the update_field() function, only updating the field name.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define update info
+    update_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test-Update",
+    }
+
+    # Update the field
+    field = awf.update_field(
+        awhere_api_key, awhere_api_secret, field_info=update_info
+    )
+
+    # Test object type
+    assert isinstance(field, gpd.GeoDataFrame)
+
+    # Test geodataframe information
+    assert field.index == "VT-Test"
+    assert field.field_name[0] == "VT-Field-Test-Update"
+    assert field.area_acres[0] == 10
+    assert field.farm_id[0] == "VT-Farm-Test"
+
+    # Test number of records
+    assert len(field) == 1
+
+
+def test_update_farm_id(awhere_api_key, awhere_api_secret):
+    """Tests the update_field() function, only updating the farm id.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define update info
+    update_info = {
+        "field_id": "VT-Test",
+        "farm_id": "VT-Farm-Test-Update",
+    }
+
+    # Update the field
+    field = awf.update_field(
+        awhere_api_key, awhere_api_secret, field_info=update_info
+    )
+
+    # Test object type
+    assert isinstance(field, gpd.GeoDataFrame)
+
+    # Test geodataframe information
+    assert field.index == "VT-Test"
+    assert field.field_name[0] == "VT-Field-Test"
+    assert field.area_acres[0] == 10
+    assert field.farm_id[0] == "VT-Farm-Test-Update"
+
+    # Test number of records
+    assert len(field) == 1
+
+
 def test_delete_field(awhere_api_key, awhere_api_secret, deleted_field):
     """Tests the delete_field() function.
     """
@@ -330,4 +442,179 @@ def test_delete_field_invalid_credentials(awhere_api_key, awhere_api_secret):
     with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
         awf.delete_field(
             key="Invalid-Key", secret=awhere_api_secret, field_id="VT-Test"
+        )
+
+
+def test_create_field_invalid_parameters(awhere_api_key, awhere_api_secret):
+    """Tests the create_field() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define invalid field paremeter type (list)
+    field_info = [
+        "VT-Test",
+        "VT-Field-Test",
+        "VT-Farm-Test",
+        43.1636875,
+        -73.0723269,
+        10,
+    ]
+
+    # Test invalid field info type
+    with pytest.raises(
+        TypeError,
+        match=("Invalid type: 'field_info' must be of type dictionary."),
+    ):
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define field paramaters missing field id
+    field_info = {
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        KeyError, match=("Missing required field parameter: 'field_id'.")
+    ):
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define field paramaters missing center latitude
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Test missing center latitude
+    with pytest.raises(
+        KeyError,
+        match=("Missing required field parameter: 'center_latitude'."),
+    ):
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define field paramaters missing center longitude
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "acres": 10,
+    }
+
+    # Test missing center longitude
+    with pytest.raises(
+        KeyError,
+        match=("Missing required field parameter: 'center_longitude'."),
+    ):
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+
+def test_update_field_invalid_parameters(awhere_api_key, awhere_api_secret):
+    """Tests the update_field() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define update info with invalid type (list)
+    update_info = [
+        "VT-Test",
+        "VT-Field-Test-Update",
+        "VT-Farm-Test-Update",
+    ]
+
+    # Test invalid field info type
+    with pytest.raises(
+        TypeError,
+        match=("Invalid type: 'field_info' must be of type dictionary."),
+    ):
+        awf.update_field(
+            awhere_api_key, awhere_api_secret, field_info=update_info
+        )
+
+    # Define update info missing field id
+    update_info = {
+        "field_name": "VT-Field-Test-Update",
+        "farm_id": "VT-Farm-Test-Update",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        KeyError, match=("Missing required field parameter: 'field_id'.")
+    ):
+        awf.update_field(
+            awhere_api_key, awhere_api_secret, field_info=update_info
+        )
+
+    # Define update info missing field name and farm id
+    update_info = {
+        "field_id": "VT-Test",
+    }
+
+    # Test missing field field name and farm id
+    with pytest.raises(
+        KeyError,
+        match=(
+            (
+                "Missing parameter: must update at least one attribute,"
+                "'field_name' or 'farm_id'."
+            )
+        ),
+    ):
+        awf.update_field(
+            awhere_api_key, awhere_api_secret, field_info=update_info
+        )
+
+    # Define update info with invalid field id
+    update_info = {
+        "field_id": "VT-Invalid",
+        "field_name": "VT-Field-Test-Update",
+        "farm_id": "VT-Farm-Test-Update",
+    }
+
+    # Test invalid field id
+    with pytest.raises(
+        KeyError, match="Field name does not exist within account."
+    ):
+        awf.update_field(
+            awhere_api_key, awhere_api_secret, field_info=update_info
         )
