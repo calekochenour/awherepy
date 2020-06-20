@@ -105,17 +105,17 @@ def get_fields(key, secret, kwargs=None):
     # Define global variables
     global FIELD_COORD_COLS, FIELD_DROP_COLS, FIELD_RENAME_MAP, FIELD_CRS
 
-    # Check if kwargs is not defined
-    if not kwargs:
-
-        # Set limit and offset query parameters
-        kwargs = {"limit": 10, "offset": 0}
-
-    # Define fields api url
-    api_url = "https://api.awhere.com/v2/fields"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Check if kwargs is not defined
+        if not kwargs:
+
+            # Set limit and offset query parameters
+            kwargs = {"limit": 10, "offset": 0}
+
+        # Define fields api url
+        api_url = "https://api.awhere.com/v2/fields"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -262,31 +262,35 @@ def create_field(key, secret, field_info):
         >>> # Display field
         >>> field
     """
-    # Check field_info object type
-    if not isinstance(field_info, dict):
-        raise TypeError(
-            "Invalid type: 'field_info' must be of type dictionary."
-        )
-
-    # Raise errors for missing required parameters
-    if not field_info.get("field_id"):
-        raise KeyError("Missing required field parameter: 'field_id'.")
-
-    if not field_info.get("center_latitude"):
-        raise KeyError("Missing required field parameter: 'center_latitude'.")
-
-    if not field_info.get("center_longitude"):
-        raise KeyError("Missing required field parameter: 'center_longitude'.")
-
-    # Raise error if field name already exists
-    if field_info.get("field_id") in get_fields(key, secret).index:
-        raise KeyError("Field name already exists within account.")
-
-    # Define fields api url
-    api_url = "https://api.awhere.com/v2/fields"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Check field_info object type
+        if not isinstance(field_info, dict):
+            raise TypeError(
+                "Invalid type: 'field_info' must be of type dictionary."
+            )
+
+        # Raise errors for missing required parameters
+        if not field_info.get("field_id"):
+            raise KeyError("Missing required field parameter: 'field_id'.")
+
+        if not field_info.get("center_latitude"):
+            raise KeyError(
+                ("Missing required field parameter: 'center_latitude'.")
+            )
+
+        if not field_info.get("center_longitude"):
+            raise KeyError(
+                ("Missing required field parameter: 'center_longitude'.")
+            )
+
+        # Raise error if field name already exists
+        if field_info.get("field_id") in get_fields(key, secret).index:
+            raise KeyError("Field name already exists within account.")
+
+        # Define fields api url
+        api_url = "https://api.awhere.com/v2/fields"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -396,33 +400,33 @@ def update_field(key, secret, field_info):
         >>> # Display updated field
         >>> field_updated
     """
-    # Check field_info object type
-    if not isinstance(field_info, dict):
-        raise TypeError(
-            "Invalid type: 'field_info' must be of type dictionary."
-        )
-
-    # Raise errors for missing required parameters
-    if not field_info.get("field_id"):
-        raise KeyError("Missing required field parameter: 'field_id'.")
-
-    if not (field_info.get("field_name") or field_info.get("farm_id")):
-        raise KeyError(
-            (
-                "Missing parameter: must update at least one attribute,"
-                "'field_name' or 'farm_id'."
-            )
-        )
-
-    # Raise error if field does not exist
-    if field_info.get("field_id") not in get_fields(key, secret).index:
-        raise KeyError("Field name does not exist within account.")
-
-    # Define fields api url
-    api_url = "https://api.awhere.com/v2/fields"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Check field_info object type
+        if not isinstance(field_info, dict):
+            raise TypeError(
+                "Invalid type: 'field_info' must be of type dictionary."
+            )
+
+        # Raise errors for missing required parameters
+        if not field_info.get("field_id"):
+            raise KeyError("Missing required field parameter: 'field_id'.")
+
+        if not (field_info.get("field_name") or field_info.get("farm_id")):
+            raise KeyError(
+                (
+                    "Missing parameter: must update at least one attribute,"
+                    "'field_name' or 'farm_id'."
+                )
+            )
+
+        # Raise error if field does not exist
+        if field_info.get("field_id") not in get_fields(key, secret).index:
+            raise KeyError("Field name does not exist within account.")
+
+        # Define fields api url
+        api_url = "https://api.awhere.com/v2/fields"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -539,15 +543,15 @@ def delete_field(key, secret, field_id):
     Attempting to delete field...
     Deleted field: VT-Manchester
     """
-    # Raise error if field does not exist
-    if field_id not in get_fields(key, secret).index:
-        raise KeyError("Field name does not exist within account.")
-
-    # Define fields api url
-    api_url = "https://api.awhere.com/v2/fields"
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Raise error if field does not exist
+        if field_id not in get_fields(key, secret).index:
+            raise KeyError("Field name does not exist within account.")
+
+        # Define fields api url
+        api_url = "https://api.awhere.com/v2/fields"
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
