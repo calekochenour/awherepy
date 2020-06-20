@@ -172,3 +172,162 @@ def test_delete_field(awhere_api_key, awhere_api_secret, deleted_field):
         KeyError, match="Field name does not exist within account."
     ):
         awf.delete_field(awhere_api_key, awhere_api_secret, field_id="VT-Test")
+
+
+def test_get_fields_invalid_credentials(awhere_api_key, awhere_api_secret):
+    """Tests the get_fields() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.get_fields(
+            key="Invalid-Key", secret="Invalid-Secret",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.get_fields(
+            key=awhere_api_key, secret="Invalid-Secret",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.get_fields(
+            key="Invalid-Key", secret=awhere_api_secret,
+        )
+
+
+def test_create_field_invalid_credentials(awhere_api_key, awhere_api_secret):
+    """Tests the create_field() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.create_field(
+            key="Invalid-Key", secret="Invalid-Secret", field_info=field_info
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.create_field(
+            key=awhere_api_key, secret="Invalid-Secret", field_info=field_info
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.create_field(
+            key="Invalid-Key", secret=awhere_api_secret, field_info=field_info
+        )
+
+
+def test_update_field_invalid_credentials(awhere_api_key, awhere_api_secret):
+    """Tests the update_field() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define update info
+    update_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test-Update",
+        "farm_id": "VT-Farm-Test-Update",
+    }
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.update_field(
+            key="Invalid-Key", secret="Invalid-Secret", field_info=update_info
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.update_field(
+            key=awhere_api_key, secret="Invalid-Secret", field_info=update_info
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.update_field(
+            key="Invalid-Key", secret=awhere_api_secret, field_info=update_info
+        )
+
+
+def test_delete_field_invalid_credentials(awhere_api_key, awhere_api_secret):
+    """Tests the delete_field() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.delete_field(
+            key="Invalid-Key", secret="Invalid-Secret", field_id="VT-Test"
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.delete_field(
+            key=awhere_api_key, secret="Invalid-Secret", field_id="VT-Test"
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awf.delete_field(
+            key="Invalid-Key", secret=awhere_api_secret, field_id="VT-Test"
+        )
