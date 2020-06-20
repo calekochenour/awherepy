@@ -227,26 +227,6 @@ def vermont_grid_gpkg(vermont_grid):
 
 
 @pytest.fixture
-def vermont_grid_gpx(vermont_grid):
-    """Fixture that returns the path to an exported
-    GPX for the Vermont aWhere grid. Designed to fail.
-    Unsupported export file type.
-    """
-    # Define output path
-    outpath = os.path.join("awherepy", "example-data", "vermont_grid.gpx")
-
-    # Remove file if already exists
-    if os.path.exists(outpath):
-        os.remove(outpath)
-
-    # Export file
-    export = awg.export_grid(vermont_grid, outpath)
-
-    # Return exported file path
-    return export
-
-
-@pytest.fixture
 def rmnp_grid():
     """Fixture that returns the aWhere grid for the Rocky Mountain
     National Park, Colorado. boundary.
@@ -442,6 +422,23 @@ def test_export_grid(
         awg.export_grid(
             vermont_grid, os.path.join("test-data", "vermont_grid.gpx")
         )
+
+
+def test_export_grid_exceptions(vermont_grid):
+    """Tests the export_grid() function for expected errors/exceptions.
+    """
+    # Define output path
+    outpath = os.path.join("awherepy", "example-data", "vermont_grid.gpx")
+
+    # Remove file if already exists
+    if os.path.exists(outpath):
+        os.remove(outpath)
+
+    # Test unsupported export file type
+    with pytest.raises(ValueError):
+
+        # Export file
+        awg.export_grid(vermont_grid, outpath)
 
 
 def test_create_grid_rmnp(rmnp_grid, rmnp_boundary):
