@@ -6,6 +6,12 @@ environment:
     - PYTHON_VERSION: "3.8"
       MINICONDA: C:\Miniconda36-x64
 
+  AWHERE_API_KEY:
+    secure: rlZNGyzWQDRL3iNvrfyYAV1vZg3aPMu6+AjjepOtgvnoipi1kZIziyhrOOI6X2Z+
+
+  AWHERE_API_SECRET:
+    secure: hydg5zz+dIBzWnLHayzlWqk5IrNw1N5ERQClVYhZbsQ=
+
 build: false
 
 init:
