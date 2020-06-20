@@ -88,3 +88,25 @@ def test_get_crops_all(all_crops):
     # Test crop ids
     for id in all_crops.crop_id:
         assert id in awc.CROPS_LIST
+
+
+def test_get_crops_exceptions(awhere_api_key, awhere_api_secret):
+    """Tests the get_crops() function for expected errors/exceptions.
+    """
+    # Test invalid crop
+    with pytest.raises(KeyError):
+        awc.get_crops(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            crop_id="Invalid-Crop",
+        )
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awc.get_crops(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awc.get_crops(key="Invalid-Key", secret=awhere_api_secret)
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awc.get_crops(key=awhere_api_key, secret="Invalid-Secret")
