@@ -444,23 +444,6 @@ def test_export_grid(
         )
 
 
-def test_export_grid_exceptions(vermont_grid):
-    """Tests the export_grid() function for expected errors/exceptions.
-    """
-    # Define output path
-    outpath = os.path.join("awherepy", "example-data", "vermont_grid.gpx")
-
-    # Remove file if already exists
-    if os.path.exists(outpath):
-        os.remove(outpath)
-
-    # Test unsupported export file type
-    with pytest.raises(ValueError):
-
-        # Export file
-        awg.export_grid(vermont_grid, outpath)
-
-
 def test_create_grid_rmnp(rmnp_grid, rmnp_boundary):
     """Test the aWhere grid output and study area
     boundary for Rocky Mountain National Park, Colorado.
