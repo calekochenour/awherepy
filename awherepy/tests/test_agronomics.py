@@ -188,7 +188,10 @@ def test_get_agronomic_norms(bear_lake_norms, manchester_vermont_norms):
 
 
 def test_get_agronomics_values(
-    bear_lake_observed, manchester_vermont_observed, bear_lake_forecast
+    bear_lake_observed,
+    manchester_vermont_observed,
+    bear_lake_forecast,
+    manchester_vermont_forecast,
 ):
     """Tests the get_agronomic_values() function.
     """
@@ -262,7 +265,7 @@ def test_get_agronomics_values(
 
     # Manchester, Vermont
     # Extract forecast
-    vt_forecast_total, vt_forecast_daily = bear_lake_forecast
+    vt_forecast_total, vt_forecast_daily = manchester_vermont_forecast
 
     # Test object type
     assert isinstance(vt_forecast_total, gpd.GeoDataFrame)
