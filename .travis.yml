@@ -1,84 +1,96 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
 python:
-  - 3.8
-#  - 3.7
-#  - 3.6
-
-# matrix:
-#     include:
-#         - os: linux
-#           dist: xenial
-#           python: 3.6
-#           env: TOXENV=py36
-#         - os: linux
-#           dist: xenial
-#           python: 3.7
-#           env: TOXENV=py37
-#         - os: linux
-#           dist: xenial
-#           python: 3.8
-#           env: TOXENV=py38, black, docs
-#         - os: osx
-#           language: generic
-
-
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- 3.8
 install:
-  - chmod +x .travis/install.sh
-  - ./.travis/install.sh
-
+- chmod +x .travis/install.sh
+- "./.travis/install.sh"
 script:
-  - chmod +x .travis/test.sh
-  - ./.travis/test.sh
+- chmod +x .travis/test.sh
+- "./.travis/test.sh"
+dd:
+  secure: ZbkRPwLnwzA9XDoT+hI4ZIXKZ58Wa28orh+KSThgp48lCXE/8YgiRSSP20gNKtDxTFB3LNocwioESzc4yA5vbvN5e9mfe8MVfRZumo60AL/JAzNp8MvywnZ34VnYajwIbm1F2R57qk2z0aPK7wOGcN+QroUxdSjP4kGEpjunUcXOyiyyEViTp9xZqMskHMWn3M0SKjb/URp8sCtk+bHNy9ezxyfyY1WKeOiE24sbVNCpA01cwfeV9Uools6fFw5miIGqhLcuGVybsk6cdj7VI5BdzZ8bVw4+he6MUcVmGssAexAvdxu+0iwdVuIH5ILZnKUsWTMvTcSZm6qqhUDa4bdG9LUuMmbfav17zPn1fQKR1tBgXTyQu368P7qHTXjnJHxqrqh4yw2pnOeFEzK4qN2weM3zapKKMq5CmnvzpV286P2UEp7IYz6nX3s3WOsqopsomoI2oOH9r2x6/KcxlJ2o2p2XFPe2QpU6Bc7WlgqiI3HfZh/zo8cPvRTXk7tz7pMopesBCyLtTWB/27ajqIM5LPWJki4e1lZvXqJG3nlE12rTx4eL+S6qiAm3reJtPpFUKPVs8wGXuB4B97WyqQMlodjXZLqB1BIZcphnNAnLjGSF3XmIypzUJI8ALSoB62iqCbpBBny/5f5MEsHZLpPIffDay21Udpn6sPV3blE=
 
-  # - sudo apt-get update
-  #
-  # # - pip install -U tox-travis codecov
-  # - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-  # - bash miniconda.sh -b -p $HOME/miniconda
-  # - source "$HOME/miniconda/etc/profile.d/conda.sh"
-  # - hash -r
-  # - conda config --set always_yes yes --set changeps1 no
-  # - conda update -q conda
-
-  # Useful for debugging any issues with conda
-  # - conda info -a
-  #
-  # - conda env create -f environment.yml python=$TRAVIS_PYTHON_VERSION
-  # - conda activate awhere-python
-  # - python setup.py install
-  # - conda update --yes conda
-  # - conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
-  # - source activate testenv
-  #
-  # # for debugging...
-  # - echo $PATH
-  # - which python
-  # - conda info
-  # - conda list
-
-# # Command to run tests, e.g. python setup.py test
-# script:
-#     - pytest --cov-report term --cov=awherepy
+# # Config file for automatic testing at travis-ci.org
 #
-# # Codecov after success
-# after_success:
-#     - codecov
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
-
-# deploy:
-#   provider: pypi
-#   distributions: sdist bdist_wheel
-#   user: calekochenour
-#   password:
-#     secure: PLEASE_REPLACE_ME
-#   on:
-#     tags: true
-#     repo: calekochenour/awherepy
-#     python: 3.8
+# language: python
+# python:
+#   - 3.8
+# #  - 3.7
+# #  - 3.6
+#
+# # matrix:
+# #     include:
+# #         - os: linux
+# #           dist: xenial
+# #           python: 3.6
+# #           env: TOXENV=py36
+# #         - os: linux
+# #           dist: xenial
+# #           python: 3.7
+# #           env: TOXENV=py37
+# #         - os: linux
+# #           dist: xenial
+# #           python: 3.8
+# #           env: TOXENV=py38, black, docs
+# #         - os: osx
+# #           language: generic
+#
+#
+# # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+# install:
+#   - chmod +x .travis/install.sh
+#   - ./.travis/install.sh
+#
+# script:
+#   - chmod +x .travis/test.sh
+#   - ./.travis/test.sh
+#
+#   # - sudo apt-get update
+#   #
+#   # # - pip install -U tox-travis codecov
+#   # - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+#   # - bash miniconda.sh -b -p $HOME/miniconda
+#   # - source "$HOME/miniconda/etc/profile.d/conda.sh"
+#   # - hash -r
+#   # - conda config --set always_yes yes --set changeps1 no
+#   # - conda update -q conda
+#
+#   # Useful for debugging any issues with conda
+#   # - conda info -a
+#   #
+#   # - conda env create -f environment.yml python=$TRAVIS_PYTHON_VERSION
+#   # - conda activate awhere-python
+#   # - python setup.py install
+#   # - conda update --yes conda
+#   # - conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
+#   # - source activate testenv
+#   #
+#   # # for debugging...
+#   # - echo $PATH
+#   # - which python
+#   # - conda info
+#   # - conda list
+#
+# # # Command to run tests, e.g. python setup.py test
+# # script:
+# #     - pytest --cov-report term --cov=awherepy
+# #
+# # # Codecov after success
+# # after_success:
+# #     - codecov
+#
+# # Assuming you have installed the travis-ci CLI tool, after you
+# # create the Github repo and add it to Travis, run the
+# # following command to finish PyPI deployment setup:
+# # $ travis encrypt --add deploy.password
+#
+# # deploy:
+# #   provider: pypi
+# #   distributions: sdist bdist_wheel
+# #   user: calekochenour
+# #   password:
+# #     secure: PLEASE_REPLACE_ME
+# #   on:
+# #     tags: true
+# #     repo: calekochenour/awherepy
+# #     python: 3.8
