@@ -103,14 +103,46 @@ def retrieved_planting(awhere_api_key, awhere_api_secret):
 
 
 @pytest.fixture
-def updated_planting(awhere_api_key, awhere_api_secret, retrieved_planting):
-    """Fixture that updates the planting information for a field.
+def updated_planting_partial(
+    awhere_api_key, awhere_api_secret, retrieved_planting
+):
+    """Fixture that updates some planting information for a field.
     """
     # Define update info
     planting_update_info = {
         "field_id": "VT-Test",
         "planting_id": retrieved_planting.index[0],
         "update_type": "partial",
+        "crop": "sugarbeet-generic",
+        "planting_date": "2020-06-05",
+        "projections_yield_amount": 50,
+        "projections_yield_units": "large boxes",
+        "projected_harvest_date": "2020-08-08",
+        "yield_amount": 200,
+        "yield_units": "large boxes",
+        "harvest_date": "2020-07-31",
+    }
+
+    # Update planting
+    planting = awp.update_planting(
+        awhere_api_key, awhere_api_secret, planting_info=planting_update_info
+    )
+
+    # Return updated planting
+    return planting
+
+
+@pytest.fixture
+def updated_planting_full(
+    awhere_api_key, awhere_api_secret, retrieved_planting
+):
+    """Fixture that updates all planting information for a field.
+    """
+    # Define update info
+    planting_update_info = {
+        "field_id": "VT-Test",
+        "planting_id": retrieved_planting.index[0],
+        "update_type": "full",
         "crop": "sugarbeet-generic",
         "planting_date": "2020-06-05",
         "projections_yield_amount": 50,
@@ -182,8 +214,8 @@ def test_get_plantings(retrieved_planting):
     assert len(retrieved_planting) == 1
 
 
-def test_update_planting(updated_planting):
-    """Tests the update_planting() function.
+def test_update_planting_partial(updated_planting_partial):
+    """Tests the update_planting() function with a partial update.
 
     Updating a planting is not currently available in the
     aWhere API. This test passes by receiving a failure to
@@ -191,7 +223,19 @@ def test_update_planting(updated_planting):
     place to work with future iterations of the aWhere API.
     """
     # Test expected failure message
-    updated_planting == "Failed to update planting."
+    updated_planting_partial == "Failed to update planting."
+
+
+def test_update_planting_full(updated_planting_full):
+    """Tests the update_planting() function with a partial update.
+
+    Updating a planting is not currently available in the
+    aWhere API. This test passes by receiving a failure to
+    update notification from the API. The function was put in
+    place to work with future iterations of the aWhere API.
+    """
+    # Test expected failure message
+    updated_planting_full == "Failed to update planting."
 
 
 def test_delete_planting(awhere_api_key, awhere_api_secret, deleted_planting):
@@ -545,6 +589,220 @@ def test_get_planting_field_id(awhere_api_key, awhere_api_secret):
     assert len(planting) == 1
 
 
+def test_update_planting_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the update_planting() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Create planting
+    planting = awp.create_planting(
+        awhere_api_key,
+        awhere_api_secret,
+        field_id="VT-Test",
+        planting_info=planting_info,
+    )
+
+    # Define update info
+    planting_update_info = {
+        "field_id": "VT-Test",
+        "planting_id": planting.index[0],
+        "update_type": "partial",
+        "crop": "sugarbeet-generic",
+        "planting_date": "2020-06-05",
+        "projections_yield_amount": 50,
+        "projections_yield_units": "large boxes",
+        "projected_harvest_date": "2020-08-08",
+        "yield_amount": 200,
+        "yield_units": "large boxes",
+        "harvest_date": "2020-07-31",
+    }
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.update_planting(
+            key="Invalid-Key",
+            secret="Invalid-Secret",
+            planting_info=planting_update_info,
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.update_planting(
+            key=awhere_api_key,
+            secret="Invalid-Secret",
+            planting_info=planting_update_info,
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.update_planting(
+            key="Invalid-Key",
+            secret=awhere_api_secret,
+            planting_info=planting_update_info,
+        )
+
+
+def test_update_planting_invalid_parameters(awhere_api_key, awhere_api_secret):
+    """Tests the update_planting() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Create planting
+    planting = awp.create_planting(
+        awhere_api_key,
+        awhere_api_secret,
+        field_id="VT-Test",
+        planting_info=planting_info,
+    )
+
+    # Define update info with invalid field id
+    planting_update_info = {
+        "field_id": "VT-Invalid",
+        "planting_id": planting.index[0],
+        "update_type": "partial",
+        "crop": "sugarbeet-generic",
+        "planting_date": "2020-06-05",
+        "projections_yield_amount": 50,
+        "projections_yield_units": "large boxes",
+        "projected_harvest_date": "2020-08-08",
+        "yield_amount": 200,
+        "yield_units": "large boxes",
+        "harvest_date": "2020-07-31",
+    }
+
+    # Test invalid field id
+    with pytest.raises(KeyError, match="Field does not exist within account."):
+        awp.update_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            planting_info=planting_update_info,
+        )
+
+    # Define update info with invalid planting id
+    planting_update_info = {
+        "field_id": "VT-Test",
+        "planting_id": "Invalid-Planting",
+        "update_type": "partial",
+        "crop": "sugarbeet-generic",
+        "planting_date": "2020-06-05",
+        "projections_yield_amount": 50,
+        "projections_yield_units": "large boxes",
+        "projected_harvest_date": "2020-08-08",
+        "yield_amount": 200,
+        "yield_units": "large boxes",
+        "harvest_date": "2020-07-31",
+    }
+
+    # Test invalid planting id
+    with pytest.raises(
+        KeyError, match="Planting does not exist within account."
+    ):
+        awp.update_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            planting_info=planting_update_info,
+        )
+
+    # Define update info with invalid update type
+    planting_update_info = {
+        "field_id": "VT-Test",
+        "planting_id": planting.index[0],
+        "update_type": "Invalid",
+        "crop": "sugarbeet-generic",
+        "planting_date": "2020-06-05",
+        "projections_yield_amount": 50,
+        "projections_yield_units": "large boxes",
+        "projected_harvest_date": "2020-08-08",
+        "yield_amount": 200,
+        "yield_units": "large boxes",
+        "harvest_date": "2020-07-31",
+    }
+
+    # Test invalid update type
+    with pytest.raises(
+        ValueError, match="Invalid update type. Must be 'full' or 'partial'."
+    ):
+        awp.update_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            planting_info=planting_update_info,
+        )
+
+
 def test_delete_planting_invalid_credentials(
     awhere_api_key, awhere_api_secret
 ):
@@ -679,14 +937,3 @@ def test_delete_planting_invalid_parameters(awhere_api_key, awhere_api_secret):
             field_id="VT-Test",
             planting_id="Invalid-Planting",
         )
-
-
-#
-# # Define planting parameters
-# planting_info = {
-#     "crop": random.choice(awc.CROPS_LIST),
-#     "planting_date": "2020-05-01",
-#     "projected_harvest_date": "2020-09-30",
-#     "projected_yield_amount": 200,
-#     "projected_yield_units": "boxes",
-# }

@@ -526,12 +526,6 @@ def update_planting(
             ):
                 raise KeyError("Planting does not exist within account.")
 
-        # Raise error if update type is not valid
-        if planting_info.get("update_type") not in ["full", "partial"]:
-            raise ValueError(
-                "Invalid update type. Must be 'full' or 'partial'."
-            )
-
         # Define api url
         api_url = (
             "https://api.awhere.com/v2/agronomics/fields/"
@@ -593,7 +587,7 @@ def update_planting(
         # Invalid update type
         else:
             raise ValueError(
-                "Invalid update type. Please choose 'full' or 'partial'."
+                "Invalid update type. Must be 'full' or 'partial'."
             )
 
         # Check if request succeeded
@@ -603,8 +597,10 @@ def update_planting(
             planting = get_plantings(
                 key,
                 secret,
-                field_id=planting_info.get("field_id"),
-                planting_id=planting_info.get("planting_id"),
+                kwargs={
+                    "field_id": planting_info.get("field_id"),
+                    "planting_id": planting_info.get("planting_id"),
+                },
             )
 
             # Indicate success
