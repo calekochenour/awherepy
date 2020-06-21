@@ -2,8 +2,10 @@
 
 import os
 import pytest
+from datetime import date, timedelta
 import shapely
 import geopandas as gpd
+import awherepy.fields as awf
 import awherepy.weather as aww
 
 
@@ -138,7 +140,7 @@ def manchester_vermont_forecast(
     )
 
 
-def test_weather_norms(bear_lake_norms, manchester_vermont_norms):
+def test_get_weather_norms(bear_lake_norms, manchester_vermont_norms):
     """Tests the get_weather_norms() function.
     """
     # Weather norms - Bear Lake, RMNP, Colorado (default values)
@@ -178,7 +180,7 @@ def test_weather_norms(bear_lake_norms, manchester_vermont_norms):
     )
 
 
-def test_weather_observed(bear_lake_observed, manchester_vermont_observed):
+def test_get_weather_observed(bear_lake_observed, manchester_vermont_observed):
     """Tests the get_weather_observed() function.
     """
     # Weather observed - Bear Lake, RMNP, Colorado
@@ -223,7 +225,7 @@ def test_weather_observed(bear_lake_observed, manchester_vermont_observed):
     )
 
 
-def test_weather_forecast(bear_lake_forecast, manchester_vermont_forecast):
+def test_get_weather_forecast(bear_lake_forecast, manchester_vermont_forecast):
     """Tests the get_weather_forecast() function.
     """
     # Weather forecast - Bear Lake, RMNP, Colorado
@@ -256,3 +258,508 @@ def test_weather_forecast(bear_lake_forecast, manchester_vermont_forecast):
         manchester_vermont_forecast.iloc[0].geometry,
         shapely.geometry.polygon.Point,
     )
+
+
+def test_get_weather_norms_invalid_location(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_norms() function with a missing location.
+    """
+    # Define kwargs with invalid location
+    kwargs = {
+        "location": None,
+        "start_date": "05-10",
+        "end_date": "05-20",
+    }
+
+    # Test invalid location
+    with pytest.raises(
+        ValueError,
+        match="Must specify a location, with longitude and latitude.",
+    ):
+        aww.get_weather_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_norms_valid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_norms() function with a valid field.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define kwargs with field
+    kwargs = {
+        "input_type": "field",
+        "field_id": "VT-Test",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Get weather
+    norms = aww.get_weather_norms(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(norms, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(norms) == 10
+
+
+def test_get_weather_norms_invalid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_norms() function with a missing field.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "field",
+        "field_id": None,
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(ValueError, match="Must specify a field name."):
+        aww.get_weather_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_norms_invalid_parameters(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_norms() function with an invalid input type.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "Invalid",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        ValueError, match="Invalid input type. Must be 'location' or 'field'."
+    ):
+        aww.get_weather_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_norms_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_norms() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_norms(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_norms(key=awhere_api_key, secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_norms(key="Invalid-Key", secret=awhere_api_secret)
+
+
+def test_get_weather_observed_invalid_location(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_observed() function with a missing location.
+    """
+    # Define kwargs with invalid location
+    kwargs = {
+        "location": None,
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test invalid location
+    with pytest.raises(
+        ValueError,
+        match="Must specify a location, with longitude and latitude.",
+    ):
+        aww.get_weather_observed(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_observed_valid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_observed() function with a valid field.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define kwargs with field
+    kwargs = {
+        "input_type": "field",
+        "field_id": "VT-Test",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Get observed weather
+    observed = aww.get_weather_observed(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(observed, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(observed) == 10
+
+
+def test_get_weather_observed_invalid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_observed() function with a missing field.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "field",
+        "field_id": None,
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(ValueError, match="Must specify a field name."):
+        aww.get_weather_observed(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_observed_invalid_parameters(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_observed() function with an invalid input type.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "Invalid",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        ValueError, match="Invalid input type. Must be 'location' or 'field'."
+    ):
+        aww.get_weather_observed(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_observed_dates(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_observed() function with combinations of date
+    parameters (start, end).
+    """
+    # Get observed weather with no input dates
+    observed = aww.get_weather_observed(
+        key=awhere_api_key, secret=awhere_api_secret
+    )
+
+    # Test object type
+    assert isinstance(observed, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(observed) == 7
+
+    # Define kwargs with only start date
+    kwargs = {
+        "start_date": "05-10",
+    }
+
+    # Get observed weather with only start date
+    observed = aww.get_weather_observed(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(observed, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(observed) == 1
+
+    # Define kwargs with only end date
+    kwargs = {
+        "end_date": "05-19",
+    }
+
+    # Get observed weather with only end start date
+    observed = aww.get_weather_observed(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(observed, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(observed) == 1
+
+
+def test_get_weather_observed_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_observed() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_observed(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_observed(key=awhere_api_key, secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_observed(key="Invalid-Key", secret=awhere_api_secret)
+
+
+def test_get_weather_forecast_invalid_location(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_forecast() function with a missing location.
+    """
+    # Define kwargs with invalid location
+    kwargs = {
+        "location": None,
+    }
+
+    # Test invalid location
+    with pytest.raises(
+        ValueError,
+        match="Must specify a location, with longitude and latitude.",
+    ):
+        aww.get_weather_forecast(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_forecast_valid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_forecast() function with a valid field.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Get weather forecast
+    forecast = aww.get_weather_forecast(
+        key=awhere_api_key, secret=awhere_api_secret
+    )
+
+    # Test object type
+    assert isinstance(forecast, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(forecast) == 10
+
+
+def test_get_weather_forecast_invalid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_forecast() function with a missing field.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "field",
+        "field_id": None,
+    }
+
+    # Test missing field id
+    with pytest.raises(ValueError, match="Must specify a field name."):
+        aww.get_weather_forecast(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_weather_forecast_invalid_parameters(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_forecast() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "Invalid",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        ValueError, match="Invalid input type. Must be 'location' or 'field'."
+    ):
+        aww.get_weather_forecast(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+    # Test invalid forecast type
+    with pytest.raises(
+        ValueError, match="Invalid forecast type. Must be 'main' or 'soil'."
+    ):
+        aww.get_weather_forecast(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            forecast_type="Invalid",
+        )
+
+
+def test_get_weather_forecast_dates(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_forecast() function with combinations of date
+    parameters (start, end).
+    """
+    # Define kwargs with only start date
+    kwargs = {
+        "start_date": (date.today() + timedelta(days=1)).strftime("%Y-%m-%d"),
+    }
+
+    # Get weather forecast with only start date
+    forecast = aww.get_weather_forecast(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(forecast, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(forecast) == 1
+
+    # Define kwargs with only end date
+    kwargs = {
+        "end_date": (date.today() + timedelta(days=1)).strftime("%Y-%m-%d"),
+    }
+
+    # Get weather forecast with only end start date
+    forecast = aww.get_weather_forecast(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(forecast, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(forecast) == 1
+
+    # Define kwargs with starts and end dates
+    kwargs = {
+        "start_date": (date.today() + timedelta(days=1)).strftime("%Y-%m-%d"),
+        "end_date": (date.today() + timedelta(days=10)).strftime("%Y-%m-%d"),
+    }
+
+    # Get weather forecast with only end start date
+    forecast = aww.get_weather_forecast(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(forecast, gpd.GeoDataFrame)
+
+    # Test number of entries in the geodataframe
+    assert len(forecast) == 10
+
+
+def test_get_weather_forecast_soil(awhere_api_key, awhere_api_secret):
+    """Tests the get_weather_forecast() function with a soil forecast.
+    """
+    # Get forecast
+    forecast = aww.get_weather_forecast(
+        awhere_api_key, awhere_api_secret, forecast_type="soil"
+    )
+
+    # Test object type
+    assert isinstance(forecast, gpd.GeoDataFrame)
+
+    # Test number or records
+    assert len(forecast) == 40
+
+    # Test number of columns
+    assert len(forecast.columns) == 7
+
+
+def test_get_weather_forecast_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_weather_forecast() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_forecast(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_forecast(key=awhere_api_key, secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        aww.get_weather_forecast(key="Invalid-Key", secret=awhere_api_secret)

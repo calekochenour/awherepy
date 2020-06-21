@@ -136,7 +136,9 @@ def _call_weather_norms(
 
         # Raise error if location is not defined
         if location is None:
-            raise ValueError("Must specify a location (longitude, latitude).")
+            raise ValueError(
+                ("Must specify a location, with longitude " "and latitude.")
+            )
 
         # Set URL to location
         api_url = (
@@ -149,14 +151,14 @@ def _call_weather_norms(
 
         # Raise error if field name is not defined
         if field_id is None:
-            raise ValueError("Must specify a field name ('test-field').")
+            raise ValueError("Must specify a field name.")
 
         # Set URL to fields
         api_url = f"https://api.awhere.com/v2/weather/fields/{field_id}"
 
     # Invalid input
     else:
-        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+        raise ValueError("Invalid input type. Must be 'location' or 'field'.")
 
     # Get OAuth token
     auth_token = aw.get_oauth_token(key, secret)
@@ -447,7 +449,9 @@ def _call_weather_observed(
 
         # Raise error if location is not defined
         if location is None:
-            raise ValueError("Must specify a location (longitude, latitude).")
+            raise ValueError(
+                ("Must specify a location, with longitude " "and latitude.")
+            )
 
         # Set URL to location
         api_url = (
@@ -460,14 +464,14 @@ def _call_weather_observed(
 
         # Raise error if field name is not defined
         if field_id is None:
-            raise ValueError("Must specify a field name ('test-field').")
+            raise ValueError("Must specify a field name.")
 
         # Set URL to fields
         api_url = f"https://api.awhere.com/v2/weather/fields/{field_id}"
 
     # Invalid input
     else:
-        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+        raise ValueError("Invalid input type. Must be 'location' or 'field'.")
 
     # Get OAuth token
     auth_token = aw.get_oauth_token(key, secret)
@@ -752,7 +756,9 @@ def _call_weather_forecast(
 
         # Raise error if location is not defined
         if location is None:
-            raise ValueError("Must specify a location (longitude, latitude).")
+            raise ValueError(
+                ("Must specify a location, with longitude " "and latitude.")
+            )
 
         # Set URL to location
         api_url = (
@@ -765,14 +771,14 @@ def _call_weather_forecast(
 
         # Raise error if field name is not defined
         if field_id is None:
-            raise ValueError("Must specify a field name ('test-field').")
+            raise ValueError("Must specify a field name.")
 
         # Set URL to fields
         api_url = f"https://api.awhere.com/v2/weather/fields/{field_id}"
 
     # Invalid input
     else:
-        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+        raise ValueError("Invalid input type. Must be 'location' or 'field'.")
 
     # Get OAuth token
     auth_token = aw.get_oauth_token(key, secret)
@@ -790,7 +796,7 @@ def _call_weather_forecast(
         f"&offset={offset}&blockSize={block_size}"
     )
     url_end_date = (
-        f"{api_url}/forecasts{end_date}?limit={limit}"
+        f"{api_url}/forecasts/{end_date}?limit={limit}"
         f"&offset={offset}&blockSize={block_size}"
     )
     url_both_dates = (
