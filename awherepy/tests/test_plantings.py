@@ -729,6 +729,32 @@ def test_update_planting_invalid_parameters(awhere_api_key, awhere_api_secret):
         planting_info=planting_info,
     )
 
+    # Define update info as invalid type (list)
+    planting_update_info = [
+        "VT-Test",
+        planting.index[0],
+        "partial",
+        "sugarbeet-generic",
+        "2020-06-05",
+        50,
+        "large boxes",
+        "2020-08-08",
+        200,
+        "large boxes",
+        "2020-07-31",
+    ]
+
+    # Test invalid type
+    with pytest.raises(
+        TypeError,
+        match=("Invalid type: 'planting_info' must be of type " "dictionary."),
+    ):
+        awp.update_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            planting_info=planting_update_info,
+        )
+
     # Define update info with invalid field id
     planting_update_info = {
         "field_id": "VT-Invalid",
