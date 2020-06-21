@@ -618,9 +618,15 @@ def test_get_weather_forecast_valid_field(awhere_api_key, awhere_api_secret):
             awhere_api_key, awhere_api_secret, field_info=field_info
         )
 
+    # Define kwargs with field
+    kwargs = {
+        "input_type": "field",
+        "field_id": "VT-Test",
+    }
+
     # Get weather forecast
     forecast = aww.get_weather_forecast(
-        key=awhere_api_key, secret=awhere_api_secret
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
     )
 
     # Test object type
