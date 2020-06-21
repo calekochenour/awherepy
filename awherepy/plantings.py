@@ -146,7 +146,7 @@ def create_planting(key, secret, field_id, planting_info):
         ) and not planting_info.get("projected_yield_amount"):
             raise KeyError(
                 (
-                    "Missing required planting parameter:"
+                    "Missing required planting parameter: "
                     "'projected_yield_amount'."
                 )
             )
