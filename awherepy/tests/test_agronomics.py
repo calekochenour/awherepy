@@ -5,6 +5,7 @@ import pytest
 from datetime import date, timedelta
 import geopandas as gpd
 import awherepy.agronomics as awa
+import awherepy.fields as awf
 
 
 @pytest.fixture
@@ -78,7 +79,7 @@ def bear_lake_observed(awhere_api_key, awhere_api_secret):
     values for Bear Lake, RMNP, Colorado.
     """
     # Define kwargs for Bear Lake, RMNP, Colorado
-    bear_lake_kwargs = {"start_date": "2020-05-10", "end_date": "2020-05-20"}
+    bear_lake_kwargs = {"start_date": "2020-05-10", "end_date": "2020-05-19"}
 
     return awa.get_agronomic_values(
         key=awhere_api_key, secret=awhere_api_secret, kwargs=bear_lake_kwargs
@@ -102,7 +103,7 @@ def manchester_vermont_observed(
             manchester_vermont_latitude,
         ),
         "start_date": "2020-05-10",
-        "end_date": "2020-05-20",
+        "end_date": "2020-05-19",
     }
 
     return awa.get_agronomic_values(
@@ -284,3 +285,306 @@ def test_get_agronomics_values(
 
     # Test number of records
     assert len(vt_forecast_daily) == 10
+
+
+def test_get_argonomic_norms_invalid_location(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_norms() function with a missing location.
+    """
+    # Define kwargs with invalid location
+    kwargs = {
+        "location": None,
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test invalid location
+    with pytest.raises(
+        ValueError,
+        match="Must specify a location, with longitude and latitude.",
+    ):
+        awa.get_agronomic_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomic_norms_valid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_agronomic_norms() function with a valid field.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define kwargs with field
+    kwargs = {
+        "input_type": "field",
+        "field_id": "VT-Test",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Get agronomic norms
+    total, daily = awa.get_agronomic_norms(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(total, gpd.GeoDataFrame)
+
+    # Test number of columns
+    assert len(total.columns) == 11
+
+    # Test number of records
+    assert len(total) == 1
+
+    # Test object type
+    assert isinstance(daily, gpd.GeoDataFrame)
+
+    # Test number of columns
+    assert len(daily.columns) == 15
+
+    # Test number of records
+    assert len(daily) == 10
+
+
+def test_get_agronomic_norms_invalid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_agronomic_norms() function with a missing field.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "field",
+        "field_id": None,
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(ValueError, match="Must specify a field name."):
+        awa.get_agronomic_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomic_norms_invalid_parameters(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_norms() function with an invalid input type.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "Invalid",
+        "start_date": "05-10",
+        "end_date": "05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        ValueError, match="Invalid input type. Must be 'location' or 'field'."
+    ):
+        awa.get_agronomic_norms(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomic_norms_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_norms() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_norms(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_norms(key=awhere_api_key, secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_norms(key="Invalid-Key", secret=awhere_api_secret)
+
+
+def test_get_agronomic_values_invalid_location(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_values() function with a missing location.
+    """
+    # Define kwargs with invalid location
+    kwargs = {
+        "location": None,
+    }
+
+    # Test invalid location
+    with pytest.raises(
+        ValueError,
+        match="Must specify a location, with longitude and latitude.",
+    ):
+        awa.get_agronomic_values(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomic_values_valid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_agronomic_values() function with a valid field.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define kwargs with field
+    kwargs = {
+        "input_type": "field",
+        "field_id": "VT-Test",
+        "start_date": "2020-05-10",
+        "end_date": "2020-05-19",
+    }
+
+    # Get agronomic values
+    total, daily = awa.get_agronomic_values(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(total, gpd.GeoDataFrame)
+
+    # Test number of columns
+    assert len(total.columns) == 7
+
+    # Test number of records
+    assert len(total) == 1
+
+    # Test object type
+    assert isinstance(daily, gpd.GeoDataFrame)
+
+    # Test number of columns
+    assert len(daily.columns) == 8
+
+    # Test number of records
+    assert len(daily) == 10
+
+
+def test_get_agronomic_values_invalid_field(awhere_api_key, awhere_api_secret):
+    """Tests the get_agronomic_values() function with a missing field.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "field",
+        "field_id": None,
+        "start_date": "2020-05-10",
+        "end_date": "2020-05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(ValueError, match="Must specify a field name."):
+        awa.get_agronomic_values(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomic_values_invalid_parameters(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_values() function with an invalid input type.
+    """
+    # Define kwargs with invalid field id
+    kwargs = {
+        "input_type": "Invalid",
+        "start_date": "2020-05-10",
+        "end_date": "2020-05-19",
+    }
+
+    # Test missing field id
+    with pytest.raises(
+        ValueError, match="Invalid input type. Must be 'location' or 'field'."
+    ):
+        awa.get_agronomic_values(
+            key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+        )
+
+
+def test_get_agronomics_values_single_day(awhere_api_key, awhere_api_secret):
+    """Tests the get_agronomic_values() function with a single day input.
+    """
+    # Define kwargs with start date only
+    kwargs = {"start_date": "2020-05-10"}
+
+    # Get agronomic values
+    values = awa.get_agronomic_values(
+        key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
+    )
+
+    # Test object type
+    assert isinstance(values, gpd.GeoDataFrame)
+
+    # Test number of columns
+    assert len(values.columns) == 4
+
+    # Test number of records
+    assert len(values) == 1
+
+
+def test_get_agronomic_values_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the get_agronomic_values() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_values(key="Invalid-Key", secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_values(key=awhere_api_key, secret="Invalid-Secret")
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awa.get_agronomic_values(key="Invalid-Key", secret=awhere_api_secret)

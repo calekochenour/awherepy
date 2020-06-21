@@ -267,7 +267,7 @@ def test_get_weather_norms_invalid_location(awhere_api_key, awhere_api_secret):
     kwargs = {
         "location": None,
         "start_date": "05-10",
-        "end_date": "05-20",
+        "end_date": "05-19",
     }
 
     # Test invalid location
@@ -320,7 +320,7 @@ def test_get_weather_norms_valid_field(awhere_api_key, awhere_api_secret):
         "end_date": "05-19",
     }
 
-    # Get weather
+    # Get weather norms
     norms = aww.get_weather_norms(
         key=awhere_api_key, secret=awhere_api_secret, kwargs=kwargs
     )

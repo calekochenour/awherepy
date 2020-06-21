@@ -151,7 +151,9 @@ def _call_agronomic_norms(
 
         # Raise error if location is not defined
         if location is None:
-            raise ValueError("Must specify a location (longitude, latitude).")
+            raise ValueError(
+                ("Must specify a location, with longitude " "and latitude.")
+            )
 
         # Set URL to location
         api_url = (
@@ -164,14 +166,14 @@ def _call_agronomic_norms(
 
         # Raise error if field name is not defined
         if field_id is None:
-            raise ValueError("Must specify a field name ('test-field').")
+            raise ValueError("Must specify a field name.")
 
         # Set URL to fields
         api_url = f"https://api.awhere.com/v2/agronomics/fields/{field_id}"
 
     # Invalid input
     else:
-        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+        raise ValueError("Invalid input type. Must be 'location' or 'field'.")
 
     # Get OAuth token
     auth_token = aw.get_oauth_token(key, secret)
@@ -543,7 +545,9 @@ def _call_agronomic_values(
 
         # Raise error if location is not defined
         if location is None:
-            raise ValueError("Must specify a location (longitude, latitude).")
+            raise ValueError(
+                ("Must specify a location, with longitude " "and latitude.")
+            )
 
         # Set URL to location
         api_url = (
@@ -556,14 +560,14 @@ def _call_agronomic_values(
 
         # Raise error if field name is not defined
         if field_id is None:
-            raise ValueError("Must specify a field name ('test-field').")
+            raise ValueError("Must specify a field name.")
 
         # Set URL to fields
         api_url = f"https://api.awhere.com/v2/agronomics/fields/{field_id}"
 
     # Invalid input
     else:
-        raise ValueError("Invalid date type. Must be 'location' or 'field'.")
+        raise ValueError("Invalid input type. Must be 'location' or 'field'.")
 
     # Get OAuth token
     auth_token = aw.get_oauth_token(key, secret)
@@ -682,6 +686,7 @@ def _clean_agronomic_values(df):
 
     # Define CRS (EPSG 4326)
     crs = "epsg:4326"
+
     # Check type of input data
     # Pandas dataframe (single-day input)
     if isinstance(df, pd.core.frame.DataFrame):
