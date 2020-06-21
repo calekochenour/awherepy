@@ -210,3 +210,483 @@ def test_delete_planting(awhere_api_key, awhere_api_secret, deleted_planting):
 
     # Delete test field after tests
     awf.delete_field(awhere_api_key, awhere_api_secret, field_id="VT-Test")
+
+
+def test_create_planting_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the create_plantings() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.create_planting(
+            key="Invalid-Key",
+            secret="Invalid-Secret",
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret="Invalid-Secret",
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.create_planting(
+            key="Invalid-Key",
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+
+def test_create_planting_invalid_parameters(awhere_api_key, awhere_api_secret):
+    """Tests the create_planting() function for expected invalid
+    parameter errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define invalid planting parameters type (list)
+    planting_info = [
+        random.choice(awc.CROPS_LIST),
+        "2020-05-01",
+        "2020-09-30",
+        200,
+        "boxes",
+    ]
+
+    # Test invalid planting parameters type
+    with pytest.raises(
+        TypeError,
+        match="Invalid type: 'planting_info' must be of type dictionary.",
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters missing crop
+    planting_info = {
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Test planting parameters missing crop
+    with pytest.raises(
+        KeyError, match="Missing required planting parameter: 'crop'."
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters missing planting date
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Test planting parameters missing crop
+    with pytest.raises(
+        KeyError, match="Missing required planting parameter: 'planting_date'."
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters with projected yield amount but not units
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+    }
+
+    # Test planting parameters with projected yield amount but not units
+    with pytest.raises(
+        KeyError,
+        match="Missing required planting parameter: 'projected_yield_units'.",
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters with projected yield units but not amount
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_units": "boxes",
+    }
+
+    # Test planting parameters with projected yield amount but not units
+    with pytest.raises(
+        KeyError,
+        match="Missing required planting parameter: 'projected_yield_amount'.",
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters with actual yield amount but not units
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "yield_amount": 200,
+    }
+
+    # Test planting parameters with actual yield amount but not units
+    with pytest.raises(
+        KeyError, match="Missing required planting parameter: 'yield_units'."
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+    # Define planting parameters with actual yield units but not amount
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "yield_units": "boxes",
+    }
+
+    # Test planting parameters with actual yield amount but not units
+    with pytest.raises(
+        KeyError, match="Missing required planting parameter: 'yield_amount'."
+    ):
+        awp.create_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_info=planting_info,
+        )
+
+
+def test_get_plantings_invalid_credentials(awhere_api_key, awhere_api_secret):
+    """Tests the get_plantings() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.get_plantings(
+            key="Invalid-Key", secret="Invalid-Secret",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.get_plantings(
+            key=awhere_api_key, secret="Invalid-Secret",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.get_plantings(
+            key="Invalid-Key", secret=awhere_api_secret,
+        )
+
+
+def test_get_planting_field_id(awhere_api_key, awhere_api_secret):
+    """Tests the get_plantings() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Create planting
+    awp.create_planting(
+        key=awhere_api_key,
+        secret=awhere_api_secret,
+        field_id="VT-Test",
+        planting_info=planting_info,
+    )
+
+    # Get planting
+    planting = awp.get_plantings(
+        key=awhere_api_key,
+        secret=awhere_api_secret,
+        kwargs={"field_id": "VT-Test"},
+    )
+
+    # Test object type
+    assert isinstance(planting, pd.DataFrame)
+
+    # Test dataframe information
+    assert planting.iloc[0].field_id == "VT-Test"
+    assert planting.iloc[0].planting_date == "2020-05-01"
+    assert planting.iloc[0].yield_amount_projected == 200
+    assert planting.iloc[0].yield_amount_projected_units == "boxes"
+    assert planting.iloc[0].harvest_date_projected == "2020-09-30"
+
+    # Test number of records
+    assert len(planting) == 1
+
+
+def test_delete_planting_invalid_credentials(
+    awhere_api_key, awhere_api_secret
+):
+    """Tests the delete_planting() function for expected invalid API
+    credentials errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Create planting
+    awp.create_planting(
+        awhere_api_key,
+        awhere_api_secret,
+        field_id="VT-Test",
+        planting_info=planting_info,
+    )
+
+    # Test invalid API credentials
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.delete_planting(
+            key="Invalid-Key", secret="Invalid-Secret", field_id="VT-Test"
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.delete_planting(
+            key=awhere_api_key, secret="Invalid-Secret", field_id="VT-Test",
+        )
+
+    with pytest.raises(ValueError, match="Invalid aWhere API credentials."):
+        awp.delete_planting(
+            key="Invalid-Key", secret=awhere_api_secret, field_id="VT-Test",
+        )
+
+
+def test_delete_planting_invalid_parameters(awhere_api_key, awhere_api_secret):
+    """Tests the delete_planting() function for expected invalid parameter
+    errors/exceptions.
+    """
+    # Define field paramaters
+    field_info = {
+        "field_id": "VT-Test",
+        "field_name": "VT-Field-Test",
+        "farm_id": "VT-Farm-Test",
+        "center_latitude": 43.1636875,
+        "center_longitude": -73.0723269,
+        "acres": 10,
+    }
+
+    # Create field
+    try:
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Delete field if already exists
+    except KeyError:
+        awf.delete_field(
+            awhere_api_key,
+            awhere_api_secret,
+            field_id=field_info.get("field_id"),
+        )
+
+        # Create field again
+        awf.create_field(
+            awhere_api_key, awhere_api_secret, field_info=field_info
+        )
+
+    # Define planting parameters
+    planting_info = {
+        "crop": random.choice(awc.CROPS_LIST),
+        "planting_date": "2020-05-01",
+        "projected_harvest_date": "2020-09-30",
+        "projected_yield_amount": 200,
+        "projected_yield_units": "boxes",
+    }
+
+    # Create planting
+    awp.create_planting(
+        awhere_api_key,
+        awhere_api_secret,
+        field_id="VT-Test",
+        planting_info=planting_info,
+    )
+
+    # Test invalid field id
+    with pytest.raises(KeyError, match="Field does not exist within account."):
+        awp.delete_planting(
+            key=awhere_api_key, secret=awhere_api_secret, field_id="VT-Invalid"
+        )
+
+    with pytest.raises(
+        KeyError, match="Planting does not exist within account."
+    ):
+        awp.delete_planting(
+            key=awhere_api_key,
+            secret=awhere_api_secret,
+            field_id="VT-Test",
+            planting_id="Invalid-Planting",
+        )
+
+
+#
+# # Define planting parameters
+# planting_info = {
+#     "crop": random.choice(awc.CROPS_LIST),
+#     "planting_date": "2020-05-01",
+#     "projected_harvest_date": "2020-09-30",
+#     "projected_yield_amount": 200,
+#     "projected_yield_units": "boxes",
+# }

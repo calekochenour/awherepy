@@ -116,50 +116,59 @@ def create_planting(key, secret, field_id, planting_info):
         planting_id
         # potato-generic    VT-Manchester       2020-05-01
     """
-    # Check planting_info object type
-    if not isinstance(planting_info, dict):
-        raise TypeError(
-            "Invalid type: 'planting_info' must be of type dictionary."
-        )
-
-    # Raise errors for missing required parameters
-    if not planting_info.get("crop"):
-        raise KeyError("Missing required planting parameter: 'crop'.")
-
-    if not planting_info.get("planting_date"):
-        raise KeyError("Missing required planting parameter: 'planting_date'.")
-
-    if planting_info.get("projected_yield_amount") and not planting_info.get(
-        "projected_yield_units"
-    ):
-        raise KeyError(
-            "Missing required planting parameter: 'projected_yield_units'."
-        )
-
-    if planting_info.get("projected_yield_units") and not planting_info.get(
-        "projected_yield_amount"
-    ):
-        raise KeyError(
-            "Missing required planting parameter: 'projected_yield_amount'."
-        )
-
-    if planting_info.get("yield_amount") and not planting_info.get(
-        "yield_units"
-    ):
-        raise KeyError("Missing required planting parameter: 'yield_units'.")
-
-    if planting_info.get("yield_units") and not planting_info.get(
-        "yield_amount"
-    ):
-        raise KeyError("Missing required planting parameter: 'yield_units'.")
-
-    # Define plantings api url
-    api_url = (
-        f"https://api.awhere.com/v2/agronomics/fields/{field_id}/plantings"
-    )
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Check planting_info object type
+        if not isinstance(planting_info, dict):
+            raise TypeError(
+                "Invalid type: 'planting_info' must be of type dictionary."
+            )
+
+        # Raise errors for missing required parameters
+        if not planting_info.get("crop"):
+            raise KeyError("Missing required planting parameter: 'crop'.")
+
+        if not planting_info.get("planting_date"):
+            raise KeyError(
+                "Missing required planting parameter: 'planting_date'."
+            )
+
+        if planting_info.get(
+            "projected_yield_amount"
+        ) and not planting_info.get("projected_yield_units"):
+            raise KeyError(
+                "Missing required planting parameter: 'projected_yield_units'."
+            )
+
+        if planting_info.get(
+            "projected_yield_units"
+        ) and not planting_info.get("projected_yield_amount"):
+            raise KeyError(
+                (
+                    "Missing required planting parameter:"
+                    "'projected_yield_amount'."
+                )
+            )
+
+        if planting_info.get("yield_amount") and not planting_info.get(
+            "yield_units"
+        ):
+            raise KeyError(
+                "Missing required planting parameter: 'yield_units'."
+            )
+
+        if planting_info.get("yield_units") and not planting_info.get(
+            "yield_amount"
+        ):
+            raise KeyError(
+                "Missing required planting parameter: 'yield_amount'."
+            )
+
+        # Define plantings api url
+        api_url = (
+            f"https://api.awhere.com/v2/agronomics/fields/{field_id}/plantings"
+        )
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -493,37 +502,42 @@ def update_planting(
         Attempting to update planting...
         Updated planting: sugarbeet-generic in VT-Manchester
     """
-    # Check planting_info object type
-    if not isinstance(planting_info, dict):
-        raise TypeError(
-            "Invalid type: 'planting_info' must be of type dictionary."
-        )
-
-    # Raise error if field does not exist
-    if planting_info.get("field_id") not in awf.get_fields(key, secret).index:
-        raise KeyError("Field does not exist within account.")
-
-    # Raise error if planting does not exist
-    if planting_info.get("planting_id") != "current":
-        if (
-            planting_info.get("planting_id")
-            not in get_plantings(key, secret).index
-        ):
-            raise KeyError("Planting does not exist within account.")
-
-    # Raise error if update type is not valid
-    if planting_info.get("update_type") not in ["full", "partial"]:
-        raise ValueError("Invalid update type. Must be 'full' or 'partial'.")
-
-    # Define api url
-    api_url = (
-        "https://api.awhere.com/v2/agronomics/fields/"
-        f"{planting_info.get('field_id')}/plantings/"
-        f"{planting_info.get('planting_id')}"
-    )
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Check planting_info object type
+        if not isinstance(planting_info, dict):
+            raise TypeError(
+                "Invalid type: 'planting_info' must be of type dictionary."
+            )
+
+        # Raise error if field does not exist
+        if (
+            planting_info.get("field_id")
+            not in awf.get_fields(key, secret).index
+        ):
+            raise KeyError("Field does not exist within account.")
+
+        # Raise error if planting does not exist
+        if planting_info.get("planting_id") != "current":
+            if (
+                planting_info.get("planting_id")
+                not in get_plantings(key, secret).index
+            ):
+                raise KeyError("Planting does not exist within account.")
+
+        # Raise error if update type is not valid
+        if planting_info.get("update_type") not in ["full", "partial"]:
+            raise ValueError(
+                "Invalid update type. Must be 'full' or 'partial'."
+            )
+
+        # Define api url
+        api_url = (
+            "https://api.awhere.com/v2/agronomics/fields/"
+            f"{planting_info.get('field_id')}/plantings/"
+            f"{planting_info.get('planting_id')}"
+        )
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
@@ -661,23 +675,23 @@ def delete_planting(key, secret, field_id, planting_id="current"):
     Attempting to delete planting...
     Deleted planting: ###### in VT-Manchester
     """
-    # Raise error if field does not exist
-    if field_id not in awf.get_fields(key, secret).index:
-        raise KeyError("Field name does not exist within account.")
-
-    # Raise error if planting does not exist
-    if planting_id != "current":
-        if planting_id not in get_plantings(key, secret).index:
-            raise KeyError("Planting does not exist within account.")
-
-    # Define api url
-    api_url = (
-        f"https://api.awhere.com/v2/agronomics/fields/"
-        f"{field_id}/plantings/{planting_id}"
-    )
-
     # Check if credentials are valid
     if aw.valid_credentials(key, secret):
+
+        # Raise error if field does not exist
+        if field_id not in awf.get_fields(key, secret).index:
+            raise KeyError("Field does not exist within account.")
+
+        # Raise error if planting does not exist
+        if planting_id != "current":
+            if planting_id not in get_plantings(key, secret).index:
+                raise KeyError("Planting does not exist within account.")
+
+        # Define api url
+        api_url = (
+            f"https://api.awhere.com/v2/agronomics/fields/"
+            f"{field_id}/plantings/{planting_id}"
+        )
 
         # Get OAuth token
         auth_token = aw.get_oauth_token(key, secret)
