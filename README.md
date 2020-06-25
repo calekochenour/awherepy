@@ -33,7 +33,7 @@ In addition, the aWherePy package contains [Python scripts](https://github.com/c
 To install aWherePy from GitHub, run the following command in a terminal:
 
 ```bash
-pip install git+https://github.com/calekochenour/awherepy
+pip install git+https://github.com/calekochenour/awherepy.git#egg=awherepy
 ```
 
 Once installed, you can import aWherePy into Python:
