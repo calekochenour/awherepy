@@ -19,7 +19,7 @@ Prior to aWherePy, aWhere's agronomic and weather data API was only accessible w
 * Create an aWhere-sized (9 km x 9 km) grid from a shapefile; and,
 * Rasterize existing remote sensing and GIS data to the aWhere grid.
 
-aWherPy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks and creates the vehicle to integrate aWhere data and other geospatial and remote sensing data within these platforms.
+aWherePy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks and creates the vehicle to integrate aWhere data with other geospatial and remote sensing data within these platforms.
 
 ## View Example aWherePy Applications
 
