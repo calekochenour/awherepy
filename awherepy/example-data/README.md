@@ -34,7 +34,7 @@ The Vermont state boundary was obtained from the Vermont Open Geodata Portal: ht
 
 VCGI and the State of VT make no representations of any kind, including but not limited to the warranties of merchantability or fitness for a particular use, nor are any such warranties to be implied with respect to the data.
 
-## State of Vermont Population 2020
+## Vermont State Population 2020
 
 100-meter spatial resolution population per pixel (PPP) data for the state of Vermont in the year 2020.
 
