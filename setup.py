@@ -3,8 +3,8 @@ from setuptools import setup
 
 DISTNAME = "awherepy"
 DESCRIPTION = (
-    "Python package built to retrieve, extract, and format"
-    "weather and agronomic data from the aWhere API."
+    "Python package built to work with weather and agriculture"
+    "data in the aWhere API."
 )
 MAINTAINER = "Cale Kochenour"
 MAINTAINER_EMAIL = "cale.kochenour@alumni.psu.edu"

@@ -2,12 +2,11 @@ name: awhere-python
 
 channels:
   - conda-forge
-  #- pypi
   - defaults
 
 dependencies:
   # Base dependencies
-  - python
+  - python=3.8
   - pip
 
   # Core scientific python
@@ -22,26 +21,3 @@ dependencies:
   - rasterstats
   - descartes
   - rtree
-
-  # # Jupyter Environment
-  # - autopep8
-  # - jupyterlab
-  # - notebook
-  # - jupyter_contrib_nbextensions
-  # - nbclean
-
-  # # Testing
-  # - pip #=20.1.1
-  # - bumpversion #=0.6.0
-  # - pre-commit #=2.4.0
-  # - wheel #=0.34.2
-  # - watchdog #=0.10.2
-  # - flake8 #=3.8.1
-  # - tox #=3.15.0
-  # - codecov
-  # - coverage #=5.1
-  # - Sphinx #=3.0.3
-  # - twine #=3.1.1
-  # - pytest #=5.4.2
-  # - pytest-runner #=5.2
-  # - pytest-cov #=2.8.1

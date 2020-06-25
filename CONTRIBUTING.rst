@@ -1,10 +1,9 @@
 Contributing Guidelines
 =======================
 
-Contributions are welcome, and they are greatly appreciated! Every little bit
-helps, and credit will always be given.
+Contributions to aWherePy are welcome and appreciated. Credit will always be given.
 
-You can contribute in many ways:
+You can contribute in the following ways:
 
 Types of Contributions
 ----------------------
@@ -48,8 +47,6 @@ If you are proposing a feature:
 
 * Explain in detail how it would work.
 * Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
 
 Get Started!
 ------------
@@ -99,16 +96,9 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 3.6, 3.7, and 3.8 and for PyPy. Check
+3. The pull request should work for Python 3.8. Check
    https://travis-ci.org/calekochenour/awherepy/pull_requests
    and make sure that the tests pass for all supported Python versions.
-
-Tips
-----
-
-To run a subset of tests::
-
-    $ py.test tests.test_awherepy
 
 Deploying
 ---------
