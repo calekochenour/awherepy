@@ -8,20 +8,25 @@
 
 # aWherePy
 
+aWherePy provides a Python solution to work with the [aWhere API](https://www.awhere.com/developer/).
+
 ## Why aWherePy?
 
-aWhere's agronomic and weather data API is currently accessible through the R programming language. aWherePy creates a Python solution for the aWhere API and provides Python code to:
+Prior to aWherePy, aWhere's agronomic and weather data API was only accessible through with [R programming language](https://github.com/aWhereAPI/aWhere-R-Library). aWherePy creates a Python solution for the aWhere API and provides Python code to:
 
-* Connect to the aWhere API;
-* Get data from the aWhere API;
+* Call the aWhere API;
 * Extract data from the aWhere API returns;
 * Clean and georeference extracted data;
 * Create an aWhere-sized (9 km x 9 km) grid from a shapefile; and,
 * Rasterize existing remote sensing and GIS data to the aWhere grid.
 
-aWherPy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks.  
+aWherPy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks and creates the vehicle to integrate aWhere data and other geospatial and remote sensing data within these platforms.
 
 ## View Example aWherePy Applications
+
+You can view aWherePy applications in the [vignette gallery](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/index.html), which demonstrates functionality for all seven aWherePy modules.
+
+In addition, the aWherePy package contains [Python scripts](https://github.com/calekochenour/awherepy/tree/master/examples) to run the example applications for each module as well as the [example data](https://github.com/calekochenour/awherepy/tree/master/awherepy/example-data) used within the Python scripts.
 
 ## Install aWherePy
 <!--
