@@ -12,7 +12,7 @@ aWherePy provides a Python solution to work with the [aWhere API](https://www.aw
 
 ## Why aWherePy?
 
-Prior to aWherePy, aWhere's agronomic and weather data API was only accessible through with [R programming language](https://github.com/aWhereAPI/aWhere-R-Library). aWherePy creates a Python solution for the aWhere API and provides Python code to:
+Prior to aWherePy, aWhere's agronomic and weather data API was only accessible with [R](https://github.com/aWhereAPI/aWhere-R-Library). aWherePy creates a Python solution for the aWhere API and provides Python code to:
 
 * Call the aWhere API;
 * Extract data from the aWhere API returns;
@@ -68,7 +68,7 @@ aWherePy contains seven modules:
 
 This section outlines the structure of the aWherePy package, as it relates to these modules.
 
-### `awherepy`
+### `awherepy/`
 
 Contains Python scripts for the aWherePy modules (e.g. `agronomics.py`). Also contains two sub-folders, one with example data and one with module test scripts.
 
