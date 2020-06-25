@@ -29,43 +29,68 @@ You can view aWherePy applications in the [vignette gallery](https://awherepy.re
 In addition, the aWherePy package contains [Python scripts](https://github.com/calekochenour/awherepy/tree/master/examples) to run the example applications for each module as well as the [example data](https://github.com/calekochenour/awherepy/tree/master/awherepy/example-data) used within the Python scripts.
 
 ## Install aWherePy
-<!--
-aWherePy can be installed using `pip`, but we **strongly** recommend that you install it using conda and the `conda-forge` channel.
 
-### Install Using Conda / conda-forge Channel (Preferred)
-
-If you are working within an Anaconda environment, we suggest that you install EarthPy using
-`conda-forge`
+To install aWherePy from GitHub, run the following command in a terminal:
 
 ```bash
-$ conda install -c conda-forge awherepy
+pip install git+https://github.com/calekochenour/awherepy
 ```
 
-Note: if you want to set conda-forge as your default conda channel, you can use the following install workflow.
-
-We recommmend this approach. Once you have run conda config, you can install awherepy without specifying a channel.
-
-```bash
-$ conda config --add channels conda-forge
-$ conda install awherepy
-```
-
-### Install via Pip
-
-We strongly suggest that you install aWherePy using conda-forge given pip can be more prone to  spatial library dependency conflicts. However, you can install earthpy using pip.
-
-To install aWherePy via `pip` use:
-
-```bash
-$ pip install --upgrade awherepy
-```
-
-Once you have successfully installed awherepy, you can import it into Python.
+Once installed, you can import aWherePy into Python:
 
 ```python
->>> import awherepy as ap
+>>> import awherepy as aw
 ```
--->
+
+You can also import the individual modules into Python:
+
+```python
+>>> import awherepy.agronomics as awa
+>>> import awherepy.crops as awc
+>>> import awherepy.fields as awf
+>>> import awherepy.grid as awg
+>>> import awherepy.models as awm
+>>> import awherepy.plantings as awp
+>>> import awherepy.weather as aww
+```
+
+## aWherePy Package Structure
+
+aWherePy contains seven modules:
+
+* agronomics;
+* crops;
+* fields;
+* grids;
+* models:
+* plantings; and,
+* weather.
+
+This section outlines the structure of the aWherePy package, as it relates to these modules.
+
+### `awherepy`
+
+Contains Python scripts for the aWherePy modules (e.g. `agronomics.py`). Also contains two sub-folders, one with example data and one with module test scripts.
+
+### `awherepy/example-data`
+
+Contains datasets used in the aWherePy tests and vignette gallery examples.
+
+### `awherepy/tests`
+
+Contains Python scripts for the aWherePy tests (e.g. `test_agronomics.py`).
+
+### `docs/`
+
+Contains files used to organize and populate the aWherePy documentation.
+
+### `examples/`
+
+Contains Python scripts used to in the aWherePy vignette gallery (e.g. `work_with_agronomics.py`).
+
+## aWherePy Documentation
+
+For information about how to use aWherePy modules and functions, see example applications, and view all other aWherePy documentation-related material, review the [aWherePy documentation](https://awherepy.readthedocs.io/en/latest/).
 
 ## Active Maintainers
 
@@ -82,98 +107,3 @@ Contributions to aWherePy are welcome. Please see the
 ## License
 
 [BSD-3](https://github.com/calekochenour/awherepy/blob/master/LICENSE)
-
-<!--
-## 1. Prerequisites
-
-To run this analysis locally or online with Binder, you will need:
-
- * [aWhere Developer Account](https://developer.awhere.com/)
-
-If running this locally, you will also need:
-
- * Conda ([Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://docs.anaconda.com/anaconda/install/))
-
-## 2. Binder Setup Instructions
-To run this analysis in a web browser, click the icon below to launch the project with Binder:
-
-[![Binder](https://mybinder.org/badge_logo.svg)]()
-
-## 3. Local Setup Instructions
-
-To run this analysis from a terminal, navigate to the folder containing the local repository.
-
-Local instructions assume the user has cloned or forked the GitHub repository.
-
-### Create and Activate Conda Environment
-
-From the terminal, you can create and activate the project Conda environment.
-
-Create environment:
-
-```bash
-conda env create -f environment.yml
-```
-
-Activate environment:
-
-```bash
-conda activate INSERT ENVIRONMENT NAME
-```
-
-### Open Jupyter Notebook
-
-From the terminal, you can run the analysis and produce the project outputs.
-
-Open Jupyter Notebook:
-
-```bash
-jupyter notebook
-```
-
-## 4. Run the Analysis
-
-Follow these steps upon completion of the **Binder Setup Instructions** or **Local Setup Instructions** to run the analysis in Jupyter Notebook:
-
-* Navigate to the INSERT FOLDER NAME HERE folder;
-
-* Click on the INSERT JUPYTER NOTEBOOK FILE NAME HERE file;
-
-## 5. Demos
-
-### Run Analysis
-
-### View Results
-
-## 6. Contents
-
-The project contains folders for all stages of the workflow as well as other files necessary to run the analysis.
-
-### `01-code-scripts/`
-
-Contains all Python scripts and Jupyter Notebooks required to run the analysis.
-
-### `02-raw-data/`
-
-Contains all original/unprocessed data.
-
-### `03-processed-data/`
-
-Contains all processed/created data.
-
-### `04-graphics-outputs/`
-
-Contains all figures.
-
-### `05-papers-writings/`
-
-Contains all paper/report files.
-
-### `Makefile`
-
-Contains instructions to execute the code.
-
-### `environment.yml`
-
-Contains the information required to create the Conda environment.
--->
