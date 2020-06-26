@@ -4,6 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/awherepy/badge/?version=latest)](https://awherepy.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 # aWherePy
 
@@ -71,7 +72,7 @@ In addition, the aWherePy package contains [Python scripts](https://github.com/c
 
 ## Install aWherePy
 
-Installing aWherePy 0.1.0 directly from GitHub with pip will fail due to the `rtree` package, which is required for aWherePy functionality.
+Installing aWherePy 0.1.0 directly from GitHub with pip will fail due to incompatibilities with pip and the `rtree` package (specifically `rtree>=0.9.0`), which is required for aWherePy functionality.
 
 The recommended method to install aWherePy 0.1.0 for local testing and evaluation is to fork or clone the repository, install Conda, create a Conda environment with the necessary packages, and run the complete test suite.
 

@@ -98,6 +98,6 @@ This Code of Conduct is adapted from the `Contributor Covenant version 2.0  <htt
 Project Impact Guidelines were inspired by `Mozilla's code of conduct
 enforcement ladder <https://github.com/mozilla/diversity>`_.
 
-`Contributor Covenant home page <https://www.contributor-covenant.org>`_
+For answers to common questions about this code of conduct, see the `FAQ <https://www.contributor-covenant.org/faq>`_.
 
-For answers to common questions about this code of conduct, see the FAQ at https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations.
+For translations, see the `translations page <https://www.contributor-covenant.org/translations>`_.
