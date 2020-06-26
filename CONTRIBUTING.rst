@@ -115,4 +115,4 @@ Travis will then deploy to PyPI if tests pass.
 
 Code of Conduct
 ---------------
-Please note that the aWherePy project is released with a Contributor Code of Conduct. By contributing to this project you agree to abide by its terms.
+Please note that the aWherePy project is released with a `Contributor Code of Conduct <https://awherepy.readthedocs.io/en/latest/code-of-conduct.html>`_. By contributing to this project you agree to abide by its terms.

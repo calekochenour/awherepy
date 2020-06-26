@@ -71,7 +71,7 @@ In addition, the aWherePy package contains [Python scripts](https://github.com/c
 
 ## Install aWherePy
 
-Installing aWherePy 0.1.0 directly from GitHub with pip will fail due the `rtree` package, which is required for aWherePy functionality.
+Installing aWherePy 0.1.0 directly from GitHub with pip will fail due to the `rtree` package, which is required for aWherePy functionality.
 
 The recommended method to install aWherePy 0.1.0 for local testing and evaluation is to fork or clone the repository, install Conda, create a Conda environment with the necessary packages, and run the complete test suite.
 
@@ -91,11 +91,11 @@ $ git clone https://github.com/calekochenour/awherepy.git
 
 ### Install Conda
 
-You must install Conda ([Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or [Anaconda](https://docs.anaconda.com/anaconda/install/)) in order to create a Conda environment that will run the complete aWherePy test suite.
+You must install Conda - [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or [Anaconda](https://docs.anaconda.com/anaconda/install/) - in order to create a Conda environment that will run the complete aWherePy test suite.
 
 ### Create aWherePy Development Conda Environment
 
-The root directory of aWherePy contains `environment-dev.yml`, which when used to create a Conda environment, provides all packages (functionality and testing) to run the complete aWherePy test suite.
+The root directory of aWherePy contains the `environment-dev.yml` file, which when used to create a Conda environment, provides all packages (functionality and testing) to run the complete aWherePy test suite.
 
 From the terminal, you can create the development Conda environment.
 
@@ -115,7 +115,7 @@ Activate environment:
 $ conda activate awherepy-dev
 ```
 
-Run complete test suite:
+Run test suite:
 
 ```bash
 $ pytest
@@ -231,7 +231,7 @@ There are no existing Python packages that provide similar functionality for the
 ## Active Maintainers
 
 Contributions to aWherePy are welcome. Below are the current active package maintainers. Please see the
-[contributors file](https://awherepy.readthedocs.io/en/latest/contributors.html) for a complete list of all of maintainers.
+[contributors page](https://awherepy.readthedocs.io/en/latest/contributors.html) for a complete list of all of maintainers.
 
 <a title="Cale Kochenour" href="https://www.github.com/calekochenour"><img width="60" height="60" alt="Cale Kochenour" class="pull-left" src="https://user-images.githubusercontent.com/54423680/82125272-10a41780-9762-11ea-9026-f705caa25e8e.PNG?size=120" /></a>
 
