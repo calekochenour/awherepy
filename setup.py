@@ -33,7 +33,7 @@ if __name__ == "__main__":
             "shapely",
             "rasterstats",
             "descartes",
-            "rtree==0.8.3",
+            "rtree",
         ],
         zip_safe=False,
         classifiers=[
