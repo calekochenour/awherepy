@@ -143,7 +143,7 @@ def _call_agronomic_norms(
     limit=10,
     offset=0,
 ):
-    """Retrieves agronomic norms from the aWhere API.
+    """Helper function that calls the aWhere API for agronomic norms.
     """
     # Check input data type
     # Location-based
@@ -203,15 +203,7 @@ def _call_agronomic_norms(
 
 
 def _extract_agronomic_norms(agronomic_norms):
-    """Extracts data from the aWhere agronomic norms
-    data in JSON format.
-
-    Returns
-    -------
-    agronomics_df : pandas dataframe or tuple of dataframes
-        Dataframe(s) containing the extracted data. Single-day
-        inputs return a single dataframe. Multi-day inputs return
-        a tuple of dataframes (total norms, daily norms).
+    """Helper function that extracts agronomic norms into a dataframe.
     """
     # Extract lat/lon
     latitude = agronomic_norms.get("location").get("latitude")
@@ -262,21 +254,7 @@ def _extract_agronomic_norms(agronomic_norms):
 
 
 def _clean_agronomic_norms(df):
-    """Converts dataframe to geodataframe,
-    drops unnecessary columns, and renames
-    columns.
-
-    Parameters
-    ----------
-    df : dataframe or tuple of dataframes
-        Input dataframe(s).
-
-    Returns
-    -------
-    gdf : geopandas geodataframe or tuple of geodataframes
-        Geodataframe(s) containing the extracted data. Single-day
-        inputs return a single geodataframe. Multi-day inputs return
-        a tuple of geodataframes (total norms, daily norms).
+    """Helper function that cleans and georeferences agronomics norms.
     """
     # Define global variables
     global NORMS_SINGLE_DAY_COORD_COLS
@@ -536,8 +514,7 @@ def _call_agronomic_values(
     limit=10,
     offset=0,
 ):
-    """Retrieves agronomic values (forecast or observed)
-    from the aWhere API.
+    """Helper function that calls the aWhere API for agronomic values.
     """
     # Check input data type
     # Location-based
@@ -597,15 +574,7 @@ def _call_agronomic_values(
 
 
 def _extract_agronomic_values(agronomic_values):
-    """Extracts data from the aWhere agronomic forecast
-    data in JSON format.
-
-    Returns
-    -------
-    agronomics_df : pandas dataframe or tuple of dataframes
-        Dataframe(s) containing the extracted data. Single-day
-        inputs return a single dataframe. Multi-day inputs return
-        a tuple of dataframes (total norms, daily norms).
+    """Helper function that extracts agronomic values into a dataframe.
     """
     # Extract lat/lon
     latitude = agronomic_values.get("location").get("latitude")
@@ -658,21 +627,7 @@ def _extract_agronomic_values(agronomic_values):
 
 
 def _clean_agronomic_values(df):
-    """Converts dataframe to geodataframe,
-    drops unnecessary columns, and renames
-    columns.
-
-    Parameters
-    ----------
-    df : dataframe or tuple of dataframes
-        Input dataframe(s).
-
-    Returns
-    -------
-    gdf : geopandas geodataframe or tuple of geodataframes
-        Geodataframe(s) containing the extracted data. Single-day
-        inputs return a single geodataframe. Multi-day inputs return
-        a tuple of geodataframes (total value, daily values).
+    """Helper function that cleans and georeferences agronomics values.
     """
     # Define global variables
     global VALUES_SINGLE_DAY_COORD_COLS

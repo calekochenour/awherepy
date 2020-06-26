@@ -128,7 +128,7 @@ def _call_weather_norms(
     limit=10,
     offset=0,
 ):
-    """Retrieves weather norms from the aWhere API.
+    """Helper function that calls the aWhere API for weather norms.
     """
     # Check input data type
     # Location-based
@@ -190,23 +190,7 @@ def _call_weather_norms(
 
 
 def _extract_weather_norms(historic_norms):
-    """Extracts weather norms from the aWhere API
-    return.
-
-    Creates a dataframe from a JSON-like
-    dictionary of aWhere historic norm data.
-
-    Handles both single-day norms and multiple days.
-
-    Parameters
-    ----------
-    historic_norms : dict
-        aWhere historic norm data in dictionary format.
-
-    Returns
-    -------
-    historic_norms_df : pandas dataframe
-        Flattened dataframe version of historic norms.
+    """Helper function that extracts weather norms into a dataframe.
     """
     # Raise error if input is not of type dictionary
     if not isinstance(historic_norms, dict):
@@ -233,33 +217,7 @@ def _extract_weather_norms(historic_norms):
 
 
 def _clean_weather_norms(df):
-    """Converts dataframe to geodataframe,
-    drops unnecessary columns, and renames
-    columns.
-
-    Parameters
-    ----------
-    df : dataframe
-        Input dataframe.
-
-    lon_lat_cols : list
-        List containing the column name for longitude (list[0])
-        and latitude (list[1]) attributes.
-
-    drop_cols : list (of str)
-        List of column names to be dropped.
-
-    name_map : dict
-        Dictionaty mapping old columns names (keys)
-        to new column names (values).
-
-    Returns
-    -------
-    gdf : geodataframe
-        Cleaned geodataframe.
-
-    Example
-    -------
+    """Helper function that cleans and georeferences weather norms.
     """
     # Define global variables
     global NORMS_COORD_COLS, NORMS_DROP_COLS, NORMS_RENAME_MAP
@@ -422,26 +380,7 @@ def _call_weather_observed(
     limit=10,
     offset=0,
 ):
-    """Retrieves observed weather data from the
-    aWhere API, based on input parameters.
-
-    Performs a HTTP GET request to obtain 7-day observed weather.
-
-    Docs:
-        http://developer.awhere.com/api/reference/weather/observations
-
-    Parameters
-    ----------
-    field_id : str
-        ID of the field.
-
-    Returns
-    -------
-    response : dict
-        Dictionary containing the observed weather.
-
-    Example
-    -------
+    """Helper function that calls the aWhere API for observed weather.
     """
     # Check input data type
     # Location-based
@@ -513,18 +452,7 @@ def _call_weather_observed(
 
 
 def _extract_weather_observed(observed_weather):
-    """Creates a dataframe from a JSON-like
-    dictionary of aWhere observed weather data.
-
-    Parameters
-    ----------
-    observed_weather : dict
-        aWhere historic norm data in dictionary format.
-
-    Returns
-    -------
-    observed_weather_df : pandas dataframe
-        Flattened dataframe version of historic norms.
+    """Helper function that extracts observed weather into a dataframe.
     """
     # Raise error if input is not of type dictionary
     if not isinstance(observed_weather, dict):
@@ -555,33 +483,7 @@ def _extract_weather_observed(observed_weather):
 
 
 def _clean_weather_observed(df):
-    """Converts dataframe to geodataframe,
-    drops unnecessary columns, and renames
-    columns.
-
-    Parameters
-    ----------
-    df : dataframe
-        Input dataframe.
-
-    lon_lat_cols : list
-        List containing the column name for longitude (list[0])
-        and latitude (list[1]) attributes.
-
-    drop_cols : list (of str)
-        List of column names to be dropped.
-
-    name_map : dict
-        Dictionaty mapping old columns names (keys)
-        to new column names (values).
-
-    Returns
-    -------
-    gdf : geodataframe
-        Cleaned geodataframe.
-
-    Example
-    -------
+    """Helper function that cleans and georeferences observed weather.
     """
     # Define global variables
     global OBSERVED_COORD_COLS, OBSERVED_DROP_COLS, OBSERVED_RENAME_MAP
@@ -746,9 +648,7 @@ def _call_weather_forecast(
     offset=0,
     block_size=24,
 ):
-    """
-    Retrieves weather forecast data from the
-    aWhere API, based on input parameters.
+    """Helper function that calls the aWhere API for weather forecast data.
     """
     # Check input data type
     # Location-based
@@ -829,10 +729,7 @@ def _call_weather_forecast(
 
 
 def _extract_weather_forecast(forecast, forecast_type="main"):
-    """Extract aWhere forecast data and returns
-    it in a pandas dataframe.
-
-    forecast_type can be 'main' or 'soil'.
+    """Helper function that extracts weather foreceast data into a dataframe.
     """
     # Initialize lists to store forecast
     forecast_list = []
@@ -938,33 +835,7 @@ def _extract_weather_forecast(forecast, forecast_type="main"):
 
 
 def _clean_weather_forecast(df):
-    """Converts dataframe to geodataframe,
-    drops unnecessary columns, and renames
-    columns.
-
-    Parameters
-    ----------
-    df : dataframe
-        Input dataframe.
-
-    lon_lat_cols : list
-        List containing the column name for longitude (list[0])
-        and latitude (list[1]) attributes.
-
-    drop_cols : list (of str)
-        List of column names to be dropped.
-
-    name_map : dict
-        Dictionaty mapping old columns names (keys)
-        to new column names (values).
-
-    Returns
-    -------
-    gdf : geodataframe
-        Cleaned geodataframe.
-
-    Example
-    -------
+    """Helper function that cleans and georeferences weather forecast data.
     """
     # Define global variables
     global FORECAST_COORD_COLS, FORECAST_DROP_COLS, FORECAST_RENAME_MAP
