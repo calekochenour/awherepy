@@ -11,15 +11,57 @@ aWherePy provides a Python solution to work with the [aWhere API](https://www.aw
 
 ## Why aWherePy?
 
-Prior to aWherePy, aWhere's agronomic and weather data API was only accessible with [R](https://github.com/aWhereAPI/aWhere-R-Library). aWherePy creates a Python solution for the aWhere API and provides Python code to:
+Prior to aWherePy, aWhere's agronomic and weather data API was only accessible with R. aWherePy creates a Python solution for the aWhere API and provides Python code to:
 
 * Call the aWhere API;
 * Extract data from the aWhere API returns;
 * Clean and georeference extracted data;
+* Track crops and agricultural data over time;
 * Create an aWhere-sized (9 km x 9 km) grid from a shapefile; and,
 * Rasterize existing remote sensing and GIS data to the aWhere grid.
 
 aWherePy allows for the creation of reproducible science workflows with Python scripts and/or Jupyter Notebooks and creates the vehicle to integrate aWhere data with other geospatial and remote sensing data within these platforms.
+
+aWherePy contains seven modules:
+
+* agronomics;
+* crops;
+* fields;
+* grids;
+* models:
+* plantings; and,
+* weather.
+
+aWherePy [weather](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_weather.html#sphx-glr-gallery-vignettes-work-with-weather-py) and [agronomics](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_agronomics.html#sphx-glr-gallery-vignettes-work-with-agronomics-py) modules provide the functionality to get historical norms, observed values, and forecast values for weather and agriculture metrics that are formatted, georeferenced, and ready for data analysis and visualization.
+
+aWherePy [grids](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_grids.html#sphx-glr-gallery-vignettes-work-with-grids-py) module provides functionality to rasterize data to the aWhere grid (9x9 km cells). This allows you to integrate other geospatial and remote sensing data (e.g. world population data, normalized difference vegetation index data) with aWhere API data to create advanced analytical insights.
+
+aWherePy [fields](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_fields.html#sphx-glr-gallery-vignettes-work-with-fields-py), [crops](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_crops.html#sphx-glr-gallery-vignettes-work-with-crops-py), [plantings](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_plantings.html#sphx-glr-gallery-vignettes-work-with-plantings-py), and [models](https://awherepy.readthedocs.io/en/latest/gallery_vignettes/work_with_models.html#sphx-glr-gallery-vignettes-work-with-models-py) modules provide access to advanced agricultural models that track crop data over time and produce information that allows you to make real-time agricultural decisions and adjustments.
+
+## aWherePy Package Structure
+
+aWherePy reflects the currently capabilities of the aWhere API. This section outlines the structure of the aWherePy package, as it relates to the seven package modules.
+
+### `awherepy/`
+
+Contains Python scripts for the aWherePy modules (e.g. `agronomics.py`). Also contains two sub-folders, one with example data and one with module test scripts.
+
+### `awherepy/example-data`
+
+Contains datasets used in the aWherePy tests and vignette gallery examples.
+
+### `awherepy/tests`
+
+Contains Python scripts for the aWherePy tests (e.g. `test_agronomics.py`).
+
+### `docs/`
+
+Contains files used to organize and populate the aWherePy documentation.
+
+### `examples/`
+
+Contains Python scripts used to in the aWherePy vignette gallery (e.g. `work_with_agronomics.py`).
+
 
 ## View Example aWherePy Applications
 
@@ -53,43 +95,88 @@ You can also import the individual modules into Python:
 >>> import awherepy.weather as aww
 ```
 
-## aWherePy Package Structure
+## aWhere API Authentication
 
-aWherePy contains seven modules:
+In order to work with aWherePy, you must possess a valid API key and API secret (associated an active [aWhere account/application](https://apps.awhere.com/)). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
 
-* agronomics;
-* crops;
-* fields;
-* grids;
-* models:
-* plantings; and,
-* weather.
+The credentials used in all examples, tests, and documentation are stored and shown as environment variables in the following way:
 
-This section outlines the structure of the aWherePy package, as it relates to these modules.
+```python
+# Define aWhere API key and secret
+awhere_api_key = os.environ.get("AWHERE_API_KEY")
+awhere_api_secret = os.environ.get("AWHERE_API_SECRET")
+```
 
-### `awherepy/`
+For both aWherePy continuous integration builds ([Travis CI](https://travis-ci.org/github/calekochenour/awherepy), [AppVeyor](https://ci.appveyor.com/project/calekochenour/awherepy)), the API key and secret are stored as secure environment variables, which allows the full suite of tests to run and the code coverage to be updated upon completion of the build.
 
-Contains Python scripts for the aWherePy modules (e.g. `agronomics.py`). Also contains two sub-folders, one with example data and one with module test scripts.
+The aWhere API credentials are not transferable and will not be downloaded when you install, fork, or clone aWherePy. Because of this, all tests (with the exception of the grids module) will fail when run locally, unless you have a valid aWhere API key and API secret. Note that credentials can be stored in different ways locally (e.g. environment variables, text file, other means), but test may have to be altered to fit a method other than environment variables, as shown in the examples, tests, and documentation.
 
-### `awherepy/example-data`
+## Example Usage
 
-Contains datasets used in the aWherePy tests and vignette gallery examples.
+This example shows how to get weather data for a single aWhere grid cell near Rocky Mountain National Park (RMNP), Colorado, using the aWherePy grids and weather modules.
 
-### `awherepy/tests`
+```python
+# Imports
+import os
+import awherepy.grids as awg
+import awherepy.weather as aww
 
-Contains Python scripts for the aWherePy tests (e.g. `test_agronomics.py`).
+# Define aWhere API key and secret
+awhere_api_key = os.environ.get('AWHERE_API_KEY')
+awhere_api_secret = os.environ.get('AWHERE_API_SECRET')
 
-### `docs/`
+# Define path to RMNP boundary
+rmnp_bound_path = os.path.join(
+    "..", "awherepy", "example-data", "colorado_rmnp_boundary.shp"
+)
 
-Contains files used to organize and populate the aWherePy documentation.
+# Create aWhere grid and EPSG 4326 boundary for RMNP
+rmnp_grid, rmnp_bound_4326 = awg.create_grid(rmnp_bound_path, buffer_distance=0.12)
 
-### `examples/`
+# Extract RMNP grid centroids to list
+rmnp_grid_centroids = awg.extract_centroids(rmnp_grid)
 
-Contains Python scripts used to in the aWherePy vignette gallery (e.g. `work_with_agronomics.py`).
+# Get first centroid
+analysis_centroid = rmnp_grid_centroids[0]
+
+# Define RMNP norms kwargs
+rmnp_weather_norms_kwargs = {
+    "location": (analysis_centroid[0], analysis_centroid[1]),
+    "start_date": "05-04",
+    "end_date": "05-13",
+}
+
+# Get RMNP weather norms, 05-04 to 05-13
+rmnp_weather_norms = aww.get_weather_norms(
+    awhere_api_key, awhere_api_secret, kwargs=rmnp_weather_norms_kwargs
+)
+
+# Get precipitation average from weather norms data
+rmnp_precip_norms = rmnp_weather_norms[["precip_avg_mm"]]
+
+# Define RMNP observed weather kwargs
+rmnp_weather_observed_kwargs = {
+    "location": (analysis_centroid[0], analysis_centroid[1]),
+    "start_date": "2014-05-04",
+    "end_date": "2014-05-13",
+}
+
+# Get observed weather
+rmnp_weather_observed = aww.get_weather_observed(
+    awhere_api_key, awhere_api_secret, kwargs=rmnp_weather_observed_kwargs
+)
+
+# Get precipitation amount from observed weather data
+rmnp_precip_observed = rmnp_weather_observed[["precip_amount_mm"]]
+```
 
 ## aWherePy Documentation
 
 For information about how to use aWherePy modules and functions, see example applications, and view all other aWherePy documentation-related material, review the [aWherePy documentation](https://awherepy.readthedocs.io/en/latest/).
+
+## Related Packages
+
+There are no existing Python packages that provide similar functionality for the aWhere API, which is the primary reason aWherePy was created. aWherePy is based on the [aWhere R Library](https://github.com/aWhereAPI/aWhere-R-Library), which is an R package created by aWhere for use with the aWhere API.
 
 ## Active Maintainers
 
