@@ -3,7 +3,7 @@ from setuptools import setup
 
 DISTNAME = "awherepy"
 DESCRIPTION = (
-    "Python package built to work with weather and agriculture"
+    "Python package built to work with weather and agriculture "
     "data in the aWhere API."
 )
 MAINTAINER = "Cale Kochenour"
@@ -24,17 +24,7 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         version="0.1.0",
         packages=["awherepy"],
-        install_requires=[
-            "matplotlib",
-            "numpy",
-            "seaborn",
-            "geopandas",
-            "earthpy",
-            "shapely",
-            "rasterstats",
-            "descartes",
-            "rtree",
-        ],
+        install_requires=[],
         zip_safe=False,
         classifiers=[
             "Intended Audience :: Developers",
