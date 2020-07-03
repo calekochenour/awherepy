@@ -24,7 +24,17 @@ if __name__ == "__main__":
         long_description_content_type="text/markdown",
         version="0.1.0",
         packages=["awherepy"],
-        install_requires=[],
+        install_requires=[
+            "matplotlib",
+            "numpy",
+            "seaborn",
+            "geopandas",
+            "earthpy",
+            "shapely",
+            "rasterstats",
+            "descartes",
+            "rtree",
+        ],
         zip_safe=False,
         classifiers=[
             "Intended Audience :: Developers",
