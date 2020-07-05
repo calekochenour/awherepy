@@ -8,6 +8,11 @@
 
 # aWherePy
 
+![PyPI](https://img.shields.io/pypi/v/awherepy.svg?color=purple&style=plastic)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/awherepy.svg?color=purple&label=pypi%20downloads&style=plastic)
+![Conda](https://img.shields.io/conda/v/conda-forge/awherepy.svg?color=purple&style=plastic)
+![Conda](https://img.shields.io/conda/dn/conda-forge/awherepy.svg?color=purple&label=conda-forge%20downloads&style=plastic)
+
 aWherePy provides a Python solution to work with the [aWhere API](https://www.awhere.com/developer/).
 
 ## Why aWherePy?
