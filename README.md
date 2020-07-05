@@ -77,61 +77,25 @@ In addition, the aWherePy package contains [Python scripts](https://github.com/c
 
 ## Install aWherePy
 
-Installing aWherePy 0.1.0 directly from GitHub with pip will fail due to incompatibilities with pip and the `rtree` package (specifically `rtree>=0.9.0`), which is required for aWherePy functionality.
+The recommended method to install aWherePy for use and testing is to install it within an Anaconda environment using the `conda-forge` channel.
 
-The recommended method to install aWherePy 0.1.0 for local testing and evaluation is to fork or clone the repository, install Conda, create a Conda environment with the necessary packages, and run the complete test suite.
-
-### Fork or Clone aWherePy
-
-Once you have forked aWherePy or copied the aWherePy clone link, you can run the following terminal command within a local directory to initialize the repository.
-
-If fork:
-```bash
-$ git clone https://github.com/YOUR-USERNAME/awherepy.git
-```
-
-If clone:
-```bash
-$ git clone https://github.com/calekochenour/awherepy.git
-```
+Note: Installing aWherePy with `pip` will fail due to incompatibilities with `pip` and the `rtree` package (specifically `rtree>=0.9.0`), which is required for aWherePy functionality.
 
 ### Install Conda
 
-You must install Conda - [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or [Anaconda](https://docs.anaconda.com/anaconda/install/) - in order to create a Conda environment that will run the complete aWherePy test suite.
+You must install Conda - [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or [Anaconda](https://docs.anaconda.com/anaconda/install/) - in order to create a Conda environment and install aWherePy with `conda-forge`.
 
-### Create aWherePy Development Conda Environment
+### Install aWherePy within Conda Environment
 
-The root directory of aWherePy contains the `environment-dev.yml` file, which when used to create a Conda environment, provides all packages (functionality and testing) to run the complete aWherePy test suite.
-
-From the terminal, you can create the development Conda environment.
-
-Create environment:
+Within an active Conda environment, install aWherePy:
 
 ```bash
-$ conda env create -f environment-dev.yml
+$ conda install -c conda-forge awherepy
 ```
-
-### Activate Conda Environment and Run aWherePy Test Suite
-
-Once the aWherePy development environment is created, you can activate it and run the complete test suite.
-
-Activate environment:
-
-```bash
-$ conda activate awherepy-dev
-```
-
-Run test suite:
-
-```bash
-$ pytest
-```
-
-Note: Before running `pytest`, make sure that you are in the root aWherePy folder.
 
 ### Use aWherePy within Terminal
 
-Once installed with a fork or clone, you can also use aWherePy for reasons other than testing. For example, you can import aWherePy into Python:
+Once installed, can import aWherePy into Python:
 
 ```python
 >>> import awherepy as aw
@@ -148,6 +112,26 @@ You can also import the individual modules into Python:
 >>> import awherepy.plantings as awp
 >>> import awherepy.weather as aww
 ```
+
+### Test aWherePy
+
+The root directory of aWherePy contains the `requirements-dev.txt` file, which provides all package dependencies for testing aWherePy.
+
+Within the active Conda environment that contains aWherePy, install the test dependencies:
+
+```bash
+$ pip install -r requirements-dev.txt
+```
+
+One the testing dependencies are installed, run the complete aWherePy test suite:
+
+```bash
+$ pytest
+```
+
+Before running `pytest`, make sure that you are in the root aWherePy folder. You must also have the datasets located in `awherepy/example-data` and the test scripts located in `awherepy/tests`.
+
+Note: Tests for all modules except `grids` will fail without a valid aWhere API key and API secret. See the `aWhere API Authentication` section for information regarding the key and secret.
 
 ## aWhere API Authentication
 
