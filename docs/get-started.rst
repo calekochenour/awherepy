@@ -11,7 +11,7 @@ All functions are included in the 7 awherepy modules:
 - agronomics
 - crops
 - fields
-- grid
+- grids
 - models
 - plantings
 - weather
@@ -47,7 +47,7 @@ You can also import the individual modules into Python:
     >>> import awherepy.agronomics as awa
     >>> import awherepy.crops as awc
     >>> import awherepy.fields as awf
-    >>> import awherepy.grid as awg
+    >>> import awherepy.grids as awg
     >>> import awherepy.models as awm
     >>> import awherepy.plantings as awp
     >>> import awherepy.weather as aww
@@ -65,6 +65,6 @@ One the testing dependencies are installed, run the complete aWherePy test suite
 
     $ pytest
 
-Before running ``pytest``, make sure that you are in the root aWherePy folder. You must also have the datasets located in ``awherepy/example-data`` and the test scripts located in ``awherepy/tests``.
+Before running ``pytest``, make sure that you are in the root aWherePy folder. You must also have the `example datasets <https://github.com/calekochenour/awherepy/tree/master/awherepy/example-data>`_ and `test scripts <https://github.com/calekochenour/awherepy/tree/master/awherepy/tests>`_.
 
 Note: In order to work with aWherePy, you must possess a valid API key and API secret (associated with an active `aWhere account <https://apps.awhere.com/>`_). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
