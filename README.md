@@ -107,7 +107,7 @@ You can also import the individual modules into Python:
 >>> import awherepy.agronomics as awa
 >>> import awherepy.crops as awc
 >>> import awherepy.fields as awf
->>> import awherepy.grid as awg
+>>> import awherepy.grids as awg
 >>> import awherepy.models as awm
 >>> import awherepy.plantings as awp
 >>> import awherepy.weather as aww
