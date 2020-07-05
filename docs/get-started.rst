@@ -3,8 +3,8 @@ Get Started With aWherePy
 
 aWherePy is a python package built to retrieve, extract, and format weather and agronomic data from the aWhere API.
 
-aWherePy Module and Function Documentation
-------------------------------------------
+aWherePy Modules
+----------------
 
 All functions are included in the 7 awherepy modules:
 
@@ -19,9 +19,9 @@ All functions are included in the 7 awherepy modules:
 Install aWherePy
 ----------------
 
-The recommended method to install aWherePy for use and testing is to install it within an Anaconda environment using the `conda-forge` channel.
+The recommended method to install aWherePy for use and testing is to install it within an Anaconda environment using the ``conda-forge`` channel.
 
-Note: Installing aWherePy with `pip` will fail due to incompatibilities with `pip` and the `rtree` package (specifically `rtree>=0.9.0`), which is required for aWherePy functionality.
+Note: Installing aWherePy with ``pip`` will fail due to incompatibilities with ``pip`` and the ``rtree`` package (specifically ``rtree>=0.9.0``), which is required for aWherePy functionality.
 
 Install Conda
 ~~~~~~~~~~~~~
@@ -55,7 +55,7 @@ You can also import the individual modules into Python:
 Test aWherePy
 ~~~~~~~~~~~~~
 
-The root directory of aWherePy contains the `requirements-dev.txt` file, which provides all package dependencies for testing aWherePy.
+The root directory of aWherePy contains the ``requirements-dev.txt`` file, which provides all package dependencies for testing aWherePy.
 
 Within the active Conda environment that contains aWherePy, install the test dependencies::
 
@@ -65,6 +65,6 @@ One the testing dependencies are installed, run the complete aWherePy test suite
 
     $ pytest
 
-Before running `pytest`, make sure that you are in the root aWherePy folder. You must also have the datasets located in `awherepy/example-data` and the test scripts located in `awherepy/tests`.
+Before running ``pytest``, make sure that you are in the root aWherePy folder. You must also have the datasets located in ``awherepy/example-data`` and the test scripts located in ``awherepy/tests``.
 
 Note: In order to work with aWherePy, you must possess a valid API key and API secret (associated with an active `aWhere account <https://apps.awhere.com/>`_). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
