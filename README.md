@@ -131,11 +131,11 @@ $ pytest
 
 Before running `pytest`, make sure that you are in the root aWherePy folder. You must also have the datasets located in `awherepy/example-data` and the test scripts located in `awherepy/tests`.
 
-Note: Tests for all modules except `grids` will fail without a valid aWhere API key and API secret. See the `aWhere API Authentication` section for information regarding the key and secret.
+Note: Tests for all modules except `grids` will fail without a valid aWhere API key and API secret. See the aWhere API Authentication section for information regarding the key and secret.
 
 ## aWhere API Authentication
 
-In order to work with aWherePy, you must possess a valid API key and API secret (associated an active [aWhere account](https://apps.awhere.com/)). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
+In order to work with aWherePy, you must possess a valid API key and API secret (associated with an active [aWhere account](https://apps.awhere.com/)). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
 
 The credentials used in all examples, tests, and documentation are stored and shown as environment variables in the following way:
 

@@ -19,20 +19,30 @@ All functions are included in the 7 awherepy modules:
 Install aWherePy
 ----------------
 
-Dependencies
-~~~~~~~~~~~~
+The recommended method to install aWherePy for use and testing is to install it within an Anaconda environment using the `conda-forge` channel.
 
-aWherePy has several Python package dependencies.  Use the awhere-python conda environment (LINK TO ENVIRONMENT GITHUB HERE) to ensure that you have all of the required dependencies needed to run aWherePy.
+Note: Installing aWherePy with `pip` will fail due to incompatibilities with `pip` and the `rtree` package (specifically `rtree>=0.9.0`), which is required for aWherePy functionality.
 
-Alternatively, use pip to install aWherePy.
+Install Conda
+~~~~~~~~~~~~~
 
-``pip install awherepy``
+You must install Conda - `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`_ (recommended) or `Anaconda <https://docs.anaconda.com/anaconda/install/>`_ - in order to create a Conda environment and install aWherePy with `conda-forge`.
 
-Once aWherePy is installed you can import it into Python.
+Install aWherePy within Conda Environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Within an active Conda environment, install aWherePy::
+
+    $ conda install -c conda-forge awherepy
+
+Use aWherePy within Terminal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once installed, can import aWherePy into Python:
 
     >>> import awherepy as aw
 
-You can also import the individual modules as follows:
+You can also import the individual modules into Python:
 
     >>> import awherepy.agronomics as awa
     >>> import awherepy.crops as awc
@@ -42,7 +52,19 @@ You can also import the individual modules as follows:
     >>> import awherepy.plantings as awp
     >>> import awherepy.weather as aww
 
-Data
-~~~~
+Test aWherePy
+~~~~~~~~~~~~~
 
-Example data to work with aWherePy can be bound here: LINK TO EXAMPLE DATA
+The root directory of aWherePy contains the `requirements-dev.txt` file, which provides all package dependencies for testing aWherePy.
+
+Within the active Conda environment that contains aWherePy, install the test dependencies::
+
+    $ pip install -r requirements-dev.txt
+
+One the testing dependencies are installed, run the complete aWherePy test suite::
+
+    $ pytest
+
+Before running `pytest`, make sure that you are in the root aWherePy folder. You must also have the datasets located in `awherepy/example-data` and the test scripts located in `awherepy/tests`.
+
+Note: In order to work with aWherePy, you must possess a valid API key and API secret (associated with an active `aWhere account <https://apps.awhere.com/>`_). All modules (with the exception of grids) requires the API key and API secret to authenticate prior to making any API requests. Otherwise, the functions within the modules will raise errors indicating invalid credentials.
